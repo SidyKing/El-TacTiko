@@ -54,9 +54,12 @@ Une plateforme d'analyse de performance (capteurs + vidéo/IA + historique) con�
 - **Commission sur les transferts : écartée pour l'instant**, à rediscuter plus tard.
 
 ## Périmètre du pilote (MoSCoW)
-- Le MoSCoW (7 familles A à G) proposé par le coach a été validé, avec une modification : **le mode entraînement passe en Indispensable**.
+- Le MoSCoW proposé par le coach a été validé, avec une modification : **le mode entraînement passe en Indispensable**.
   - Ce mode compare deux systèmes de jeu, par exemple 20 min en 4-3-3 puis 20 min en 3-5-2, sur la distance, le pressing et les récupérations.
-  - Le détail des familles A à G n'est pas consigné dans le journal et reste à reformuler.
+- **Indispensable :** validation LSFP avant tout achat ; 2 ou 3 clubs pilotes dont un de L2 ; gilets GPS du marché en marque blanche ; envoi vers le VPS avec mode tampon (puce 4G par gilet ou mini-boîtier, tranché après le test de couverture) ; analyse VPS (km, vitesse max, sprints, accélérations) ; tablette banc en feu tricolore avec alerte de décrochage ; passes et tirs après le match via la caméra sur mât, corrigés par un analyste ; rapport d'après-match (WhatsApp/PDF) et historique par joueur ; consentement et conformité CDP ; suivi de l'adoption ; mode entraînement.
+- **Important :** résumé automatique de mi-temps ; indice de fatigue et risque de blessure ; crédit prépayé Wave/Orange Money (pilote gratuit ou sponsorisé) ; deuxième tablette en miroir.
+- **Bonus :** IA vidéo automatique ; prédictions et conseils de remplacement ; passeport data et appli joueur ; fiche adversaire ; location aux académies et navétanes.
+- **Pas maintenant :** capteurs maison ; commission sur les transferts ; classement national et données pour médias ou paris ; saisie vocale en wolof ; clips TikTok.
 - **Pourquoi l'entraînement est la porte d'entrée :** pas de règlement de match à respecter, pas de problème d'accès au banc, et les données sont calibrées avant le premier match officiel.
 - **Pilote :** 2 ou 3 clubs, dont un de Ligue 2.
 - **Promesse :** on promet l'analyse « après-match » et on livre le direct en bonus.
@@ -101,7 +104,6 @@ Les 15 contraintes et les 16 parades ont toutes été validées. En condensé :
 - Prix des formules en FCFA et choix entre caution et kit inclus.
 - Qui manipule les capteurs le jour du match (kitman, analyste, équipe El TacTiko) ?
 - Propriété des données d'un joueur lorsqu'il est transféré.
-- Contenu détaillé des familles A à G du MoSCoW.
 
 ## Prochaines étapes
 1. Valider la conformité réglementaire (EPTS, tablette au banc) avec le contact LSFP avant tout achat de matériel.
