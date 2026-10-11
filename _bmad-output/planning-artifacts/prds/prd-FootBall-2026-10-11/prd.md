@@ -1,6 +1,6 @@
 ---
 title: "PRD : El TacTiko"
-status: draft
+status: final
 created: 2026-10-11
 updated: 2026-10-11
 ---
@@ -22,11 +22,11 @@ Les termes du §3 (Glossaire) sont employés tels quels dans tout le document. L
 
 El TacTiko donne aux coachs du football sénégalais ce que seuls les grands clubs avaient jusqu'ici : savoir, chiffres à l'appui, qui court, qui décroche et quel système de jeu fonctionne.
 
-Les joueurs portent des Gilets. Une Caméra filme la Séance. La Plateforme analyse tout dans le cloud, et le staff consulte les résultats dans une seule application web installable (PWA). Sur le banc, chaque joueur apparaît en vert, orange ou rouge selon son Statut. Après la Séance, un Rapport d'après-match et l'Historique de chaque joueur sont disponibles.
+Les joueurs portent des Gilets. Une Caméra filme la Séance. La Plateforme analyse tout dans le cloud, et le staff consulte les résultats dans une seule application web installable (PWA). Sur le banc, chaque Joueur apparaît en vert, orange ou rouge selon son Statut. Après la Séance, un Rapport d'après-match et l'Historique joueur de chaque Joueur sont disponibles.
 
 Le produit est conçu pour les conditions locales. Il continue de fonctionner quand la 4G sature ou que l'électricité manque, il est peu coûteux et il est pensé pour des staffs qui n'ont pas d'analyste data. Le déploiement se fait en trois temps :
 1. des équipes de five et de foot en salle ;
-2. 2 ou 3 clubs pilotes de Ligue 1 ou Ligue 2, à l'entraînement ;
+2. 2 ou 3 Clubs pilotes de Ligue 1 ou Ligue 2, à l'entraînement ;
 3. les matchs officiels, après validation de la Ligue (LSFP).
 
 ## 2. Utilisateurs cibles
@@ -56,26 +56,26 @@ Le produit est conçu pour les conditions locales. Il continue de fonctionner qu
 - **UJ-1. Moussa voit son ailier décrocher pendant un match de five.**
   Moussa coache une équipe de five à Dakar, un mardi soir, sur un terrain synthétique extérieur.
   1. Il ouvre la PWA sur sa tablette, choisit son Équipe et lance une Séance de type « match ».
-  2. Il distribue les Gilets. Chaque Gilet est déjà associé à un joueur, l'écran affiche « 10/10 Gilets actifs ».
-  3. Pendant le match, la Tablette banc affiche le Statut de chaque joueur.
+  2. Il distribue les Gilets. Chaque Gilet est déjà associé à un Joueur ; l'écran affiche « 10/10 Gilets actifs ».
+  3. Pendant le match, la Tablette banc affiche le Statut de chaque Joueur.
   4. À la 18e minute, Ibou passe à l'orange, puis au rouge : une Alerte de décrochage s'affiche. Moussa le fait sortir.
   5. À la fin, il clôture la Séance. Le soir même, il reçoit le Rapport d'après-match sur WhatsApp.
 
   **Cas limite :** si le réseau coupe, la Tablette banc indique « hors ligne, données à jour à 18:42 ». Les Gilets continuent d'enregistrer et tout se synchronise après la Séance.
 
 - **UJ-2. Le coach d'un club de Ligue 2 compare le 4-3-3 et le 3-5-2 à l'entraînement.**
-  Le coach d'un club pilote de Ligue 2 prépare le match du week-end.
+  Le coach d'un Club pilote de Ligue 2 prépare le match du week-end.
   1. Il crée une Séance d'entraînement avec deux Phases, « 4-3-3 » puis « 3-5-2 », de 20 minutes chacune.
   2. Il bascule de l'une à l'autre en un geste sur la tablette.
-  3. Après la Séance, l'écran de Comparaison de systèmes montre, phase par phase, la distance totale, le nombre de sprints et l'intensité de l'équipe.
+  3. Après la Séance, l'écran de Comparaison de systèmes montre, phase par phase, la distance totale, le nombre de sprints et l'Intensité de l'Équipe.
   4. Il décide de garder le 3-5-2 et partage la comparaison avec son adjoint.
-  5. Avant la séance suivante, il ouvre le Tableau tactique, dessine le 3-5-2 avec ses lignes et le circuit de relance du ballon, puis le montre aux joueurs sur la tablette.
+  5. Avant la Séance suivante, il ouvre le Tableau tactique, dessine le 3-5-2 avec ses lignes et le circuit de relance du ballon, puis le montre aux Joueurs sur la tablette.
 
 - **UJ-3. Awa, analyste, valide les passes et les tirs le lendemain du match.**
-  Awa est analyste, pour un club ou pour El TacTiko.
+  Awa est analyste, pour un Club ou pour El TacTiko.
   1. Elle ouvre la Séance terminée dans la PWA, sur son ordinateur.
-  2. La vidéo est disponible. Elle parcourt la liste des Actions ballon et, pour chacune, choisit le joueur, le type (passe réussie ou ratée, tir cadré ou non cadré) et l'instant.
-  3. Quand elle valide, les statistiques ballon s'ajoutent au Rapport d'après-match et à l'Historique de chaque joueur.
+  2. La vidéo est disponible. Elle parcourt la liste des Actions ballon et, pour chacune, choisit le Joueur, le type (passe réussie ou ratée, tir cadré ou non cadré) et l'instant.
+  3. Quand elle valide, les Actions ballon validées s'ajoutent au Rapport d'après-match et à l'Historique joueur de chaque Joueur.
 
   **Cas limite :** si la vidéo n'est pas encore envoyée, faute de réseau au stade, la Séance affiche « vidéo en attente » et Awa reçoit une notification dès qu'elle arrive.
 
@@ -85,7 +85,7 @@ Le produit est conçu pour les conditions locales. Il continue de fonctionner qu
   2. Il constate que sa vitesse maximale a progressé de 2 km/h depuis le début du test.
   3. Il ne voit jamais les données de ses coéquipiers.
 
-- **UJ-5. Le président du club pilote décide de continuer.**
+- **UJ-5. Le président du Club pilote décide de continuer.**
   À la fin du premier mois de test, le président reçoit un Rapport club : nombre de Séances suivies, Alertes de décrochage, évolution de l'effectif. Il le présente à son bureau et confirme la poursuite du test.
 
   `[HYPOTHÈSE]` Ce rapport sera produit à la main pendant les tests (voir §6.2).
@@ -112,10 +112,11 @@ Le produit est conçu pour les conditions locales. Il continue de fonctionner qu
 - **Statut** : vert, orange ou rouge. Il compare l'Intensité récente d'un Joueur à sa Référence individuelle d'Intensité.
 - **Joueur convoqué** : Joueur déclaré présent pour une Séance par le coach. Sert de base au taux de port des Gilets.
 - **Alerte de décrochage** : notification émise quand le Statut d'un Joueur passe au rouge.
-- **Action ballon** : passe ou tir, rattaché à un Joueur et à un instant de la Séance.
+- **Action ballon** : passe, tir, récupération ou perte de balle, rattachée à un Joueur et à un instant de la Séance.
 - **Rapport d'après-match** : synthèse d'une Séance, avec Métriques physiques, Actions ballon validées et Statuts.
 - **Historique joueur** : ensemble des données d'un Joueur sur toutes ses Séances.
 - **Schéma tactique** : dessin enregistré sur un terrain virtuel, composé de positions de joueurs, de lignes, de flèches de déplacement et de trajectoires du ballon. Il peut comporter plusieurs Étapes. Il appartient à une Équipe.
+- **Palier** : phase du déploiement d'El TacTiko (Palier 0 à Palier 3, voir §10). Ne pas confondre avec une Étape de Schéma tactique.
 - **Étape** : état successif d'un Schéma tactique, qui permet d'animer une séquence (par exemple une phase de relance en trois temps).
 - **Tableau tactique** : écran de la PWA qui sert à créer, modifier et présenter les Schémas tactiques.
 - **Comparaison de systèmes** : vue qui met en regard les Métriques physiques collectives de deux Phases.
@@ -186,7 +187,7 @@ La Plateforme doit accepter les Métriques physiques de plusieurs types de capte
 #### FR-10 : Calcul des Métriques physiques
 La Plateforme calcule pour chaque Joueur et chaque Séance la distance parcourue, la vitesse maximale, le nombre de sprints et le nombre d'accélérations.
 - Les seuils de sprint et d'accélération sont configurables par Club. `[HYPOTHÈSE : sprint au-delà de 25 km/h pour le football à 11]`
-- Les métriques sont recalculées quand des données arrivent en retard (FR-8).
+- Les Métriques physiques sont recalculées quand des données arrivent en retard (FR-8).
 
 #### FR-11 : Référence individuelle
 La Plateforme maintient pour chaque Joueur une Référence individuelle par type de Séance.
@@ -198,7 +199,7 @@ Pendant et après une Séance, la Plateforme attribue à chaque Joueur un Statut
 
 #### FR-13 : Indice de fiabilité
 La Plateforme calcule un Indice de fiabilité par Joueur et par Séance et le montre partout où les Métriques physiques s'affichent.
-- Une Séance dont l'Indice est faible est signalée et exclue de la Référence individuelle.
+- Une Séance dont l'Indice de fiabilité est faible est signalée et exclue de la Référence individuelle.
 
 #### FR-14 : Calibration
 L'équipe El TacTiko peut saisir des mesures manuelles (distance chronométrée, sprint sur 30 m) et les comparer aux Métriques physiques calculées.
@@ -215,7 +216,7 @@ La Tablette banc affiche chaque Joueur actif avec son numéro, son nom et son St
 
 #### FR-16 : Alerte de décrochage
 La Tablette banc émet une alerte visuelle, et une vibration si l'appareil le permet, quand un Joueur passe au rouge.
-- Une même alerte n'est pas répétée pendant 5 minutes pour le même Joueur. `[HYPOTHÈSE]`
+- Une même Alerte de décrochage n'est pas répétée pendant 5 minutes pour le même Joueur. `[HYPOTHÈSE]`
 
 #### FR-17 : Fraîcheur et mode hors ligne
 La Tablette banc affiche à tout moment l'heure de la dernière mise à jour. Sans réseau, elle conserve le dernier état connu.
@@ -258,8 +259,8 @@ Le coach peut créer, nommer, démarrer et arrêter des Phases pendant une Séan
 - Les Phases peuvent aussi être définies ou corrigées après la Séance.
 
 #### FR-24 : Comparaison de systèmes
-La PWA affiche côte à côte, pour deux Phases, la distance totale de l'Équipe, la distance par minute, le nombre de sprints, l'intensité moyenne et, quand les Actions ballon sont validées, le nombre de récupérations et de pertes de balle, ainsi que le détail par Joueur.
-- `[HYPOTHÈSE]` Le pressing est approché par le nombre de récupérations et l'intensité dans les Phases sans ballon ; une mesure plus fine attend la v2.
+La PWA affiche côte à côte, pour deux Phases, la distance totale de l'Équipe, la distance par minute, le nombre de sprints, l'Intensité moyenne et, quand les Actions ballon sont validées, le nombre de récupérations et de pertes de balle, ainsi que le détail par Joueur.
+- `[HYPOTHÈSE]` Le pressing est approché par le nombre de récupérations et l'Intensité dans les Phases sans ballon ; une mesure plus fine attend la v2.
 - La comparaison peut porter sur deux Phases de Séances différentes.
 
 #### FR-25 : Partage de comparaison
@@ -288,7 +289,7 @@ Le coach peut présenter un Schéma tactique en plein écran, et le partager ave
 - Un Joueur ne voit que les Schémas tactiques partagés avec son Équipe.
 - Les Schémas tactiques sont consultables hors ligne une fois ouverts (NFR-2).
 
-#### FR-39 : Bibliothèque de schémas
+#### FR-39 : Bibliothèque de Schémas tactiques
 Le coach peut classer ses Schémas tactiques (par exemple « sortie de balle », « pressing haut », « coups de pied arrêtés »), les dupliquer et les retrouver.
 - Un Schéma tactique peut être rattaché à une Séance ou à une Phase, pour relier l'intention de jeu aux Métriques physiques mesurées.
 
@@ -351,7 +352,7 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 ## 5. Non-objectifs
 
 - El TacTiko **ne fabrique pas** ses propres capteurs en v1 : il utilise du matériel du marché à sa marque.
-- El TacTiko **ne prend pas de décision** à la place du coach. Il montre des tendances et des statuts, jamais des certitudes.
+- El TacTiko **ne prend pas de décision** à la place du coach. Il montre des tendances et des Statuts, jamais des certitudes.
 - El TacTiko **ne promet pas le temps réel**. La promesse ferme est l'analyse après la Séance ; le direct est un bonus quand le réseau le permet.
 - El TacTiko **ne détecte pas automatiquement** les passes et les tirs en v1.
 - El TacTiko **ne vend pas** de données aux médias, aux opérateurs de paris ni à des tiers.
@@ -362,12 +363,12 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 
 ### 6.1 Inclus
 
-Priorité par Étape de déploiement (§10) :
+Priorité par Palier de déploiement (§10) :
 
 | Étape | Fonctionnalités nécessaires |
 |---|---|
-| Étape 1 : five extérieur | 4.1 Clubs et Rôles · 4.2 Kit et captation · 4.3 Analyse physique · 4.4 Tablette banc · 4.8 Rapports (FR-26 à FR-28) · 4.9 Consentement · 4.10 Suivi de l'adoption · 4.7 Tableau tactique |
-| Étape 2 : pilote clubs | 4.5 Vidéo et Actions ballon · 4.6 Mode entraînement · 4.8 Vue joueur (FR-29) |
+| Palier 1 : five extérieur | 4.1 Clubs et Rôles · 4.2 Kit et captation · 4.3 Analyse physique · 4.4 Tablette banc · 4.7 Tableau tactique · 4.8 Rapports (FR-26 à FR-28) · 4.9 Consentement · 4.10 Suivi de l'adoption |
+| Palier 2 : pilote clubs | 4.5 Vidéo et Actions ballon · 4.6 Mode entraînement · 4.8 Vue joueur (FR-29) |
 
 `[HYPOTHÈSE]` Le Tableau tactique ne dépend pas des capteurs : il peut être livré tôt pour créer l'habitude chez le coach.
 
@@ -405,7 +406,7 @@ Contenu :
 - **SM-4 : rétention des clubs pilotes.** À la fin du pilote, au moins 2 Clubs pilotes signent un engagement à continuer en formule payante dès la v1.1. Valide l'ensemble.
 
 **Secondaires**
-- **SM-5 : délai du Rapport d'après-match.** Rapport physique disponible moins d'une heure après la clôture de la Séance, quand le réseau le permet. Valide FR-26.
+- **SM-5 : délai du Rapport d'après-match.** Rapport d'après-match (partie physique) disponible moins d'une heure après la clôture de la Séance, quand le réseau le permet. Valide FR-26.
 - **SM-6 : données complètes.** Au moins 95 % des Séances ont une synchronisation complète sous 24 heures. Valide FR-8.
 - **SM-7 : traitement de la vidéo.** Actions ballon validées moins de 48 heures après la Séance. Valide FR-21.
 - **SM-8 : usage du Tableau tactique.** Au moins un Schéma tactique créé ou présenté par coach et par semaine pendant le pilote. `[HYPOTHÈSE]` Valide FR-35 à FR-38.
@@ -447,33 +448,33 @@ Contenu :
 
 ## 10. Déploiement par étapes
 
-1. **Étape 0, validation :**
+1. **Palier 0, validation :**
    - rencontre avec le contact de la LSFP ;
    - démarches auprès de la CDP ;
    - choix des capteurs ;
    - test de couverture 4G dans les stades visés.
-2. **Étape 1, five en extérieur :** 2 à 4 équipes, avec le GPS des Gilets. Le foot en salle attend la réponse à la Q1 (capteur adapté). `[HYPOTHÈSE]` On vise la stabilité de la captation, la Tablette banc et le Rapport d'après-match, ainsi que la calibration (SM-3).
-3. **Étape 2, pilote :** 2 ou 3 Clubs de Ligue 1 ou Ligue 2, dont au moins un de Ligue 2. Le pilote démarre à l'entraînement (Mode entraînement), avec un suivi hebdomadaire de l'adoption.
-4. **Étape 3, matchs :** amicaux, puis matchs officiels si la LSFP donne son accord et que les capteurs sont conformes.
+2. **Palier 1, five en extérieur :** 2 à 4 Équipes, avec le GPS des Gilets. Le foot en salle attend la réponse à la question 1 du §11 (capteur adapté). `[HYPOTHÈSE]` On vise la stabilité de la captation, la Tablette banc et le Rapport d'après-match, ainsi que la calibration (SM-3).
+3. **Palier 2, pilote :** 2 ou 3 Clubs de Ligue 1 ou Ligue 2, dont au moins un de Ligue 2. Le pilote démarre à l'entraînement (Mode entraînement), avec un suivi hebdomadaire de l'adoption.
+4. **Palier 3, matchs :** amicaux, puis matchs officiels si la LSFP donne son accord et que les capteurs sont conformes.
 
 ### Conditions de passage et accompagnement
 
 - **Avant tout achat de matériel :** avis de la LSFP obtenu via notre contact, déclaration CDP engagée.
-- **Avant l'Étape 1 :** maquette de la Tablette banc testée par un vrai coach ; Gilets essayés par des joueurs.
-- **Avant l'Étape 2 :** SM-3 atteint en Étape 1 (fiabilité des distances).
+- **Avant le Palier 1 :** maquette de la Tablette banc testée par un vrai coach ; Gilets essayés par des joueurs.
+- **Avant le Palier 2 :** SM-3 atteint au Palier 1 (fiabilité des distances).
 - **Accompagnement de chaque Club :** formation sur place de tout le staff, un technicien local joignable, un coach respecté comme ambassadeur, un point de suivi mensuel avec le président.
 
 ## 11. Questions ouvertes
 
 1. Quel capteur utiliser en salle et en five : capteurs de mouvement, balises radio ou vidéo seule ? (FR-9)
 2. Faut-il une puce 4G par Gilet ou une Passerelle ? À trancher après le test de couverture.
-3. Quels capteurs certifiés FIFA Quality sont abordables pour l'Étape 3, et à quel coût ?
+3. Quels capteurs certifiés FIFA Quality sont abordables pour le Palier 3, et à quel coût ?
 4. Les données physiologiques relèvent-elles du régime des données de santé de la CDP ?
 5. Que deviennent les données passées après un retrait de Consentement, et quand un Joueur est transféré ?
-6. Qui saisit les Actions ballon pendant les tests : un analyste El TacTiko ou un analyste du club ?
+6. Qui saisit les Actions ballon pendant les tests : un analyste El TacTiko ou un analyste du Club ?
 7. Quel prix fixer pour les formules de crédit (v1.1), et faut-il une caution sur le Kit ?
 8. Faut-il une intégration WhatsApp Business ou un simple lien de partage suffit-il ? (FR-27)
-9. Qui manipule les capteurs le jour de la Séance : l'intendant du club, un analyste, l'équipe El TacTiko ?
+9. Qui manipule les capteurs le jour de la Séance : l'intendant du Club, un analyste, l'équipe El TacTiko ?
 10. Les distances et vitesses restent-elles fiables sur terrain boueux pendant l'hivernage ?
 11. Quel calendrier pour le pilote, la saison 2026-27 ayant démarré le 3 octobre 2026 ?
 
@@ -481,24 +482,24 @@ Contenu :
 
 - §2.3 : les parcours UJ-1 à UJ-5 sont proposés par l'équipe produit et restent à valider avec de vrais coachs.
 - §2.3 (UJ-5) : le rapport club est produit à la main pendant les tests.
+- §3 : l'Intensité est définie comme la distance par minute.
 - FR-1 : une invitation expire au bout de 7 jours.
 - FR-4 : la session dure 30 jours sur un appareil de confiance.
 - FR-8 : le Gilet stocke au moins 3 heures de données.
 - FR-10 : un sprint commence au-delà de 25 km/h (football à 11).
 - FR-11 : la Référence individuelle s'affiche après 3 Séances.
 - FR-12 : orange en dessous de 85 %, rouge en dessous de 75 %, sur une fenêtre de 10 minutes.
-- FR-16 : une alerte ne se répète pas avant 5 minutes.
+- FR-16 : une Alerte de décrochage ne se répète pas avant 5 minutes.
 - FR-18 : le Statut a moins de 30 secondes de retard.
 - FR-20 : vidéo et capteurs sont synchronisés à moins d'1 seconde.
 - FR-21 : une Action ballon se saisit en moins de 10 secondes.
-- FR-27 : un lien de partage WhatsApp suffit en v1.
+- FR-24 : le pressing est approché par les récupérations et l'Intensité sans ballon.
 - FR-37 : un Schéma tactique peut compter au moins 10 Étapes.
+- FR-27 : un lien de partage WhatsApp suffit en v1.
+- §6.1 : le Tableau tactique est livré dès le Palier 1.
 - SM-1 à SM-3 : seuils de réussite des tests.
+- SM-8 : un Schéma tactique par coach et par semaine.
 - NFR-3 : chargement en moins de 3 secondes une fois en cache.
 - NFR-4 : traduction wolof en v1.1.
 - NFR-7 : coût d'hébergement par Club à chiffrer.
-- §3 : l'Intensité est définie comme la distance par minute.
-- FR-24 : le pressing est approché par les récupérations et l'Intensité sans ballon.
-- §6.1 : le Tableau tactique est livré dès l'Étape 1.
-- §10 : l'Étape 1 se limite au five en extérieur.
-- SM-8 : un Schéma tactique par coach et par semaine.
+- §10 : le Palier 1 se limite au five en extérieur.

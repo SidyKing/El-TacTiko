@@ -13,15 +13,15 @@ Ce document regroupe les choix techniques et les options étudiées. Ils servent
 - **Rôles des capteurs :**
   - les Gilets GPS mesurent la partie physique : distance, vitesse, sprints, accélérations, et rythme cardiaque à terme ;
   - la Caméra mesure la partie ballon : passes, tirs, pertes de balle, positions.
-- **Analyse :** entièrement sur un VPS dans le cloud. La tablette se contente d'afficher.
+- **Analyse :** entièrement sur un VPS dans le cloud. La Tablette banc se contente d'afficher.
 - **Vidéo :** enregistrée en HD sur place. Un flux basse résolution peut partir en direct ; la HD est envoyée à la mi-temps ou après la Séance.
 - **Caméra :** montée sur un mât télescopique de 6 à 8 m, pour les stades sans tribune haute.
 - **Mode dégradé :**
-  - si la Caméra tombe en panne, on garde les données physiques ;
-  - si un Gilet tombe en panne, la vidéo garde la position du joueur.
+  - si la Caméra tombe en panne, on garde les Métriques physiques ;
+  - si un Gilet tombe en panne, la vidéo garde la position du Joueur.
 - **Identification :** un grand numéro ou une couleur sur le Gilet aide l'identification vidéo, en vue de l'IA.
 
-## Transmission : options étudiées (à trancher, voir PRD Q2)
+## Transmission : options étudiées (à trancher, voir PRD §11, question 2)
 
 | Option | Principe | Avantages | Risques |
 |---|---|---|---|
@@ -36,15 +36,15 @@ Le Mode tampon sur chaque Gilet est obligatoire dans tous les cas. On peut aussi
 - Le GPS ne capte pas en intérieur. Sur un terrain d'environ 40 × 20 m, son erreur de 1 à 2 m fausse fortement les distances et les sprints.
 - **Pistes possibles :**
   - capteurs de mouvement portés (accéléromètre et gyroscope) : distance estimée, accélérations ;
-  - balises radio UWB autour du terrain : précision de l'ordre de 10 cm, mais plus cher et plus long à installer ;
-  - vidéo seule avec suivi des joueurs.
+  - balises radio UWB autour du terrain : précision de l'ordre de 10 cm, mais plus chères et plus longues à installer ;
+  - vidéo seule avec suivi des Joueurs.
 - D'où l'exigence FR-9 : une Plateforme qui accepte plusieurs sources de captation.
 
 ## Contraintes propres à une PWA
 
 - **Mode hors ligne :** un service worker met l'application en cache, et les données sont stockées localement dans le navigateur (IndexedDB).
 - **Vibration et notifications :** l'API Vibration n'existe pas sur iOS Safari. Les notifications push sur iOS demandent que la PWA soit installée sur l'écran d'accueil (iOS 16.4 et suivants).
-- **Pas de lien direct avec les capteurs :** la PWA ne parle pas aux Gilets. Tout passe par la Plateforme, ce qui confirme que la tablette ne fait qu'afficher.
+- **Pas de lien direct avec les capteurs :** la PWA ne parle pas aux Gilets. Tout passe par la Plateforme, ce qui confirme que la Tablette banc ne fait qu'afficher.
 
 ## Matériel et coûts (veille du brief, à revérifier)
 
