@@ -35,6 +35,7 @@ Le produit est conçu pour les conditions locales. Il continue de fonctionner qu
 
 - **Coach :** savoir pendant la Séance qui baisse de régime, pour décider d'un changement ou d'un repositionnement, et pouvoir justifier ce choix ensuite.
 - **Coach :** comparer objectivement deux systèmes de jeu à l'entraînement.
+- **Coach :** expliquer visuellement à ses joueurs un système, des lignes, une circulation du ballon, une façon d'attaquer ou de défendre.
 - **Préparateur physique :** connaître la charge de chaque joueur pour éviter les blessures et suivre les retours de blessure.
 - **Analyste :** obtenir rapidement des passes et des tirs fiables, rattachés au bon joueur.
 - **Joueur :** voir ses propres données, progresser, et disposer d'un profil chiffré à montrer.
@@ -68,6 +69,7 @@ Le produit est conçu pour les conditions locales. Il continue de fonctionner qu
   2. Il bascule de l'une à l'autre en un geste sur la tablette.
   3. Après la Séance, l'écran de Comparaison de systèmes montre, phase par phase, la distance totale, le nombre de sprints et l'intensité de l'équipe.
   4. Il décide de garder le 3-5-2 et partage la comparaison avec son adjoint.
+  5. Avant la séance suivante, il ouvre le Tableau tactique, dessine le 3-5-2 avec ses lignes et le circuit de relance du ballon, puis le montre aux joueurs sur la tablette.
 
 - **UJ-3. Awa, analyste, valide les passes et les tirs le lendemain du match.**
   Awa est analyste, pour un club ou pour El TacTiko.
@@ -111,6 +113,9 @@ Le produit est conçu pour les conditions locales. Il continue de fonctionner qu
 - **Action ballon** : passe ou tir, rattaché à un Joueur et à un instant de la Séance.
 - **Rapport d'après-match** : synthèse d'une Séance, avec Métriques physiques, Actions ballon validées et Statuts.
 - **Historique joueur** : ensemble des données d'un Joueur sur toutes ses Séances.
+- **Schéma tactique** : dessin enregistré sur un terrain virtuel, composé de positions de joueurs, de lignes, de flèches de déplacement et de trajectoires du ballon. Il peut comporter plusieurs Étapes. Il appartient à une Équipe.
+- **Étape** : état successif d'un Schéma tactique, qui permet d'animer une séquence (par exemple une phase de relance en trois temps).
+- **Tableau tactique** : écran de la PWA qui sert à créer, modifier et présenter les Schémas tactiques.
 - **Comparaison de systèmes** : vue qui met en regard les Métriques physiques collectives de deux Phases.
 - **Indice de fiabilité** : indicateur de qualité des données d'un Gilet sur une Séance (signal perdu, valeurs aberrantes).
 - **Consentement** : accord écrit et enregistré d'un Joueur pour la collecte et l'usage de ses données.
@@ -253,7 +258,36 @@ La PWA affiche côte à côte, pour deux Phases, la distance totale de l'Équipe
 #### FR-25 : Partage de comparaison
 Le coach peut partager une Comparaison de systèmes avec son staff, sous forme de lien interne ou de PDF.
 
-### 4.7 Rapports et Historique joueur
+### 4.7 Tableau tactique
+
+**Description :** le coach utilise la PWA comme un tableau noir numérique. Il place ses Joueurs, dessine les lignes, la circulation du ballon, la façon d'attaquer ou de défendre, et présente le résultat à l'Équipe, en causerie ou au bord du terrain. Réalise UJ-2.
+
+#### FR-35 : Création de Schéma tactique
+Le coach peut créer un Schéma tactique sur un terrain virtuel. Il y place des Joueurs de son effectif ou des pions génériques, ainsi que des adversaires et le ballon.
+- Les formations courantes (4-4-2, 4-3-3, 3-5-2…) peuvent être posées en un geste, puis ajustées.
+- Le terrain s'adapte au format : football à 11, five, foot en salle.
+
+#### FR-36 : Dessin des intentions de jeu
+Le coach peut dessiner des lignes (défensive, médiane, offensive), des flèches de déplacement, des trajectoires de passe et des zones.
+- Chaque élément peut être nommé, coloré, déplacé et supprimé.
+- Le dessin se fait au doigt sur tablette et à la souris sur ordinateur.
+
+#### FR-37 : Étapes et animation
+Le coach peut découper un Schéma tactique en Étapes et les faire défiler, avec une animation des déplacements entre deux Étapes.
+- Une séquence d'au moins 10 Étapes est possible. `[HYPOTHÈSE]`
+
+#### FR-38 : Présentation et partage
+Le coach peut présenter un Schéma tactique en plein écran, et le partager avec son staff ou ses Joueurs (lien interne, image ou PDF).
+- Un Joueur ne voit que les Schémas tactiques partagés avec son Équipe.
+- Les Schémas tactiques sont consultables hors ligne une fois ouverts (NFR-2).
+
+#### FR-39 : Bibliothèque de schémas
+Le coach peut classer ses Schémas tactiques (par exemple « sortie de balle », « pressing haut », « coups de pied arrêtés »), les dupliquer et les retrouver.
+- Un Schéma tactique peut être rattaché à une Séance ou à une Phase, pour relier l'intention de jeu aux Métriques physiques mesurées.
+
+`[NON-GOAL pour la v1]` Générer automatiquement un Schéma tactique à partir des positions réelles mesurées.
+
+### 4.8 Rapports et Historique joueur
 
 **Description :** après chaque Séance, un Rapport d'après-match est généré automatiquement. L'Historique joueur s'enrichit à chaque Séance. Réalise UJ-1, UJ-3 et UJ-4.
 
@@ -273,7 +307,7 @@ Le staff peut consulter l'Historique joueur : évolution des Métriques physique
 Le Joueur peut consulter, depuis son téléphone, ses propres Métriques physiques, leur évolution et ses Actions ballon. Réalise UJ-4.
 - Il ne voit aucune donnée d'un autre Joueur (FR-3).
 
-### 4.8 Consentement et maîtrise des données
+### 4.9 Consentement et maîtrise des données
 
 **Description :** aucune donnée n'est collectée sans le Consentement du Joueur. Le Joueur voit tout ce que le staff voit sur lui.
 
@@ -289,7 +323,7 @@ Le Joueur peut demander l'export de ses données ou retirer son Consentement.
 #### FR-32 : Journal d'accès
 La Plateforme conserve un journal des consultations et des exports de données joueur, consultable par l'admin El TacTiko.
 
-### 4.9 Suivi de l'adoption
+### 4.10 Suivi de l'adoption
 
 **Description :** pendant les tests, l'équipe El TacTiko doit savoir si l'outil est réellement utilisé. Ce suivi est interne.
 
@@ -323,6 +357,7 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 - Tablette banc avec Statuts, Alerte de décrochage et mode hors ligne (FR-15 à FR-18).
 - Vidéo et saisie manuelle des Actions ballon (FR-19 à FR-22).
 - Mode entraînement et Comparaison de systèmes (FR-23 à FR-25).
+- Tableau tactique : Schémas tactiques, dessin, Étapes, présentation et bibliothèque (FR-35 à FR-39).
 - Rapport d'après-match, partage WhatsApp, Historique joueur et vue joueur (FR-26 à FR-29).
 - Consentement, export et journal d'accès (FR-30 à FR-32).
 - Suivi de l'adoption (FR-33 et FR-34).
@@ -422,6 +457,7 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 - FR-20 : vidéo et capteurs sont synchronisés à moins d'1 seconde.
 - FR-21 : une Action ballon se saisit en moins de 10 secondes.
 - FR-27 : un lien de partage WhatsApp suffit en v1.
+- FR-37 : un Schéma tactique peut compter au moins 10 Étapes.
 - SM-1 à SM-3 : seuils de réussite des tests.
 - NFR-3 : chargement en moins de 3 secondes une fois en cache.
 - NFR-4 : traduction wolof en v1.1.
