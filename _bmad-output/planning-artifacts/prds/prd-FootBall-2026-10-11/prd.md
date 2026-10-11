@@ -108,7 +108,9 @@ Le produit est conçu pour les conditions locales. Il continue de fonctionner qu
 - **Tablette banc** : vue de la PWA utilisée par le staff pendant la Séance. Elle affiche, mais ne calcule pas.
 - **Métriques physiques** : distance parcourue, vitesse maximale, nombre de sprints et nombre d'accélérations.
 - **Référence individuelle** : moyenne glissante d'une métrique pour un Joueur, calculée sur ses Séances précédentes du même type.
-- **Statut** : vert, orange ou rouge. Il compare l'intensité récente d'un Joueur à sa Référence individuelle.
+- **Intensité** : distance parcourue par minute (m/min) par un Joueur, mesurée sur une fenêtre glissante. `[HYPOTHÈSE : définition v1, à affiner avec un préparateur physique]`
+- **Statut** : vert, orange ou rouge. Il compare l'Intensité récente d'un Joueur à sa Référence individuelle d'Intensité.
+- **Joueur convoqué** : Joueur déclaré présent pour une Séance par le coach. Sert de base au taux de port des Gilets.
 - **Alerte de décrochage** : notification émise quand le Statut d'un Joueur passe au rouge.
 - **Action ballon** : passe ou tir, rattaché à un Joueur et à un instant de la Séance.
 - **Rapport d'après-match** : synthèse d'une Séance, avec Métriques physiques, Actions ballon validées et Statuts.
@@ -159,11 +161,12 @@ L'admin El TacTiko peut enregistrer les Gilets, les Passerelles et les Caméras 
 #### FR-6 : Association Gilet–Joueur
 Le coach peut associer chaque Gilet à un Joueur pour une Séance. Par défaut, la Plateforme reprend les associations de la Séance précédente.
 - Un Gilet ne peut être associé qu'à un seul Joueur par Séance.
-- L'écran indique le nombre de Gilets actifs, par exemple « 10/10 ».
+- Le coach indique les Joueurs convoqués pour la Séance ; par défaut, ce sont les Joueurs associés à un Gilet.
+- L'écran indique le nombre de Gilets actifs par rapport aux Joueurs convoqués, par exemple « 10/10 ».
 
 #### FR-7 : Lancement et clôture de Séance
 Le coach peut lancer une Séance (type match ou entraînement, Équipe, terrain) et la clôturer.
-- Seules les données reçues entre le début et la fin sont rattachées à la Séance.
+- Seules les données horodatées entre le début et la fin sont rattachées à la Séance, quel que soit le moment où elles arrivent (FR-8).
 - Le coach peut corriger l'heure de début et de fin après coup.
 
 #### FR-8 : Mode tampon et synchronisation
@@ -190,7 +193,7 @@ La Plateforme maintient pour chaque Joueur une Référence individuelle par type
 - Elle n'est pas affichée avant 3 Séances. Le Statut est alors marqué « en apprentissage ». `[HYPOTHÈSE]`
 
 #### FR-12 : Calcul du Statut
-Pendant et après une Séance, la Plateforme attribue à chaque Joueur un Statut (vert, orange ou rouge) en comparant son intensité des dernières minutes à sa Référence individuelle.
+Pendant et après une Séance, la Plateforme attribue à chaque Joueur un Statut (vert, orange ou rouge) en comparant son Intensité des dernières minutes à sa Référence individuelle.
 - Les seuils sont configurables. `[HYPOTHÈSE : orange en dessous de 85 %, rouge en dessous de 75 % sur une fenêtre de 10 minutes]`
 
 #### FR-13 : Indice de fiabilité
@@ -207,7 +210,7 @@ L'équipe El TacTiko peut saisir des mesures manuelles (distance chronométrée,
 
 #### FR-15 : Vue Statut de l'Équipe
 La Tablette banc affiche chaque Joueur actif avec son numéro, son nom et son Statut, triés du plus critique au moins critique.
-- L'écran est lisible en plein soleil (contraste élevé) et utilisable d'une seule main.
+- L'écran est lisible en plein soleil : contraste du texte d'au moins 7:1, couleurs de Statut doublées d'une forme ou d'une lettre. Il est utilisable d'une seule main : zones tactiles d'au moins 48 px.
 - Un toucher sur un Joueur affiche ses Métriques physiques de la Séance en cours.
 
 #### FR-16 : Alerte de décrochage
@@ -341,6 +344,10 @@ La Plateforme mesure, par Club et par semaine :
 #### FR-34 : Tableau de bord interne
 L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que l'Indice de fiabilité moyen par Club. Ce tableau alimente SM-1 à SM-4.
 
+`[NOTE FOR PM]` **Direct et après-match.** La Tablette banc en direct est la cible de l'expérience (UJ-1) ; le Rapport d'après-match est la garantie. Si le réseau du terrain ne permet pas le direct, la valeur doit rester entière après la Séance : SM-1 compte donc les deux usages.
+
+`[NOTE FOR PM]` **Préparateur physique.** En v1, il dispose des Métriques physiques, des Statuts et de l'Historique joueur. L'indice de fatigue et le suivi de retour de blessure arrivent en v1.1 (§6.2).
+
 ## 5. Non-objectifs
 
 - El TacTiko **ne fabrique pas** ses propres capteurs en v1 : il utilise du matériel du marché à sa marque.
@@ -354,6 +361,17 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 ## 6. Périmètre de la v1
 
 ### 6.1 Inclus
+
+Priorité par Étape de déploiement (§10) :
+
+| Étape | Fonctionnalités nécessaires |
+|---|---|
+| Étape 1 : five extérieur | 4.1 Clubs et Rôles · 4.2 Kit et captation · 4.3 Analyse physique · 4.4 Tablette banc · 4.8 Rapports (FR-26 à FR-28) · 4.9 Consentement · 4.10 Suivi de l'adoption · 4.7 Tableau tactique |
+| Étape 2 : pilote clubs | 4.5 Vidéo et Actions ballon · 4.6 Mode entraînement · 4.8 Vue joueur (FR-29) |
+
+`[HYPOTHÈSE]` Le Tableau tactique ne dépend pas des capteurs : il peut être livré tôt pour créer l'habitude chez le coach.
+
+Contenu :
 
 - Clubs, Équipes, comptes, Rôles et connexion simple (FR-1 à FR-4).
 - Kit, association Gilet–Joueur, Séances, Mode tampon et sources de captation multiples (FR-5 à FR-9).
@@ -381,15 +399,16 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 ## 7. Indicateurs de réussite
 
 **Principaux** (mesurés pendant les tests)
-- **SM-1 : adoption par le coach.** Pourcentage des Séances où la Tablette banc est ouverte au moins une fois. Cible : au moins 80 %. `[HYPOTHÈSE]` Valide FR-15 et FR-33.
+- **SM-1 : adoption par le coach.** Pourcentage des Séances où le coach ouvre la Tablette banc pendant la Séance ou consulte le Rapport d'après-match dans les 48 heures. Cible : au moins 80 %. `[HYPOTHÈSE]` Valide FR-15 et FR-33.
 - **SM-2 : port des Gilets.** Gilets portés rapportés aux Joueurs convoqués. Cible : au moins 90 %. `[HYPOTHÈSE]` Valide FR-6 et FR-33.
 - **SM-3 : fiabilité des distances.** Écart moyen entre la distance calculée et la mesure manuelle. Cible : moins de 5 %. `[HYPOTHÈSE]` Valide FR-10 et FR-14.
-- **SM-4 : rétention des clubs pilotes.** Au moins 2 Clubs pilotes sur 3 acceptent de continuer en payant. Valide l'ensemble.
+- **SM-4 : rétention des clubs pilotes.** À la fin du pilote, au moins 2 Clubs pilotes signent un engagement à continuer en formule payante dès la v1.1. Valide l'ensemble.
 
 **Secondaires**
 - **SM-5 : délai du Rapport d'après-match.** Rapport physique disponible moins d'une heure après la clôture de la Séance, quand le réseau le permet. Valide FR-26.
 - **SM-6 : données complètes.** Au moins 95 % des Séances ont une synchronisation complète sous 24 heures. Valide FR-8.
 - **SM-7 : traitement de la vidéo.** Actions ballon validées moins de 48 heures après la Séance. Valide FR-21.
+- **SM-8 : usage du Tableau tactique.** Au moins un Schéma tactique créé ou présenté par coach et par semaine pendant le pilote. `[HYPOTHÈSE]` Valide FR-35 à FR-38.
 
 **Contre-indicateurs (à ne pas optimiser)**
 - **SM-C1 : nombre d'Alertes de décrochage.** Plus d'alertes ne veut pas dire plus de valeur : trop d'alertes finissent ignorées. Contrebalance SM-1.
@@ -433,7 +452,7 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
    - démarches auprès de la CDP ;
    - choix des capteurs ;
    - test de couverture 4G dans les stades visés.
-2. **Étape 1, five et foot en salle :** 2 à 4 équipes. On vise la stabilité de la captation, la Tablette banc et le Rapport d'après-match, ainsi que la calibration (SM-3).
+2. **Étape 1, five en extérieur :** 2 à 4 équipes, avec le GPS des Gilets. Le foot en salle attend la réponse à la Q1 (capteur adapté). `[HYPOTHÈSE]` On vise la stabilité de la captation, la Tablette banc et le Rapport d'après-match, ainsi que la calibration (SM-3).
 3. **Étape 2, pilote :** 2 ou 3 Clubs de Ligue 1 ou Ligue 2, dont au moins un de Ligue 2. Le pilote démarre à l'entraînement (Mode entraînement), avec un suivi hebdomadaire de l'adoption.
 4. **Étape 3, matchs :** amicaux, puis matchs officiels si la LSFP donne son accord et que les capteurs sont conformes.
 
@@ -478,3 +497,8 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 - NFR-3 : chargement en moins de 3 secondes une fois en cache.
 - NFR-4 : traduction wolof en v1.1.
 - NFR-7 : coût d'hébergement par Club à chiffrer.
+- §3 : l'Intensité est définie comme la distance par minute.
+- FR-24 : le pressing est approché par les récupérations et l'Intensité sans ballon.
+- §6.1 : le Tableau tactique est livré dès l'Étape 1.
+- §10 : l'Étape 1 se limite au five en extérieur.
+- SM-8 : un Schéma tactique par coach et par semaine.
