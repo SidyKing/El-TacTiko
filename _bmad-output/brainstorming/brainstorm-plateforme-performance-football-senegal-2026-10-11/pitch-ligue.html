@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El TacTiko</title>
+<style>
+:root{
+  --bg:#f6f4ee; --surface:#ffffff; --text:#1c2421; --muted:#5a6560;
+  --accent:#0b7a4b; --accent-soft:#e3f2ea; --gold:#c99a1e; --red:#c0392b;
+  --border:#dcd8cc;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121715; --surface:#1b2220; --text:#e8ece9; --muted:#a3ada8;
+    --accent:#3fbf86; --accent-soft:#1f3329; --gold:#e0b84a; --red:#e06b5e;
+    --border:#2e3834;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121715; --surface:#1b2220; --text:#e8ece9; --muted:#a3ada8;
+  --accent:#3fbf86; --accent-soft:#1f3329; --gold:#e0b84a; --red:#e06b5e;
+  --border:#2e3834;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-wrap:break-word}
+.page{max-width:820px;margin:0 auto;padding:28px 16px 36px}
+header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:16px}
+.flag{display:flex;gap:4px;margin-bottom:10px}
+.flag span{width:28px;height:5px;border-radius:2px}
+.flag span:nth-child(1){background:var(--accent)}
+.flag span:nth-child(2){background:var(--gold)}
+.flag span:nth-child(3){background:var(--red)}
+h1{font-size:30px;line-height:1.1;margin:0 0 4px;letter-spacing:-.5px}
+.sub{color:var(--muted);margin:0;font-size:15px}
+.intro{margin:0 0 16px}
+h2{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:0 0 6px}
+section{margin-bottom:14px}
+p{margin:0 0 6px}
+ul{margin:0;padding-left:18px}
+li{margin-bottom:3px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.card h3{font-size:14px;margin:0 0 4px}
+.card ul{padding-left:16px;font-size:14px}
+.ask{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:6px;padding:12px 14px}
+.ask ol{margin:0;padding-left:20px}
+.ask li{margin-bottom:4px}
+footer{color:var(--muted);font-size:13px;margin-top:14px;border-top:1px solid var(--border);padding-top:8px}
+strong{font-weight:650}
+@media (max-width:640px){
+  .grid,.grid3{grid-template-columns:1fr}
+  h1{font-size:26px}
+}
+@media print{
+  @page{size:A4;margin:11mm 12mm}
+  :root,:root[data-theme="dark"]{
+    --bg:#fff; --surface:#fff; --text:#000; --muted:#444;
+    --accent:#0b6b42; --accent-soft:#eef6f1; --border:#ccc;
+  }
+  body{font-size:10.2pt;line-height:1.35;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{max-width:none;padding:0}
+  h1{font-size:21pt}
+  header{margin-bottom:8px;padding-bottom:6px}
+  .intro{margin-bottom:8px}
+  section{margin-bottom:7px;break-inside:avoid}
+  .grid{grid-template-columns:1fr 1fr;gap:8px}
+  .grid3{grid-template-columns:repeat(3,1fr);gap:6px}
+  .card{padding:6px 8px}
+  .card ul{font-size:9.5pt}
+  h2{font-size:9.5pt;margin-bottom:3px}
+  li{margin-bottom:1px}
+  .ask{padding:8px 10px}
+  footer{margin-top:6px;padding-top:4px;font-size:8.5pt}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <div class="flag" aria-hidden="true"><span></span><span></span><span></span></div>
+    <h1>El TacTiko</h1>
+    <p class="sub">La donnée de performance au service du football professionnel sénégalais — Ligue 1 et Ligue 2</p>
+  </header>
+
+  <p class="intro">Nous souhaitons vous présenter un projet né d’une conviction simple : nos clubs, nos joueurs et notre championnat méritent les mêmes outils d’analyse que les grands championnats, conçus pour nos réalités. Votre regard sur ce projet nous serait précieux.</p>
+
+  <div class="grid">
+    <section>
+      <h2>Le problème</h2>
+      <ul>
+        <li>Les clubs de L1 et L2 travaillent aujourd’hui <strong>sans données de performance</strong> : distance, vitesse, sprints, passes, tirs.</li>
+        <li>Le championnat n’a <strong>pas d’historique numérique</strong>, et tous les matchs ne sont pas filmés.</li>
+        <li>Les solutions étrangères existantes sont <strong>inadaptées</strong> : prix en devises, dépendance au réseau, pas de support local ni de français/wolof, pas pensées pour nos terrains, la chaleur et l’hivernage.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>La solution</h2>
+      <ul>
+        <li><strong>Gilets équipés de GPS</strong> : km parcourus, vitesse, sprints, accélérations, cardio.</li>
+        <li><strong>Caméra + IA vidéo</strong> : passes, tirs, pertes de balle, positions collectives.</li>
+        <li><strong>Analyse sur serveur cloud</strong>, affichage sur une <strong>tablette au banc</strong> : chaque joueur en vert / orange / rouge, lisible en 3 secondes.</li>
+        <li><strong>Fonctionne hors-ligne</strong> : les gilets stockent tout et se synchronisent dès le retour du réseau ; kit sur batterie, sans 4G ni électricité au stade.</li>
+      </ul>
+    </section>
+  </div>
+
+  <section>
+    <h2>Ce que cela apporte</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3>Aux clubs</h3>
+        <ul>
+          <li>Détecter les baisses de forme et mieux décider des changements</li>
+          <li>Comparer deux systèmes de jeu à l’entraînement</li>
+          <li>Suivre la charge et prévenir les blessures</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Aux joueurs</h3>
+        <ul>
+          <li><strong>Visibilité</strong> : un profil chiffré et vérifié à montrer aux recruteurs</li>
+          <li><strong>Transparence</strong> : le joueur voit tout ce que le staff voit sur lui</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>À la Ligue</h3>
+        <ul>
+          <li>Un <strong>historique numérique</strong> du championnat, match après match</li>
+          <li>Une <strong>vidéothèque</strong> des rencontres</li>
+          <li>L’image d’un <strong>championnat moderne</strong></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section>
+      <h2>Le pilote proposé</h2>
+      <ul>
+        <li><strong>2 à 3 clubs</strong>, dont au moins un de Ligue 2.</li>
+        <li>Démarrage par le <strong>mode entraînement</strong> : aucune contrainte de règlement de match, calibrage des données avant tout match officiel.</li>
+        <li>Durée : une <strong>demi-saison</strong>.</li>
+        <li>Indicateurs : <strong>utilisation réelle par le coach</strong> et le staff, <strong>fiabilité des données</strong>.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Conformité</h2>
+      <ul>
+        <li><strong>Données personnelles</strong> : respect de la loi 2008-12, déclaration auprès de la CDP, chiffrement et accès par rôle.</li>
+        <li><strong>Consentement écrit des joueurs</strong> et charte de données signée.</li>
+        <li><strong>Appareils portés en match</strong> (règles IFAB/FIFA) : conformité à vérifier avec la Ligue avant tout usage officiel.</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="ask">
+    <h2>Ce que nous sollicitons auprès de la Ligue</h2>
+    <ol>
+      <li>Un <strong>avis réglementaire</strong> sur le port des gilets en match officiel et sur l’usage d’une tablette au banc en L1/L2.</li>
+      <li>Une <strong>mise en relation</strong> avec des clubs susceptibles de participer au pilote.</li>
+      <li>L’étude d’un éventuel <strong>soutien ou partenariat</strong> avec la Ligue.</li>
+    </ol>
+  </section>
+
+  <footer>El TacTiko — projet en phase de préparation du pilote. Nous restons à votre disposition pour un échange à votre convenance.</footer>
+</main>
+</body>
+</html>
