@@ -139,7 +139,9 @@ Le coach peut ajouter, modifier et archiver des Joueurs dans son Équipe : nom, 
 La Plateforme doit restreindre chaque action et chaque donnée selon le Rôle et le Club de l'utilisateur.
 - Un Joueur ne voit que ses propres données (réalise UJ-4).
 - Un Membre du staff ne voit jamais les données d'un autre Club.
-- Seuls le coach, le préparateur et l'analyste voient les Statuts de toute l'Équipe.
+- Seuls le coach, le préparateur et l'analyste voient les Statuts de toute l'Équipe. Chaque Joueur voit ses propres Statuts (FR-29).
+- Le président voit les Rapports d'après-match et les données agrégées de son Club, sans modifier les Séances.
+- Si le coach quitte le Club, l'Équipe, ses Séances et ses Schémas tactiques restent la propriété du Club et sont transmis au nouveau coach.
 
 #### FR-4 : Connexion simple
 Les utilisateurs peuvent se connecter par code à usage unique, envoyé par SMS ou WhatsApp, ou par e-mail.
@@ -152,6 +154,7 @@ Les utilisateurs peuvent se connecter par code à usage unique, envoyé par SMS 
 #### FR-5 : Inventaire du Kit
 L'admin El TacTiko peut enregistrer les Gilets, les Passerelles et les Caméras d'un Kit et les attribuer à un Club.
 - Chaque équipement a un identifiant unique et un état : actif, en panne ou perdu.
+- Chaque Kit a un responsable désigné au sein du Club ; le dernier lieu connu de chaque Gilet est visible par l'admin El TacTiko (lutte contre la perte et le vol).
 
 #### FR-6 : Association Gilet–Joueur
 Le coach peut associer chaque Gilet à un Joueur pour une Séance. Par défaut, la Plateforme reprend les associations de la Séance précédente.
@@ -235,7 +238,7 @@ La vidéo et les données des Gilets partagent la même horloge, pour qu'un inst
 
 #### FR-21 : Saisie et correction des Actions ballon
 L'analyste peut créer, modifier et supprimer des Actions ballon depuis la vidéo : type, Joueur et instant.
-- Types en v1 : passe réussie, passe ratée, tir cadré, tir non cadré.
+- Types en v1 : passe réussie, passe ratée, tir cadré, tir non cadré, récupération, perte de balle.
 - Une Action ballon est saisie en moins de 10 secondes, au clavier ou par raccourcis. `[HYPOTHÈSE]`
 - Si une détection automatique existe plus tard, ses propositions passent par la même validation.
 
@@ -252,7 +255,8 @@ Le coach peut créer, nommer, démarrer et arrêter des Phases pendant une Séan
 - Les Phases peuvent aussi être définies ou corrigées après la Séance.
 
 #### FR-24 : Comparaison de systèmes
-La PWA affiche côte à côte, pour deux Phases, la distance totale de l'Équipe, la distance par minute, le nombre de sprints et l'intensité moyenne, ainsi que le détail par Joueur.
+La PWA affiche côte à côte, pour deux Phases, la distance totale de l'Équipe, la distance par minute, le nombre de sprints, l'intensité moyenne et, quand les Actions ballon sont validées, le nombre de récupérations et de pertes de balle, ainsi que le détail par Joueur.
+- `[HYPOTHÈSE]` Le pressing est approché par le nombre de récupérations et l'intensité dans les Phases sans ballon ; une mesure plus fine attend la v2.
 - La comparaison peut porter sur deux Phases de Séances différentes.
 
 #### FR-25 : Partage de comparaison
@@ -304,7 +308,7 @@ Le coach peut recevoir ou partager le Rapport d'après-match par WhatsApp.
 Le staff peut consulter l'Historique joueur : évolution des Métriques physiques et des Actions ballon par Séance, et filtrage par période et par type de Séance.
 
 #### FR-29 : Vue joueur
-Le Joueur peut consulter, depuis son téléphone, ses propres Métriques physiques, leur évolution et ses Actions ballon. Réalise UJ-4.
+Le Joueur peut consulter, depuis son téléphone, tout ce que le staff voit sur lui : ses Métriques physiques, leurs évolutions, ses Statuts, ses Alertes de décrochage et ses Actions ballon. Réalise UJ-4.
 - Il ne voit aucune donnée d'un autre Joueur (FR-3).
 
 ### 4.9 Consentement et maîtrise des données
@@ -312,7 +316,7 @@ Le Joueur peut consulter, depuis son téléphone, ses propres Métriques physiqu
 **Description :** aucune donnée n'est collectée sans le Consentement du Joueur. Le Joueur voit tout ce que le staff voit sur lui.
 
 #### FR-30 : Enregistrement du Consentement
-Le Club doit enregistrer le Consentement de chaque Joueur (document signé ou validation dans la PWA) avant qu'un Gilet puisse lui être associé.
+Le Club doit enregistrer le Consentement de chaque Joueur, accompagné de la charte des données signée (document signé ou validation dans la PWA), avant qu'un Gilet puisse lui être associé.
 - Un Joueur sans Consentement ne peut pas être associé à un Gilet (FR-6).
 - Pour un Joueur mineur, le Consentement d'un représentant légal est requis.
 
@@ -418,7 +422,9 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 ### 9.3 Matériel
 - Capteurs du marché en marque blanche, sans électronique développée en interne.
 - Le GPS ne fonctionne pas en salle et manque de précision sur un terrain de five : d'où les sources de captation multiples (FR-9).
-- Le Kit doit résister à la chaleur, à la poussière et à la pluie de l'hivernage, et fonctionner sur batterie.
+- Le Kit doit résister à la chaleur, à la poussière et à la pluie de l'hivernage (matériel étanche de type IP67) et fonctionner entièrement sur batterie, avec une recharge possible par panneau solaire.
+- Les Gilets doivent être confortables : tissu respirant, capteur placé dans le dos. Ils sont essayés par des joueurs avant tout achat en volume.
+- Le Kit est transporté dans une valise numérotée, sous la responsabilité d'une personne désignée, et assuré.
 
 ## 10. Déploiement par étapes
 
@@ -431,6 +437,13 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 3. **Étape 2, pilote :** 2 ou 3 Clubs de Ligue 1 ou Ligue 2, dont au moins un de Ligue 2. Le pilote démarre à l'entraînement (Mode entraînement), avec un suivi hebdomadaire de l'adoption.
 4. **Étape 3, matchs :** amicaux, puis matchs officiels si la LSFP donne son accord et que les capteurs sont conformes.
 
+### Conditions de passage et accompagnement
+
+- **Avant tout achat de matériel :** avis de la LSFP obtenu via notre contact, déclaration CDP engagée.
+- **Avant l'Étape 1 :** maquette de la Tablette banc testée par un vrai coach ; Gilets essayés par des joueurs.
+- **Avant l'Étape 2 :** SM-3 atteint en Étape 1 (fiabilité des distances).
+- **Accompagnement de chaque Club :** formation sur place de tout le staff, un technicien local joignable, un coach respecté comme ambassadeur, un point de suivi mensuel avec le président.
+
 ## 11. Questions ouvertes
 
 1. Quel capteur utiliser en salle et en five : capteurs de mouvement, balises radio ou vidéo seule ? (FR-9)
@@ -441,6 +454,9 @@ L'admin El TacTiko peut consulter ces indicateurs pour tous les Clubs, ainsi que
 6. Qui saisit les Actions ballon pendant les tests : un analyste El TacTiko ou un analyste du club ?
 7. Quel prix fixer pour les formules de crédit (v1.1), et faut-il une caution sur le Kit ?
 8. Faut-il une intégration WhatsApp Business ou un simple lien de partage suffit-il ? (FR-27)
+9. Qui manipule les capteurs le jour de la Séance : l'intendant du club, un analyste, l'équipe El TacTiko ?
+10. Les distances et vitesses restent-elles fiables sur terrain boueux pendant l'hivernage ?
+11. Quel calendrier pour le pilote, la saison 2026-27 ayant démarré le 3 octobre 2026 ?
 
 ## 12. Index des hypothèses
 
