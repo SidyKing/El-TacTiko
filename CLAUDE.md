@@ -2,7 +2,7 @@
 
 ## Git et GitHub
 
-- Les commits sont faits au nom du propriétaire du dépôt : `SidyKing <papasidymactar.traore@uadb.edu.sn>`.
+- Les commits sont faits au nom du propriétaire du dépôt : `SidyKing <sidymactar.traore@hotmail.com>`.
 - Ne jamais mentionner Claude ou Anthropic dans les commits, les pull requests ou les commentaires GitHub :
   - pas de ligne `Co-Authored-By: Claude ...` ;
   - pas de ligne `Claude-Session: ...` ;
