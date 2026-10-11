@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mix El TacTiko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500;700;800&display=swap">
+<style>
+/* ===== Page (chrome) ===== */
+:root{
+  --bg:#f3efe3; --surface:#fffcf3; --surface-2:#ece6d4; --ink:#14201a; --muted:#4d5a52; --line:#e0d9c5;
+  --green:#00853f; --yellow:#e2c400; --red:#c8161e;
+  --sv:#00853f; --so:#b85a00; --sr:#c8161e; --sa:#6b746f; --on:#fff;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 10px 28px -14px rgba(20,32,26,.3);
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a120e; --surface:#121e18; --surface-2:#1c2b23; --ink:#ecf2ea; --muted:#a3b3a9; --line:#24382c;
+    --green:#36c574; --yellow:#fdef42; --red:#ff4d55;
+    --sv:#36c574; --so:#ffa23a; --sr:#ff4d55; --sa:#8d9992; --on:#0a120e;
+    --shadow:0 1px 0 rgba(255,255,255,.03),0 12px 30px -14px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a120e; --surface:#121e18; --surface-2:#1c2b23; --ink:#ecf2ea; --muted:#a3b3a9; --line:#24382c;
+  --green:#36c574; --yellow:#fdef42; --red:#ff4d55;
+    --sv:#36c574; --so:#ffa23a; --sr:#ff4d55; --sa:#8d9992; --on:#0a120e;
+  --shadow:0 1px 0 rgba(255,255,255,.03),0 12px 30px -14px rgba(0,0,0,.8);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;font-size:16px;overflow-x:hidden}
+.flag{height:6px;background:linear-gradient(90deg,#00853f 0 33.3%,#e2c400 33.3% 66.6%,#c8161e 66.6%)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.theme-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;font-family:var(--mono);font-size:12px;flex:none}
+.theme-btn:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+h1{font-size:clamp(34px,6vw,64px);font-weight:900;letter-spacing:-.03em;line-height:1;margin:18px 0 14px;font-stretch:88%;overflow-wrap:anywhere}
+h1 span{color:var(--green)}
+.lede{font-size:17px;max-width:72ch;color:var(--muted);margin:0 0 18px}
+.lede b{color:var(--ink)}
+.parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 20px;padding:0;list-style:none}
+.parts li{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);font-size:15px}
+.parts b{display:flex;align-items:center;gap:10px;font-size:17px;margin-bottom:4px}
+.parts i{font-style:normal;display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--ink);color:var(--bg);font-weight:900;font-size:16px;flex:none}
+.parts span{color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 20px;font-size:14px;color:var(--muted);margin-bottom:8px}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.mock{margin:30px 0 8px}
+.device{background:linear-gradient(160deg,#2a2f2c,#121513);padding:clamp(5px,1.2vw,14px);border-radius:clamp(14px,2.8vw,34px);box-shadow:0 34px 70px -34px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.09),inset 0 1px 0 rgba(255,255,255,.12)}
+.frame{position:relative;width:100%;aspect-ratio:1180/820;overflow:hidden;border-radius:clamp(8px,1.6vw,20px);background:#000}
+.mock figcaption{font-size:15px;color:var(--muted);margin-top:12px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.mock figcaption b{font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);background:var(--surface-2);padding:3px 9px;border-radius:7px}
+h2{font-size:clamp(26px,4vw,38px);font-weight:900;letter-spacing:-.02em;line-height:1.05;margin:48px 0 6px;font-stretch:90%}
+.sub{color:var(--muted);margin:0 0 18px;max-width:72ch}
+.tok-group{margin:0 0 20px}
+.tok-group h3{font:700 12px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:0 0 10px}
+.toks{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.toks li{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;min-width:0}
+.sw2{width:44px;height:44px;border-radius:12px;flex:none;overflow:hidden;display:flex;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.sw2 i{flex:1}
+.toks div{min-width:0}
+.toks b{display:block;font-size:14.5px;line-height:1.2}
+.toks code{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.typo{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.typo div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.typo p{margin:0}
+.typo small{display:block;font:500 12px var(--mono);color:var(--muted);margin-top:4px}
+.foot{border-top:1px solid var(--line);margin-top:36px;padding:18px 0 44px;font-size:14px;color:var(--muted)}
+@media (max-width:760px){.parts{grid-template-columns:1fr}}
+
+/* ===== Écran Tablette banc 1180×820 ===== */
+.scr{position:absolute;left:0;top:0;width:1180px;height:820px;transform-origin:0 0;transform:scale(var(--s,1));overflow:hidden;
+  font-family:var(--sans);line-height:1.25;-webkit-font-smoothing:antialiased;font-size:14px;
+  display:grid;grid-template-columns:790px 390px;grid-template-rows:60px 6px 754px;background:var(--bg);color:var(--ink)}
+.scr ol{list-style:none;margin:0;padding:0}
+.scr h4{margin:0}
+/* Jeu de tokens unique, clair / sombre */
+.lt{--pa:#12753f;--pb:#0f6b3a;--chalk:#ffffff;--gps:#fdef42;
+  --bg:#f3efe3;--card:#fffcf3;--chip:#ece6d4;--line:#e0d9c5;--ink:#14201a;--mut:#4d5a52;
+  --slab:#0d0f0e;--slab-line:#0d0f0e;--y:#ffd60a;--live:#c8161e;
+  --sv:#00853f;--so:#b85a00;--sr:#c8161e;--sa:#6b746f;--on:#fff;--tv:#00713a;--to:#8a4300;--rbg:#fdeceb;--obg:#fff1df;
+  --hud:rgba(6,32,18,.62);--jersey:#fffcf3;
+  --cardsh:0 1px 2px rgba(20,32,26,.06),0 14px 30px -20px rgba(20,32,26,.45)}
+.dk{--pa:#0c2d1b;--pb:#0a2617;--chalk:#dff0e4;--gps:#fdef42;
+  --bg:#0a120e;--card:#121e18;--chip:#1c2b23;--line:#24382c;--ink:#ecf2ea;--mut:#a3b3a9;
+  --slab:#151a17;--slab-line:#252c28;--y:#fdef42;--live:#c8161e;
+  --sv:#36c574;--so:#ffa23a;--sr:#ff4d55;--sa:#8d9992;--on:#0a120e;--tv:#5fe09a;--to:#ffb866;--rbg:#2a1416;--obg:#2a1f10;
+  --hud:rgba(0,0,0,.55);--jersey:#f1eee4;
+  --cardsh:0 1px 0 rgba(255,255,255,.03),0 16px 34px -20px rgba(0,0,0,.9)}
+
+/* Statut : couleur + forme + lettre */
+.st{--b:26px;display:inline-grid;place-items:center;width:var(--b);height:var(--b);flex:none;font-family:var(--sans);font-style:normal;font-weight:900;font-size:13.5px;line-height:1;color:var(--on)}
+.st b{font-weight:900}
+.st-v{background:var(--sv);border-radius:50%}
+.st-o{background:var(--so);clip-path:polygon(50% 0,100% 96%,0 96%)}
+.st-o b{transform:translateY(22%)}
+.st-r{background:var(--sr);clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%)}
+.st-a{border:2.5px dashed var(--sa);border-radius:50%;color:var(--sa);background:transparent}
+.beat{animation:beat 1.3s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.14)}}
+.dot{width:10px;height:10px;border-radius:50%;background:currentColor;display:inline-block;flex:none}
+.blink{animation:blink 1.4s steps(2,jump-none) infinite}
+@keyframes blink{50%{opacity:.2}}
+
+/* --- En-tête : bug broadcast (C) --- */
+.bug>*{flex:none;white-space:nowrap}
+.bug{grid-column:1/-1;display:flex;align-items:stretch;background:var(--slab);color:#fff;position:relative;z-index:5;box-shadow:inset 0 -1px 0 var(--slab-line),0 6px 18px -8px rgba(0,0,0,.5)}
+.bug::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.07),transparent 55%);pointer-events:none}
+.live{display:flex;align-items:center;gap:10px;padding:0 38px 0 22px;background:linear-gradient(180deg,#d91d26,#b0121a);font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:.04em;font-stretch:82%;clip-path:polygon(0 0,100% 0,calc(100% - 18px) 100%,0 100%)}
+.live.off{background:linear-gradient(180deg,#6a726d,#535a56)}
+.live svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round}
+.crest{align-self:center;width:38px;height:38px;border-radius:11px;background:#e2c400;color:#14201a;display:grid;place-items:center;font-weight:900;font-size:16px;flex:none;margin-left:6px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15),0 0 0 2px rgba(255,255,255,.08)}
+.tn{display:flex;flex-direction:column;justify-content:center;padding:0 22px 0 12px}
+.tn b{font-weight:900;font-size:27px;line-height:1;text-transform:uppercase;font-stretch:76%;letter-spacing:.005em}
+.tn small{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--y);margin-top:4px}
+.ck{display:flex;align-items:center;gap:10px;padding:0 30px;background:var(--y);color:#0d0f0e;clip-path:polygon(18px 0,100% 0,calc(100% - 18px) 100%,0 100%)}
+.ck small{font:800 13px var(--mono);text-transform:uppercase;letter-spacing:.1em;writing-mode:vertical-rl;transform:rotate(180deg);opacity:.7}
+.ck b{font-weight:900;font-size:48px;line-height:1;font-variant-numeric:tabular-nums;font-stretch:78%;letter-spacing:-.01em}
+.gl{display:flex;align-items:center;gap:10px;padding:0 22px;margin-left:auto}
+.gl svg{width:24px;height:24px;fill:none;stroke:var(--y);stroke-width:2;stroke-linejoin:round}
+.gl b{font-weight:900;font-size:32px;font-stretch:76%;font-variant-numeric:tabular-nums}
+.gl small{font:700 13px/1.15 var(--mono);text-transform:uppercase;letter-spacing:.06em;opacity:.85}
+.fr{display:flex;align-items:center;gap:10px;padding:0 24px;font:700 14px var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--y);border-left:1px solid rgba(255,255,255,.16);min-width:236px}
+.fr.stale{padding:0 18px;letter-spacing:.02em}
+.fr b{font-variant-numeric:tabular-nums}
+.fresh{position:relative;width:10px;height:10px;border-radius:50%;background:#36c574;flex:none}
+.fresh::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #36c574;animation:ping 1.6s ease-out infinite}
+@keyframes ping{to{transform:scale(2.6);opacity:0}}
+.fr.stale{color:#fff}
+.fr.stale .fresh{background:var(--y)}
+.fr.stale .fresh::after{display:none}
+.flagline{grid-column:1/-1;background:linear-gradient(90deg,#00853f 0 33.3%,#e2c400 33.3% 66.6%,#c8161e 66.6%);position:relative;z-index:5}
+
+/* --- Terrain (B) --- */
+.field{position:relative;overflow:hidden;isolation:isolate}
+.pitch{position:absolute;inset:0}
+.lt .pitch{background:
+  radial-gradient(ellipse 70% 55% at 12% -6%,rgba(255,250,214,.20),transparent 70%),
+  radial-gradient(ellipse 90% 70% at 50% 115%,rgba(0,0,0,.30),transparent 70%),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 4px),
+  repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 68px,transparent 68px 136px),
+  repeating-linear-gradient(90deg,var(--pa) 0 79px,var(--pb) 79px 158px)}
+.dk .pitch{background:
+  radial-gradient(ellipse 48% 40% at 4% -4%,rgba(255,250,220,.26),transparent 72%),
+  radial-gradient(ellipse 48% 40% at 96% -4%,rgba(255,250,220,.26),transparent 72%),
+  radial-gradient(ellipse 40% 30% at 4% 104%,rgba(255,250,220,.12),transparent 72%),
+  radial-gradient(ellipse 40% 30% at 96% 104%,rgba(255,250,220,.12),transparent 72%),
+  radial-gradient(ellipse 70% 50% at 50% 50%,rgba(70,160,100,.10),transparent 75%),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px),
+  repeating-linear-gradient(0deg,rgba(0,0,0,.08) 0 68px,transparent 68px 136px),
+  repeating-linear-gradient(90deg,var(--pa) 0 79px,var(--pb) 79px 158px)}
+.pitch::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");opacity:.16;mix-blend-mode:overlay}
+.pitch::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 42%,transparent 60%,rgba(0,0,0,.28))}
+.dk .pitch::after{background:radial-gradient(ellipse 70% 65% at 50% 42%,transparent 50%,rgba(0,0,0,.55))}
+.turf{position:absolute;inset:0;width:100%;height:100%}
+.lines{fill:none;stroke:var(--chalk);stroke-width:3;opacity:.86;stroke-linecap:round}
+.lines .fill{fill:var(--chalk);stroke:none}
+.dk .lines{filter:drop-shadow(0 0 3px rgba(223,240,228,.5))}
+.goal{fill:rgba(255,255,255,.18);stroke:var(--chalk);stroke-width:2.5;opacity:.9}
+.trail{fill:none;stroke:rgba(255,255,255,.34);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1 7}
+.gps-glow{fill:none;stroke:rgba(253,239,66,.28);stroke-width:11;stroke-linecap:round;filter:blur(3px)}
+.gps{fill:none;stroke:var(--gps);stroke-width:4;stroke-linecap:round;stroke-dasharray:2 10;animation:march 2.4s linear infinite}
+@keyframes march{to{stroke-dashoffset:-120}}
+.gps-tail{fill:var(--gps);stroke:#14201a;stroke-width:1.5}
+
+.jy{position:absolute;width:60px;height:60px;transform:translate(-50%,-50%);z-index:2;--c:var(--sv)}
+.j-v{--c:var(--sv)}.j-o{--c:var(--so)}.j-r{--c:var(--sr)}.j-a{--c:var(--sa)}
+.jy .gs{position:absolute;left:50%;top:100%;width:76px;height:18px;transform:translate(-42%,-2px);border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.42),transparent);z-index:-1}
+.dk .jy .gs{box-shadow:-26px 0 10px -6px rgba(0,0,0,.25),26px 0 10px -6px rgba(0,0,0,.25);background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent)}
+.jy .ring{position:absolute;inset:-8px;border-radius:50%;border:4px solid var(--c);background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.12),rgba(0,0,0,.28));box-shadow:0 4px 10px -2px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.15)}
+.j-a .ring{border-style:dashed}
+.jy .shirt{position:absolute;inset:4px;color:var(--jersey);filter:drop-shadow(0 2px 2px rgba(0,0,0,.4))}
+.jn{position:absolute;inset:0;display:grid;place-items:center;padding-top:8px;font-weight:900;font-size:20px;color:#14201a;font-stretch:85%}
+.jy .st{position:absolute;right:-17px;top:-17px;box-shadow:0 2px 4px rgba(0,0,0,.35)}
+.jy .st-v,.jy .st-a{box-shadow:0 0 0 2px rgba(255,255,255,.9),0 2px 4px rgba(0,0,0,.35)}
+.jy .st-a{background:rgba(255,255,255,.92)}
+.tag{position:absolute;top:calc(100% + 13px);left:50%;transform:translateX(-50%);white-space:nowrap;background:rgba(8,18,12,.82);color:#fff;padding:4px 10px;border-radius:8px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;border:1px solid rgba(255,255,255,.12);box-shadow:0 6px 14px -8px rgba(0,0,0,.7);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.tag b{font-weight:800}
+.tag em{font-style:normal;font-family:var(--mono);font-weight:700;font-size:13px;margin-left:4px}
+.j-r .tag{background:#c8161e;border-color:rgba(255,255,255,.25)}
+.jy.alert .ring{animation:ripple 1.4s ease-out infinite}
+@keyframes ripple{0%{box-shadow:0 0 0 0 rgba(255,77,85,.85),0 4px 10px -2px rgba(0,0,0,.45)}100%{box-shadow:0 0 0 24px rgba(255,77,85,0),0 4px 10px -2px rgba(0,0,0,.45)}}
+.jy.alert::before{content:"";position:absolute;inset:-22px;border-radius:50%;border:2px solid rgba(255,77,85,.7);animation:halo 1.4s ease-out infinite}
+@keyframes halo{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.35);opacity:0}}
+
+.chalkban{position:absolute;left:50%;top:30px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:10px;padding:8px 16px;border:2px dashed rgba(255,255,255,.88);border-radius:12px;color:#fff;background:rgba(0,0,0,.45);font-size:15px;white-space:nowrap;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.chalkban svg{width:18px;height:18px;fill:#fff}
+
+.bench{position:absolute;left:18px;right:18px;top:590px;height:68px;display:flex;align-items:center;gap:8px;background:var(--hud);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:16px;padding:0 8px 0 4px;color:#fff;z-index:3;border:1px solid rgba(255,255,255,.14);box-shadow:0 14px 28px -16px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.1)}
+.bl{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.16em;opacity:.85;writing-mode:vertical-rl;transform:rotate(180deg);padding:0 4px}
+.bj{display:flex;align-items:center;gap:10px;flex:1;min-width:0;background:rgba(255,255,255,.1);border-radius:12px;height:52px;padding:0 10px 0 8px;border:1px solid rgba(255,255,255,.06)}
+.mini{position:relative;width:34px;height:34px;flex:none;margin-left:6px}
+.mini svg{width:100%;height:100%;color:var(--jersey)}
+.mini .n{position:absolute;inset:0;display:grid;place-items:center;padding-top:5px;font-style:normal;font-weight:900;font-size:13px;color:#14201a}
+.mini .st{position:absolute;left:-13px;top:-9px;--b:22px;font-size:13px}
+.mini .st-v,.mini .st-a{box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.mini .st-a{background:rgba(255,255,255,.92)}
+.bj span.t{min-width:0;line-height:1.15}
+.bj span.t b{display:block;font-size:14.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bj span.t small{display:block;font:500 13px var(--mono);opacity:.82;white-space:nowrap}
+
+/* --- Pied : bandeau bas (C) --- */
+.lower,.tick{position:absolute;left:18px;right:18px;bottom:12px;height:62px;display:flex;align-items:stretch;z-index:4;box-shadow:0 16px 30px -12px rgba(0,0,0,.65)}
+.lower{background:var(--slab);color:#fff;overflow:hidden;animation:slideL .8s cubic-bezier(.2,.8,.2,1) .4s both;border:1px solid var(--slab-line)}
+.lower::after{content:"";position:absolute;top:0;bottom:0;width:120px;left:-140px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.14),transparent);animation:sheen 5s ease-in-out 1.4s infinite}
+@keyframes sheen{0%{left:-140px}35%,100%{left:110%}}
+.lower::before{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;background:#ff4d55;transform-origin:0 50%;animation:timer 12s linear 1.2s infinite;z-index:1}
+@keyframes timer{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.lt-tag{display:flex;flex-direction:column;justify-content:center;gap:3px;padding:0 28px 0 14px;flex:none;background:linear-gradient(180deg,#d91d26,#b0121a);text-transform:uppercase;font-stretch:78%;line-height:1;clip-path:polygon(0 0,100% 0,calc(100% - 16px) 100%,0 100%)}
+.lt-tag b{font-weight:900;font-size:23px;letter-spacing:.02em;display:flex;align-items:center;gap:7px}
+.lt-tag b svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.lt-tag small{font-weight:800;font-size:15px;letter-spacing:.03em;opacity:.92;white-space:nowrap}
+.lt-num{flex:none;display:flex;align-items:center;padding:0 22px;margin-left:-14px;background:var(--y);color:#0d0f0e;font-weight:900;font-size:44px;font-stretch:70%;clip-path:polygon(16px 0,100% 0,calc(100% - 16px) 100%,0 100%)}
+.lt-txt{display:flex;flex-direction:column;justify-content:center;padding:0 10px 0 12px;min-width:0;flex:1}
+.lt-txt b{font-weight:900;font-size:25px;line-height:1;text-transform:uppercase;font-stretch:80%}
+.lt-txt small{font:600 13px var(--mono);letter-spacing:-.02em;opacity:.88;margin-top:5px;white-space:nowrap}
+.lt-big{flex:none;margin-left:auto;display:flex;align-items:center;padding:0 16px 0 14px;font-weight:900;font-size:48px;font-stretch:70%;color:#ff4d55;border-left:1px solid rgba(255,255,255,.12)}
+.lt-big i{font-style:normal;font-size:.55em;margin-left:2px}
+@keyframes slideL{from{transform:translateX(-106%)}}
+.tick{background:#ffd60a;color:#0d0f0e;overflow:hidden}
+.tick b{display:flex;align-items:center;gap:9px;padding:0 34px 0 18px;background:#0d0f0e;color:#ffd60a;font-weight:900;font-size:23px;text-transform:uppercase;font-stretch:78%;clip-path:polygon(0 0,100% 0,calc(100% - 18px) 100%,0 100%);position:relative;z-index:1;white-space:nowrap}
+.tick b svg{width:20px;height:20px;fill:none;stroke:#ffd60a;stroke-width:2.2;stroke-linecap:round}
+.mq{flex:1;overflow:hidden;margin-left:-18px;display:flex;align-items:center;-webkit-mask-image:linear-gradient(90deg,transparent 18px,#000 44px,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(90deg,transparent 18px,#000 44px,#000 calc(100% - 30px),transparent)}
+.mq span{display:inline-block;white-space:nowrap;font:700 15px var(--mono);padding-left:44px;animation:mq 26s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* --- Rail (cartes A + liste B) --- */
+.rail{min-height:0;display:flex;flex-direction:column;gap:9px;padding:11px 12px 12px;background:var(--bg);border-left:1px solid var(--line);position:relative}
+.dk .rail{background:linear-gradient(180deg,#0c1611,#0a120e)}
+.card{background:var(--card);border-radius:18px;border:1px solid var(--line);box-shadow:var(--cardsh);padding:11px 14px 12px;position:relative}
+.ch{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.ch h4{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mut);white-space:nowrap}
+.ch .aux{font:600 13px var(--mono);color:var(--mut);white-space:nowrap}
+.dl{font:700 13px var(--mono);padding:3px 8px;border-radius:999px;white-space:nowrap;font-variant-numeric:tabular-nums;justify-self:end}
+.d-r{background:var(--sr);color:#fff}
+.dk .d-r{color:#14090a}
+.d-o{background:var(--obg);color:var(--to);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--so) 35%,transparent)}
+.d-v{color:var(--tv)}
+.d-a{color:var(--mut)}
+.big{display:flex;align-items:flex-end;gap:8px}
+.big b{font-size:46px;font-weight:900;letter-spacing:-.03em;line-height:.9;font-variant-numeric:tabular-nums;font-stretch:90%}
+.big span{color:var(--mut);font-weight:700;font-size:15px;padding-bottom:2px}
+.big .ref{margin-left:auto;text-align:right;font:500 13px/1.3 var(--mono);color:var(--mut)}
+.big .ref strong{color:var(--ink);font-weight:700}
+.dist{display:flex;height:9px;border-radius:5px;overflow:hidden;gap:3px;margin:10px 0 8px}
+.dist i{display:block}
+.dist .x-r{background:var(--sr)}.dist .x-o{background:var(--so)}.dist .x-v{background:var(--sv)}
+.dist .x-a{background:repeating-linear-gradient(90deg,var(--sa) 0 4px,transparent 4px 7px)}
+.cnt{display:flex;gap:16px;align-items:center;font:700 14px var(--mono)}
+.cnt span{display:inline-flex;align-items:center;gap:6px}
+.cnt .st{--b:22px}
+.cnt em{margin-left:auto;font:500 13px var(--sans);color:var(--mut);font-style:normal}
+.mm{display:block;width:100%;height:auto;border-radius:10px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.mm-lines{fill:none;stroke:rgba(255,255,255,.82);stroke-width:1}
+.dk .mm-lines{stroke:rgba(223,240,228,.7)}
+.mm-lines .fill{fill:#fff;stroke:none}
+.mm-trace{fill:none;stroke:#fdef42;stroke-width:1.9;stroke-dasharray:2.5 3;stroke-linecap:round;animation:march2 2.4s linear infinite}
+@keyframes march2{to{stroke-dashoffset:-22}}
+.mm-end circle{fill:var(--sr);stroke:#fff;stroke-width:1.6}
+.mm-end text{font:900 8.5px var(--sans);fill:#fff;text-anchor:middle}
+.mm-start{fill:none;stroke:#fdef42;stroke-width:1.4}
+.mm-leg{display:flex;gap:8px;align-items:center;margin:8px 0 0;font-size:13px;color:var(--mut);white-space:nowrap}
+.mm-leg .hz{width:44px;height:9px;border-radius:5px;background:linear-gradient(90deg,rgba(253,239,66,.25),#fdc80a,#ff7a1a,#e8202a)}
+.mm-leg .tr{width:20px;border-top:2.5px dashed #c9a800;margin-left:10px}
+.dk .mm-leg .tr{border-color:#fdef42}
+.list{flex:1;min-height:0;display:flex;flex-direction:column;padding-bottom:8px}
+.list ol{display:flex;flex-direction:column;gap:2px;overflow:auto;min-height:0;scrollbar-width:thin}
+.rr{display:grid;grid-template-columns:26px 28px minmax(0,1fr) 66px 60px;gap:9px;align-items:center;height:27px;padding:0 6px;border-radius:9px;flex:none}
+.rr .num{width:28px;height:23px;border-radius:7px;background:var(--chip);display:grid;place-items:center;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
+.rr .who{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rr .val{font:500 13px var(--mono);color:var(--mut);text-align:right;white-space:nowrap}
+.rr .val b{color:var(--ink);font-weight:700}
+.rr.r-r{background:var(--rbg);box-shadow:inset 3px 0 0 var(--sr)}
+.rr.r-o{background:linear-gradient(90deg,var(--obg),transparent 80%)}
+.rr .learn{grid-column:4/6;justify-self:end;font-size:13px;color:var(--mut);font-style:italic;border:1.5px dashed var(--sa);border-radius:999px;padding:1px 9px;white-space:nowrap}
+
+/* --- Hors ligne : figé, désaturé --- */
+.off .pitch,.off .turf,.off .jy,.off .bench{filter:saturate(.35) brightness(.97)}
+.off .gps,.off .mm-trace{animation:none}
+.off .jy .st{animation:none}
+.off .rail .card{filter:saturate(.5)}
+.off .rail .card .big b{opacity:.75}
+.off .rr .val b{opacity:.75}
+.frozen{display:inline-flex;align-items:center;gap:6px;font:700 13px var(--mono);color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+.frozen svg{width:13px;height:13px;fill:currentColor}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .mq span{padding-left:20px}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="jshade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>
+<symbol id="jersey" viewBox="0 0 40 40"><path fill="currentColor" d="M13 3 4 8l-2 10 7 2v17h22V20l7-2-2-10-9-5c-1 3-3.5 4.5-7 4.5S14 6 13 3Z"/><path fill="#00853f" d="M13 3c1 3 3.5 4.5 7 4.5S26 6 27 3l1.7.95C27.6 7.8 24.4 9.8 20 9.8S12.4 7.8 11.3 3.95Z"/><path fill="#00853f" d="M2.4 16 2 18l7 2v-2.1Zm35.2 0L38 18l-7 2v-2.1Z"/><path fill="#e2c400" d="M9 34.6h22V37H9Z" opacity=".95"/><path fill="url(#jshade)" d="M13 3 4 8l-2 10 7 2v17h22V20l7-2-2-10-9-5c-1 3-3.5 4.5-7 4.5S14 6 13 3Z"/></symbol>
+<radialGradient id="hR"><stop offset="0" stop-color="#e8202a" stop-opacity=".95"/><stop offset=".45" stop-color="#ff7a1a" stop-opacity=".6"/><stop offset="1" stop-color="#fdc80a" stop-opacity="0"/></radialGradient>
+<radialGradient id="hO"><stop offset="0" stop-color="#ff7a1a" stop-opacity=".8"/><stop offset=".55" stop-color="#fdc80a" stop-opacity=".4"/><stop offset="1" stop-color="#fdef42" stop-opacity="0"/></radialGradient>
+<radialGradient id="hY"><stop offset="0" stop-color="#fdc80a" stop-opacity=".6"/><stop offset="1" stop-color="#fdef42" stop-opacity="0"/></radialGradient>
+<pattern id="mowL" width="42.2" height="86" patternUnits="userSpaceOnUse"><rect width="21.1" height="86" fill="#12753f"/><rect x="21.1" width="21.1" height="86" fill="#0f6b3a"/></pattern>
+<pattern id="mowD" width="42.2" height="86" patternUnits="userSpaceOnUse"><rect width="21.1" height="86" fill="#0c2d1b"/><rect x="21.1" width="21.1" height="86" fill="#0a2617"/></pattern>
+</defs></svg>
+<div class="flag" aria-hidden="true"></div>
+<div class="wrap">
+<header>
+<div class="bar"><span>El TacTiko · UX · Direction retenue</span><button class="theme-btn" type="button" id="tt">Thème : auto</button></div>
+<h1>Tablette banc : <span>le mix</span></h1>
+<p class="lede">Sidy a retenu un mélange des trois directions. <b>Le terrain du Tableau tactique (B) reste la toile</b> : le coach y retrouve ses Joueurs à leur place, chacun avec son Statut. <b>L'habillage Broadcast (C) encadre l'écran</b> : bandeau EN DIRECT et chrono jaune en haut, bandeau bas pour l'Alerte de décrochage ou le mode hors ligne. <b>Les cartes de Fidèle FotMob (A) tiennent le rail</b> : l'Intensité de l'Équipe, la carte des zones chaudes des 10 dernières minutes, puis la liste des Statuts triée du plus critique au moins critique.</p>
+<ul class="parts">
+<li><b><i>B</i>Toile · terrain</b><span>Pelouse rayée, lignes à la craie, maillots + anneau de Statut, tracé GPS jaune, banc des remplaçants.</span></li>
+<li><b><i>C</i>Cadre · habillage</b><span>Bug EN DIRECT, chrono jaune, Gilets actifs, fraîcheur ; bandeau bas d'alerte ou bandeau hors ligne.</span></li>
+<li><b><i>A</i>Rail · cartes</b><span>Cartes blanches arrondies : Intensité de l'Équipe, zones chaudes 10 min, Statuts triés.</span></li>
+</ul>
+<div class="legend"><span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i>Vert · rond</span><span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i>Orange · triangle</span><span><i class="st st-r" role="img" aria-label="Statut Rouge"><b>R</b></i>Rouge · octogone</span><span><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i>En apprentissage · pointillé</span></div>
+</header>
+
+<figure class="mock"><div class="device"><div class="frame"><div class="scr lt" data-live="1"><header class="bug"><span class="live"><i class="dot blink"></i>En direct</span><span class="crest">GY</span><span class="tn"><b>Grand-Yoff Five</b><small>Match · Five · Sacré-Cœur</small></span><span class="ck"><small>Chrono</small><b class="js-clock">18:42</b></span><span class="gl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 6v15h16V6l-4-3-2 2h-4L8 3Z"/><path d="M12 5v16"/></svg><b>10/10</b><small>Gilets<br>actifs</small></span><span class="fr"><i class="fresh"></i>À jour il y a <b class="js-fresh">4</b> s</span></header><div class="flagline" aria-hidden="true"></div><div class="field"><div class="pitch"></div><svg class="turf" viewBox="0 0 790 754" aria-hidden="true">
+<g class="lines"><rect x="40" y="24" width="710" height="542" rx="3"/><line x1="395" y1="24" x2="395" y2="566"/><circle cx="395" cy="295" r="62"/><circle cx="395" cy="295" r="4.5" class="fill"/>
+<path d="M40 175 A120 120 0 0 1 40 415"/><path d="M750 175 A120 120 0 0 0 750 415"/><circle cx="132" cy="295" r="3.8" class="fill"/><circle cx="658" cy="295" r="3.8" class="fill"/>
+<path d="M40 36 A12 12 0 0 0 52 24"/><path d="M738 24 A12 12 0 0 0 750 36"/><path d="M52 566 A12 12 0 0 0 40 554"/><path d="M750 554 A12 12 0 0 0 738 566"/></g>
+<rect class="goal" x="24" y="262" width="16" height="66" rx="2"/><rect class="goal" x="750" y="262" width="16" height="66" rx="2"/>
+<path class="trail" d="M82 254 C92 270 108 278 104 296"/><path class="trail" d="M206 382 C222 398 244 430 258 418"/>
+<path class="trail" d="M366 486 C392 492 414 440 432 452"/><path class="trail" d="M668 304 C648 326 630 366 612 350"/>
+<path class="gps-glow" d="M702 92 C668 122 640 84 610 114 S552 182 520 188 S560 150 548 168"/>
+<path class="gps" d="M702 92 C668 122 640 84 610 114 S552 182 520 188 S560 150 548 168"/>
+<circle class="gps-tail" cx="702" cy="92" r="4"/>
+</svg><div class="jy j-r alert" style="left:548px;top:168px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">7</span><i class="st st-r beat" role="img" aria-label="Statut Rouge"><b>R</b></i><span class="tag"><b>Diallo</b> 112<em>−27 %</em></span></div><div class="jy j-o" style="left:612px;top:350px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">10</span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="tag"><b>Ndiaye</b> 128</span></div><div class="jy j-o" style="left:258px;top:418px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">4</span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="tag"><b>Sarr</b> 119</span></div><div class="jy j-v" style="left:104px;top:296px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">1</span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="tag"><b>Faye</b> 71</span></div><div class="jy j-v" style="left:432px;top:452px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">9</span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="tag"><b>Gueye</b> 152</span></div><div class="bench" aria-label="Banc des remplaçants"><span class="bl">Banc</span><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">8</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Mbaye</b><small>146 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">3</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Kane</b><small>133 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">5</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Diop</b><small>139 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">11</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Sow</b><small>158 m/min</small></span></div><div class="bj j-a"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">15</em><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i></span><span class="t"><b>Fall</b><small>141 m/min</small></span></div></div><div class="lower" role="alert"><span class="lt-tag"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 10v5M12 18v.01"/></svg>Alerte</b><small>de décrochage</small></span><span class="lt-num">7</span><span class="lt-txt"><b>Ibou Diallo</b><small>Intensité −27 % sur 10 min · 112 m/min, réf. 154</small></span><span class="lt-big">−27<i>%</i></span></div></div><aside class="rail"><section class="card"><div class="ch"><h4>Intensité de l'Équipe</h4><span class="dl d-o">−5 %</span></div><div class="big"><b>136</b><span>m/min</span><span class="ref">Référence<br><strong>143</strong> m/min</span></div><div class="dist" role="img" aria-label="Répartition : 1 Rouge, 2 Orange, 6 Vert, 1 en apprentissage"><i class="x-r" style="flex:1"></i><i class="x-o" style="flex:2"></i><i class="x-v" style="flex:6"></i><i class="x-a" style="flex:1"></i></div><div class="cnt"><span><i class="st st-r" role="img" aria-label="Statut Rouge"><b>R</b></i>1</span><span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i>2</span><span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i>6</span><span><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i>1</span><em>−5 % vs réf.</em></div></section><section class="card"><div class="ch"><h4>Carte · 10 dernières min</h4><span class="aux">8′ → 18′</span></div><svg class="mm" viewBox="0 0 200 86" role="img" aria-label="Zones chaudes de l'Équipe sur les 10 dernières minutes et tracé GPS de n°7"><rect x="0" y="0" width="200" height="86" rx="6" fill="url(#mowL)"/><g><circle cx="141" cy="25" r="26" fill="url(#hR)"/><circle cx="118" cy="36" r="20" fill="url(#hO)"/><circle cx="160" cy="52" r="20" fill="url(#hO)" opacity=".75"/><circle cx="100" cy="58" r="24" fill="url(#hY)"/><circle cx="62" cy="46" r="18" fill="url(#hY)" opacity=".8"/><circle cx="34" cy="43" r="12" fill="url(#hY)" opacity=".6"/></g><g class="mm-lines"><rect x="5" y="5" width="190" height="76" rx="1.5"/><line x1="100" y1="5" x2="100" y2="81"/><circle cx="100" cy="43" r="11"/><path d="M5 26 A17 17 0 0 1 5 60"/><path d="M195 26 A17 17 0 0 0 195 60"/><circle cx="100" cy="43" r="1.2" class="fill"/></g><path class="mm-trace" d="M184 11 C174 20 164 9 152 17 S128 34 137 41 S160 35 151 27 S136 20 141 25"/><circle class="mm-start" cx="184" cy="11" r="2.2"/><g class="mm-end" transform="translate(141 25)"><circle r="6.5"/><text y="3">7</text></g></svg><p class="mm-leg"><i class="hz"></i>Zones chaudes <i class="tr"></i>Tracé GPS n°7</p></section><section class="card list"><div class="ch"><h4>Statuts</h4><span class="aux">plus critique en haut</span></div><ol><li class="rr r-r"><i class="st st-r beat" role="img" aria-label="Statut Rouge"><b>R</b></i><span class="num">7</span><span class="who">Ibou Diallo</span><span class="val"><b>112</b>/154</span><span class="dl d-r">−27 %</span></li><li class="rr r-o"><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="num">10</span><span class="who">Pape Ndiaye</span><span class="val"><b>128</b>/149</span><span class="dl d-o">−14 %</span></li><li class="rr r-o"><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="num">4</span><span class="who">Cheikh Sarr</span><span class="val"><b>119</b>/134</span><span class="dl d-o">−11 %</span></li><li class="rr r-v"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">1</span><span class="who">Serigne Faye</span><span class="val"><b>71</b>/74</span><span class="dl d-v">−4 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">8</span><span class="who">Alioune Mbaye</span><span class="val"><b>146</b>/150</span><span class="dl d-v">−3 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">3</span><span class="who">Babacar Kane</span><span class="val"><b>133</b>/135</span><span class="dl d-v">−1 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">5</span><span class="who">Lamine Diop</span><span class="val"><b>139</b>/138</span><span class="dl d-v">+1 %</span></li><li class="rr r-v"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">9</span><span class="who">Moussa Gueye</span><span class="val"><b>152</b>/148</span><span class="dl d-v">+3 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">11</span><span class="who">Omar Sow</span><span class="val"><b>158</b>/151</span><span class="dl d-v">+5 %</span></li><li class="rr r-a bn"><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i><span class="num">15</span><span class="who">Mamadou Fall</span><span class="learn">en apprentissage</span></li></ol></section></aside></div></div></div>
+<figcaption><b>1 · Clair · en direct</b>Thème par défaut (plein soleil). Ibou passe au Rouge : bandeau bas d'Alerte de décrochage, anneau rouge pulsant sur n°7, en tête de la liste des Statuts. n°15 « en apprentissage ».</figcaption></figure>
+
+<figure class="mock"><div class="device"><div class="frame"><div class="scr dk" data-live="1"><header class="bug"><span class="live"><i class="dot blink"></i>En direct</span><span class="crest">GY</span><span class="tn"><b>Grand-Yoff Five</b><small>Match · Five · Sacré-Cœur</small></span><span class="ck"><small>Chrono</small><b class="js-clock">18:42</b></span><span class="gl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 6v15h16V6l-4-3-2 2h-4L8 3Z"/><path d="M12 5v16"/></svg><b>10/10</b><small>Gilets<br>actifs</small></span><span class="fr"><i class="fresh"></i>À jour il y a <b class="js-fresh">2</b> s</span></header><div class="flagline" aria-hidden="true"></div><div class="field"><div class="pitch"></div><svg class="turf" viewBox="0 0 790 754" aria-hidden="true">
+<g class="lines"><rect x="40" y="24" width="710" height="542" rx="3"/><line x1="395" y1="24" x2="395" y2="566"/><circle cx="395" cy="295" r="62"/><circle cx="395" cy="295" r="4.5" class="fill"/>
+<path d="M40 175 A120 120 0 0 1 40 415"/><path d="M750 175 A120 120 0 0 0 750 415"/><circle cx="132" cy="295" r="3.8" class="fill"/><circle cx="658" cy="295" r="3.8" class="fill"/>
+<path d="M40 36 A12 12 0 0 0 52 24"/><path d="M738 24 A12 12 0 0 0 750 36"/><path d="M52 566 A12 12 0 0 0 40 554"/><path d="M750 554 A12 12 0 0 0 738 566"/></g>
+<rect class="goal" x="24" y="262" width="16" height="66" rx="2"/><rect class="goal" x="750" y="262" width="16" height="66" rx="2"/>
+<path class="trail" d="M82 254 C92 270 108 278 104 296"/><path class="trail" d="M206 382 C222 398 244 430 258 418"/>
+<path class="trail" d="M366 486 C392 492 414 440 432 452"/><path class="trail" d="M668 304 C648 326 630 366 612 350"/>
+<path class="gps-glow" d="M702 92 C668 122 640 84 610 114 S552 182 520 188 S560 150 548 168"/>
+<path class="gps" d="M702 92 C668 122 640 84 610 114 S552 182 520 188 S560 150 548 168"/>
+<circle class="gps-tail" cx="702" cy="92" r="4"/>
+</svg><div class="jy j-r alert" style="left:548px;top:168px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">7</span><i class="st st-r beat" role="img" aria-label="Statut Rouge"><b>R</b></i><span class="tag"><b>Diallo</b> 112<em>−27 %</em></span></div><div class="jy j-o" style="left:612px;top:350px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">10</span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="tag"><b>Ndiaye</b> 128</span></div><div class="jy j-o" style="left:258px;top:418px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">4</span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="tag"><b>Sarr</b> 119</span></div><div class="jy j-v" style="left:104px;top:296px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">1</span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="tag"><b>Faye</b> 71</span></div><div class="jy j-v" style="left:432px;top:452px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">9</span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="tag"><b>Gueye</b> 152</span></div><div class="bench" aria-label="Banc des remplaçants"><span class="bl">Banc</span><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">8</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Mbaye</b><small>146 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">3</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Kane</b><small>133 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">5</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Diop</b><small>139 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">11</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Sow</b><small>158 m/min</small></span></div><div class="bj j-a"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">15</em><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i></span><span class="t"><b>Fall</b><small>141 m/min</small></span></div></div><div class="lower" role="alert"><span class="lt-tag"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 10v5M12 18v.01"/></svg>Alerte</b><small>de décrochage</small></span><span class="lt-num">7</span><span class="lt-txt"><b>Ibou Diallo</b><small>Intensité −27 % sur 10 min · 112 m/min, réf. 154</small></span><span class="lt-big">−27<i>%</i></span></div></div><aside class="rail"><section class="card"><div class="ch"><h4>Intensité de l'Équipe</h4><span class="dl d-o">−5 %</span></div><div class="big"><b>136</b><span>m/min</span><span class="ref">Référence<br><strong>143</strong> m/min</span></div><div class="dist" role="img" aria-label="Répartition : 1 Rouge, 2 Orange, 6 Vert, 1 en apprentissage"><i class="x-r" style="flex:1"></i><i class="x-o" style="flex:2"></i><i class="x-v" style="flex:6"></i><i class="x-a" style="flex:1"></i></div><div class="cnt"><span><i class="st st-r" role="img" aria-label="Statut Rouge"><b>R</b></i>1</span><span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i>2</span><span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i>6</span><span><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i>1</span><em>−5 % vs réf.</em></div></section><section class="card"><div class="ch"><h4>Carte · 10 dernières min</h4><span class="aux">8′ → 18′</span></div><svg class="mm" viewBox="0 0 200 86" role="img" aria-label="Zones chaudes de l'Équipe sur les 10 dernières minutes et tracé GPS de n°7"><rect x="0" y="0" width="200" height="86" rx="6" fill="url(#mowD)"/><g><circle cx="141" cy="25" r="26" fill="url(#hR)"/><circle cx="118" cy="36" r="20" fill="url(#hO)"/><circle cx="160" cy="52" r="20" fill="url(#hO)" opacity=".75"/><circle cx="100" cy="58" r="24" fill="url(#hY)"/><circle cx="62" cy="46" r="18" fill="url(#hY)" opacity=".8"/><circle cx="34" cy="43" r="12" fill="url(#hY)" opacity=".6"/></g><g class="mm-lines"><rect x="5" y="5" width="190" height="76" rx="1.5"/><line x1="100" y1="5" x2="100" y2="81"/><circle cx="100" cy="43" r="11"/><path d="M5 26 A17 17 0 0 1 5 60"/><path d="M195 26 A17 17 0 0 0 195 60"/><circle cx="100" cy="43" r="1.2" class="fill"/></g><path class="mm-trace" d="M184 11 C174 20 164 9 152 17 S128 34 137 41 S160 35 151 27 S136 20 141 25"/><circle class="mm-start" cx="184" cy="11" r="2.2"/><g class="mm-end" transform="translate(141 25)"><circle r="6.5"/><text y="3">7</text></g></svg><p class="mm-leg"><i class="hz"></i>Zones chaudes <i class="tr"></i>Tracé GPS n°7</p></section><section class="card list"><div class="ch"><h4>Statuts</h4><span class="aux">plus critique en haut</span></div><ol><li class="rr r-r"><i class="st st-r beat" role="img" aria-label="Statut Rouge"><b>R</b></i><span class="num">7</span><span class="who">Ibou Diallo</span><span class="val"><b>112</b>/154</span><span class="dl d-r">−27 %</span></li><li class="rr r-o"><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="num">10</span><span class="who">Pape Ndiaye</span><span class="val"><b>128</b>/149</span><span class="dl d-o">−14 %</span></li><li class="rr r-o"><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="num">4</span><span class="who">Cheikh Sarr</span><span class="val"><b>119</b>/134</span><span class="dl d-o">−11 %</span></li><li class="rr r-v"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">1</span><span class="who">Serigne Faye</span><span class="val"><b>71</b>/74</span><span class="dl d-v">−4 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">8</span><span class="who">Alioune Mbaye</span><span class="val"><b>146</b>/150</span><span class="dl d-v">−3 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">3</span><span class="who">Babacar Kane</span><span class="val"><b>133</b>/135</span><span class="dl d-v">−1 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">5</span><span class="who">Lamine Diop</span><span class="val"><b>139</b>/138</span><span class="dl d-v">+1 %</span></li><li class="rr r-v"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">9</span><span class="who">Moussa Gueye</span><span class="val"><b>152</b>/148</span><span class="dl d-v">+3 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">11</span><span class="who">Omar Sow</span><span class="val"><b>158</b>/151</span><span class="dl d-v">+5 %</span></li><li class="rr r-a bn"><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i><span class="num">15</span><span class="who">Mamadou Fall</span><span class="learn">en apprentissage</span></li></ol></section></aside></div></div></div>
+<figcaption><b>2 · Sombre · en direct</b>Match de nuit : pelouse sous projecteurs, craie légèrement lumineuse, mêmes informations, même hiérarchie.</figcaption></figure>
+
+<figure class="mock"><div class="device"><div class="frame"><div class="scr lt off"><header class="bug"><span class="live off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0M5.5 12a10 10 0 0 1 13 0M9 15.5a5 5 0 0 1 6 0M12 19v.01M3 3l18 18"/></svg>Hors ligne</span><span class="crest">GY</span><span class="tn"><b>Grand-Yoff Five</b><small>Match · Five · Sacré-Cœur</small></span><span class="ck"><small>Chrono</small><b class="">24:51</b></span><span class="gl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 6v15h16V6l-4-3-2 2h-4L8 3Z"/><path d="M12 5v16"/></svg><b>10/10</b><small>Gilets<br>actifs</small></span><span class="fr stale"><i class="fresh"></i>Données à jour à 21:07</span></header><div class="flagline" aria-hidden="true"></div><div class="field"><div class="pitch"></div><svg class="turf" viewBox="0 0 790 754" aria-hidden="true">
+<g class="lines"><rect x="40" y="24" width="710" height="542" rx="3"/><line x1="395" y1="24" x2="395" y2="566"/><circle cx="395" cy="295" r="62"/><circle cx="395" cy="295" r="4.5" class="fill"/>
+<path d="M40 175 A120 120 0 0 1 40 415"/><path d="M750 175 A120 120 0 0 0 750 415"/><circle cx="132" cy="295" r="3.8" class="fill"/><circle cx="658" cy="295" r="3.8" class="fill"/>
+<path d="M40 36 A12 12 0 0 0 52 24"/><path d="M738 24 A12 12 0 0 0 750 36"/><path d="M52 566 A12 12 0 0 0 40 554"/><path d="M750 554 A12 12 0 0 0 738 566"/></g>
+<rect class="goal" x="24" y="262" width="16" height="66" rx="2"/><rect class="goal" x="750" y="262" width="16" height="66" rx="2"/>
+<path class="trail" d="M82 254 C92 270 108 278 104 296"/><path class="trail" d="M206 382 C222 398 244 430 258 418"/>
+<path class="trail" d="M366 486 C392 492 414 440 432 452"/><path class="trail" d="M668 304 C648 326 630 366 612 350"/>
+<path class="gps-glow" d="M702 92 C668 122 640 84 610 114 S552 182 520 188 S560 150 548 168"/>
+<path class="gps" d="M702 92 C668 122 640 84 610 114 S552 182 520 188 S560 150 548 168"/>
+<circle class="gps-tail" cx="702" cy="92" r="4"/>
+</svg><div class="chalkban"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><span><b>Positions et Statuts figés à 21:07</b> · dernier état connu</span></div><div class="jy j-r" style="left:548px;top:168px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">7</span><i class="st st-r" role="img" aria-label="Statut Rouge"><b>R</b></i><span class="tag"><b>Diallo</b> 112<em>−27 %</em></span></div><div class="jy j-o" style="left:612px;top:350px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">10</span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="tag"><b>Ndiaye</b> 128</span></div><div class="jy j-o" style="left:258px;top:418px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">4</span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="tag"><b>Sarr</b> 119</span></div><div class="jy j-v" style="left:104px;top:296px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">1</span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="tag"><b>Faye</b> 71</span></div><div class="jy j-v" style="left:432px;top:452px"><span class="gs"></span><span class="ring"></span><svg class="shirt" viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><span class="jn">9</span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="tag"><b>Gueye</b> 152</span></div><div class="bench" aria-label="Banc des remplaçants"><span class="bl">Banc</span><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">8</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Mbaye</b><small>146 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">3</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Kane</b><small>133 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">5</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Diop</b><small>139 m/min</small></span></div><div class="bj j-v"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">11</em><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i></span><span class="t"><b>Sow</b><small>158 m/min</small></span></div><div class="bj j-a"><span class="mini"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#jersey"/></svg><em class="n">15</em><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i></span><span class="t"><b>Fall</b><small>141 m/min</small></span></div></div><div class="tick" role="status"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0M5.5 12a10 10 0 0 1 13 0M9 15.5a5 5 0 0 1 6 0M12 19v.01M3 3l18 18"/></svg>Hors ligne</b><span class="mq"><span>Données à jour à 21:07 · Positions et Statuts figés · Les Gilets continuent d'enregistrer · Synchronisation automatique après la Séance · Données à jour à 21:07 · Positions et Statuts figés · Les Gilets continuent d'enregistrer · Synchronisation automatique après la Séance · </span></span></div></div><aside class="rail"><section class="card"><div class="ch"><h4>Intensité de l'Équipe</h4><span class="frozen"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>21:07</span></div><div class="big"><b>136</b><span>m/min</span><span class="ref">Référence<br><strong>143</strong> m/min</span></div><div class="dist" role="img" aria-label="Répartition : 1 Rouge, 2 Orange, 6 Vert, 1 en apprentissage"><i class="x-r" style="flex:1"></i><i class="x-o" style="flex:2"></i><i class="x-v" style="flex:6"></i><i class="x-a" style="flex:1"></i></div><div class="cnt"><span><i class="st st-r" role="img" aria-label="Statut Rouge"><b>R</b></i>1</span><span><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i>2</span><span><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i>6</span><span><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i>1</span><em></em></div></section><section class="card"><div class="ch"><h4>Carte · 10 dernières min</h4><span class="aux">14′ → 24′</span></div><svg class="mm" viewBox="0 0 200 86" role="img" aria-label="Zones chaudes de l'Équipe sur les 10 dernières minutes et tracé GPS de n°7"><rect x="0" y="0" width="200" height="86" rx="6" fill="url(#mowL)"/><g><circle cx="141" cy="25" r="26" fill="url(#hR)"/><circle cx="118" cy="36" r="20" fill="url(#hO)"/><circle cx="160" cy="52" r="20" fill="url(#hO)" opacity=".75"/><circle cx="100" cy="58" r="24" fill="url(#hY)"/><circle cx="62" cy="46" r="18" fill="url(#hY)" opacity=".8"/><circle cx="34" cy="43" r="12" fill="url(#hY)" opacity=".6"/></g><g class="mm-lines"><rect x="5" y="5" width="190" height="76" rx="1.5"/><line x1="100" y1="5" x2="100" y2="81"/><circle cx="100" cy="43" r="11"/><path d="M5 26 A17 17 0 0 1 5 60"/><path d="M195 26 A17 17 0 0 0 195 60"/><circle cx="100" cy="43" r="1.2" class="fill"/></g><path class="mm-trace" d="M184 11 C174 20 164 9 152 17 S128 34 137 41 S160 35 151 27 S136 20 141 25"/><circle class="mm-start" cx="184" cy="11" r="2.2"/><g class="mm-end" transform="translate(141 25)"><circle r="6.5"/><text y="3">7</text></g></svg><p class="mm-leg"><i class="hz"></i>Zones chaudes <i class="tr"></i>Tracé GPS n°7</p></section><section class="card list"><div class="ch"><h4>Statuts</h4><span class="frozen"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>Figés à 21:07</span></div><ol><li class="rr r-r"><i class="st st-r" role="img" aria-label="Statut Rouge"><b>R</b></i><span class="num">7</span><span class="who">Ibou Diallo</span><span class="val"><b>112</b>/154</span><span class="dl d-r">−27 %</span></li><li class="rr r-o"><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="num">10</span><span class="who">Pape Ndiaye</span><span class="val"><b>128</b>/149</span><span class="dl d-o">−14 %</span></li><li class="rr r-o"><i class="st st-o" role="img" aria-label="Statut Orange"><b>O</b></i><span class="num">4</span><span class="who">Cheikh Sarr</span><span class="val"><b>119</b>/134</span><span class="dl d-o">−11 %</span></li><li class="rr r-v"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">1</span><span class="who">Serigne Faye</span><span class="val"><b>71</b>/74</span><span class="dl d-v">−4 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">8</span><span class="who">Alioune Mbaye</span><span class="val"><b>146</b>/150</span><span class="dl d-v">−3 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">3</span><span class="who">Babacar Kane</span><span class="val"><b>133</b>/135</span><span class="dl d-v">−1 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">5</span><span class="who">Lamine Diop</span><span class="val"><b>139</b>/138</span><span class="dl d-v">+1 %</span></li><li class="rr r-v"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">9</span><span class="who">Moussa Gueye</span><span class="val"><b>152</b>/148</span><span class="dl d-v">+3 %</span></li><li class="rr r-v bn"><i class="st st-v" role="img" aria-label="Statut Vert"><b>V</b></i><span class="num">11</span><span class="who">Omar Sow</span><span class="val"><b>158</b>/151</span><span class="dl d-v">+5 %</span></li><li class="rr r-a bn"><i class="st st-a" role="img" aria-label="Statut En apprentissage"><b>A</b></i><span class="num">15</span><span class="who">Mamadou Fall</span><span class="learn">en apprentissage</span></li></ol></section></aside></div></div></div>
+<figcaption><b>3 · Clair · hors ligne</b>« Hors ligne, données à jour à 21:07 » : positions et Statuts figés et désaturés, bandeau défilant jaune à la place de l'alerte ; le chrono local continue.</figcaption></figure>
+
+<h2>Jeu de tokens fusionné</h2>
+<p class="sub">Une seule palette pour les trois couches (terrain, habillage, cartes). Chaque pastille montre la valeur claire à gauche, sombre à droite. Base de travail pour DESIGN.md.</p>
+<div class="tok-group"><h3>Terrain</h3><ul class="toks"><li><span class="sw2"><i style="background:#12753f"></i><i style="background:#0c2d1b"></i></span><div><b>Pelouse A</b><code>--pa · #12753f / #0c2d1b</code></div></li><li><span class="sw2"><i style="background:#0f6b3a"></i><i style="background:#0a2617"></i></span><div><b>Pelouse B</b><code>--pb · #0f6b3a / #0a2617</code></div></li><li><span class="sw2"><i style="background:#ffffff"></i><i style="background:#dff0e4"></i></span><div><b>Craie</b><code>--chalk · #ffffff / #dff0e4</code></div></li><li><span class="sw2"><i style="background:#fdef42"></i><i style="background:#fdef42"></i></span><div><b>Tracé GPS</b><code>--gps · #fdef42</code></div></li><li><span class="sw2"><i style="background:#fffcf3"></i><i style="background:#f1eee4"></i></span><div><b>Maillot</b><code>--jersey · #fffcf3 / #f1eee4</code></div></li></ul></div><div class="tok-group"><h3>Marque · drapeau</h3><ul class="toks"><li><span class="sw2"><i style="background:#00853f"></i><i style="background:#00853f"></i></span><div><b>Vert Sénégal</b><code>--senegal · #00853f</code></div></li><li><span class="sw2"><i style="background:#e2c400"></i><i style="background:#e2c400"></i></span><div><b>Jaune drapeau</b><code>--flag-yellow · #e2c400</code></div></li><li><span class="sw2"><i style="background:#c8161e"></i><i style="background:#c8161e"></i></span><div><b>Rouge drapeau</b><code>--flag-red · #c8161e</code></div></li></ul></div><div class="tok-group"><h3>Habillage broadcast</h3><ul class="toks"><li><span class="sw2"><i style="background:#0d0f0e"></i><i style="background:#151a17"></i></span><div><b>Dalle</b><code>--slab · #0d0f0e / #151a17</code></div></li><li><span class="sw2"><i style="background:#ffd60a"></i><i style="background:#fdef42"></i></span><div><b>Jaune habillage</b><code>--y · #ffd60a / #fdef42</code></div></li><li><span class="sw2"><i style="background:#c8161e"></i><i style="background:#c8161e"></i></span><div><b>En direct</b><code>--live · #c8161e</code></div></li><li><span class="sw2"><i style="background:#5d6560"></i><i style="background:#5d6560"></i></span><div><b>Hors ligne</b><code>--offline · #5d6560</code></div></li></ul></div><div class="tok-group"><h3>Surfaces et encre</h3><ul class="toks"><li><span class="sw2"><i style="background:#f3efe3"></i><i style="background:#0a120e"></i></span><div><b>Fond</b><code>--bg · #f3efe3 / #0a120e</code></div></li><li><span class="sw2"><i style="background:#fffcf3"></i><i style="background:#121e18"></i></span><div><b>Carte</b><code>--card · #fffcf3 / #121e18</code></div></li><li><span class="sw2"><i style="background:#ece6d4"></i><i style="background:#1c2b23"></i></span><div><b>Puce</b><code>--chip · #ece6d4 / #1c2b23</code></div></li><li><span class="sw2"><i style="background:#e0d9c5"></i><i style="background:#24382c"></i></span><div><b>Filet</b><code>--line · #e0d9c5 / #24382c</code></div></li><li><span class="sw2"><i style="background:#14201a"></i><i style="background:#ecf2ea"></i></span><div><b>Encre</b><code>--ink · #14201a / #ecf2ea</code></div></li><li><span class="sw2"><i style="background:#4d5a52"></i><i style="background:#a3b3a9"></i></span><div><b>Secondaire</b><code>--mut · #4d5a52 / #a3b3a9</code></div></li></ul></div><div class="tok-group"><h3>Statuts (couleur + forme + lettre)</h3><ul class="toks"><li><span class="sw2"><i style="background:#00853f"></i><i style="background:#36c574"></i></span><div><b>Vert · rond</b><code>--sv · #00853f / #36c574</code></div></li><li><span class="sw2"><i style="background:#b85a00"></i><i style="background:#ffa23a"></i></span><div><b>Orange · triangle</b><code>--so · #b85a00 / #ffa23a</code></div></li><li><span class="sw2"><i style="background:#c8161e"></i><i style="background:#ff4d55"></i></span><div><b>Rouge · octogone</b><code>--sr · #c8161e / #ff4d55</code></div></li><li><span class="sw2"><i style="background:#6b746f"></i><i style="background:#8d9992"></i></span><div><b>Apprentissage · pointillé</b><code>--sa · #6b746f / #8d9992</code></div></li><li><span class="sw2"><i style="background:#00713a"></i><i style="background:#5fe09a"></i></span><div><b>Texte vert</b><code>--tv · #00713a / #5fe09a</code></div></li><li><span class="sw2"><i style="background:#8a4300"></i><i style="background:#ffb866"></i></span><div><b>Texte orange</b><code>--to · #8a4300 / #ffb866</code></div></li><li><span class="sw2"><i style="background:#fdeceb"></i><i style="background:#2a1416"></i></span><div><b>Fond rouge</b><code>--rbg · #fdeceb / #2a1416</code></div></li><li><span class="sw2"><i style="background:#fff1df"></i><i style="background:#2a1f10"></i></span><div><b>Fond orange</b><code>--obg · #fff1df / #2a1f10</code></div></li></ul></div>
+<div class="tok-group"><h3>Typographie</h3><div class="typo">
+<div><p style="font-weight:900;font-size:30px;font-stretch:76%;text-transform:uppercase;line-height:1">Grand-Yoff Five</p><small>Archivo 900 · largeur 76 % · habillage, chrono, bandeaux</small></div>
+<div><p style="font-weight:800;font-size:22px;line-height:1.1">Ibou Diallo · 112 m/min</p><small>Archivo 700-900 · largeur 100 % · noms, valeurs, cartes</small></div>
+<div><p style="font:700 15px var(--mono);text-transform:uppercase;letter-spacing:.08em">Carte · 10 dernières min</p><small>JetBrains Mono 500-800 · étiquettes, références, deltas</small></div>
+</div></div>
+
+<footer class="foot"><p>Écran natif 1180×820 (tablette à l'horizontale), mis à l'échelle de la page. Plus petit texte : 13 px à taille native. Statut toujours doublé par une forme et une lettre. Animations (pulsation du Rouge, glissement du bandeau, marche du tracé GPS, point de fraîcheur, défilement hors ligne) coupées si « réduire les animations » est activé.</p></footer>
+</div>
+<script>
+(function(){
+  var r=document.documentElement,b=document.getElementById('tt'),m=['auto','light','dark'],n={auto:'auto',light:'clair',dark:'sombre'},i=0;
+  try{var s=localStorage.getItem('tt');if(s&&m.indexOf(s)>-1)i=m.indexOf(s);}catch(e){}
+  function ap(){var t=m[i];if(t==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',t);b.textContent='Thème : '+n[t];}
+  ap();b.addEventListener('click',function(){i=(i+1)%3;ap();try{localStorage.setItem('tt',m[i]);}catch(e){}});
+  var fs=[].slice.call(document.querySelectorAll('.frame'));
+  function fit(){fs.forEach(function(f){f.firstElementChild.style.setProperty('--s',f.clientWidth/1180);});}
+  fit();window.addEventListener('resize',fit);
+  if(window.ResizeObserver){var ro=new ResizeObserver(fit);fs.forEach(function(f){ro.observe(f);});}
+  var lives=[].slice.call(document.querySelectorAll('.scr[data-live]'));
+  lives.forEach(function(sc){
+    var ck=sc.querySelector('.js-clock'),fr=sc.querySelector('.js-fresh');
+    var p=ck.textContent.split(':'),t=(+p[0])*60+(+p[1]),f=+fr.textContent;
+    setInterval(function(){
+      t++;ck.textContent=String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
+      f=f>=5?1:f+1;fr.textContent=f;
+    },1000);
+  });
+})();
+</script>
+</body>
+</html>
