@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brainstorm El TacTiko</title>
+<meta name="description" content="Souvenir de la séance de brainstorming du 11 octobre 2026 : naissance d'El TacTiko, plateforme d'analyse de performance pour les clubs de Ligue 1 et Ligue 2 sénégalaises.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3efe3; --surface:#fffcf3; --surface-2:#ece6d4; --ink:#14201a; --muted:#56655b; --line:#d6cfba;
+  --pitch:#0f6b3a; --pitch-2:#0b5a30; --chalk:#ffffff; --chalk-dim:rgba(255,255,255,.55);
+  --green:#00853f; --yellow:#e2c400; --yellow-ink:#7a6400; --red:#c8161e;
+  --user:#e2c400; --user-bg:#fff5b8; --user-ink:#4a3d00;
+  --coach:#0f6b3a; --coach-bg:#e1efe5;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px -12px rgba(20,32,26,.25);
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a120e; --surface:#111d17; --surface-2:#18281f; --ink:#ecf2ea; --muted:#98ab9e; --line:#24382c;
+    --pitch:#0d3b23; --pitch-2:#0a311d; --chalk:#e9f5ec; --chalk-dim:rgba(233,245,236,.45);
+    --green:#36c574; --yellow:#fdef42; --yellow-ink:#fdef42; --red:#ff5d62;
+    --user:#fdef42; --user-bg:#2e2a08; --user-ink:#fff6a6;
+    --coach:#36c574; --coach-bg:#11301f;
+    --shadow:0 1px 0 rgba(255,255,255,.03),0 10px 30px -14px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+    --bg:#0a120e; --surface:#111d17; --surface-2:#18281f; --ink:#ecf2ea; --muted:#98ab9e; --line:#24382c;
+    --pitch:#0d3b23; --pitch-2:#0a311d; --chalk:#e9f5ec; --chalk-dim:rgba(233,245,236,.45);
+    --green:#36c574; --yellow:#fdef42; --yellow-ink:#fdef42; --red:#ff5d62;
+    --user:#fdef42; --user-bg:#2e2a08; --user-ink:#fff6a6;
+    --coach:#36c574; --coach-bg:#11301f;
+    --shadow:0 1px 0 rgba(255,255,255,.03),0 10px 30px -14px rgba(0,0,0,.8);
+    color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;font-size:16px;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+h1,h2,h3{line-height:1.05;margin:0;overflow-wrap:anywhere}
+p{margin:0 0 .8em}
+button{font:inherit;color:inherit}
+.flag{height:6px;background:linear-gradient(90deg,var(--green) 0 33.3%,var(--yellow) 33.3% 66.6%,var(--red) 66.6%)}
+.mono{font-family:var(--mono)}
+
+/* top bar */
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.theme-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;cursor:pointer;font-family:var(--mono);font-size:12px}
+
+/* hero */
+.hero{position:relative;background:var(--pitch);color:var(--chalk);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:28px}
+.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 9%,rgba(255,255,255,.035) 9% 18%);pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.1fr 1fr;gap:24px;padding:36px 32px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--chalk-dim)}
+.hero h1{font-size:clamp(44px,8vw,92px);font-weight:900;letter-spacing:-.03em;margin:10px 0 6px}
+.hero h1 .el{color:var(--yellow);display:block;font-size:.42em;letter-spacing:.02em;font-weight:700}
+.hero .lede{font-size:17px;max-width:46ch;color:var(--chalk)}
+.hero svg{width:100%;height:auto;display:block}
+.trace{fill:none;stroke:var(--yellow);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 6s ease-out .3s forwards}
+.trace.t2{stroke:#ff8b8f;stroke-width:1.6;animation-delay:1.2s;opacity:.85}
+@keyframes draw{to{stroke-dashoffset:0}}
+.dot-live{animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.score{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid rgba(255,255,255,.15);position:relative}
+.score div{padding:14px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.12)}
+.score div:last-child{border-right:0}
+.score b{display:block;font-size:28px;font-weight:900;font-variant-numeric:tabular-nums}
+.score span{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--chalk-dim)}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:14px;color:var(--muted);margin:0 0 28px}
+.arm{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 5px;border-radius:5px;background:var(--user);color:#1a1600;font-family:var(--mono);font-weight:700;font-size:11px;flex:none}
+.wh{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--coach);color:var(--coach);font-size:10px;flex:none;font-family:var(--mono);font-weight:700}
+
+/* brief / captain */
+.captain{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;margin-bottom:40px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.card.user{background:var(--user-bg);border-color:var(--user);color:var(--user-ink)}
+.card.user .muted{color:var(--user-ink);opacity:.8}
+.card h3{font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.muted{color:var(--muted)}
+.card ul{margin:0;padding-left:18px}
+.card li{margin:4px 0}
+
+/* section heads */
+section.tech{margin:64px 0}
+.sh{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:end;margin-bottom:22px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.sh .min{font-family:var(--mono);font-size:44px;font-weight:600;color:var(--green);line-height:1;grid-row:span 2}
+.sh h2{font-size:clamp(28px,4.5vw,44px);font-weight:900;letter-spacing:-.02em}
+.sh p{margin:0;color:var(--muted);font-size:15px}
+
+/* starburst */
+.star-wrap{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:24px;align-items:start}
+.star svg{width:100%;height:auto;display:block}
+.spoke{cursor:pointer}
+.spoke circle{fill:var(--surface);stroke:var(--green);stroke-width:2;transition:all .2s}
+.spoke text{fill:var(--ink);font-family:var(--sans);font-weight:700;font-size:15px;text-anchor:middle;pointer-events:none}
+.spoke .cnt{font-family:var(--mono);font-size:11px;fill:var(--muted);font-weight:400}
+.spoke.on circle{fill:var(--green);stroke:var(--green)}
+.spoke.on text{fill:#fff}
+.spoke.on .cnt{fill:rgba(255,255,255,.8)}
+.spoke:focus{outline:none}
+.spoke:focus-visible circle{stroke:var(--yellow);stroke-width:4}
+.ray{stroke:var(--line);stroke-width:2}
+.ray.on{stroke:var(--green);stroke-width:3}
+.qpanel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 18px 8px;box-shadow:var(--shadow);min-height:260px}
+.qpanel h3{font-size:30px;font-weight:900;margin-bottom:4px}
+.qbar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:8px 0 14px;background:var(--surface-2)}
+.qbar i{display:block;background:var(--user)}
+.qbar i+i{background:var(--green)}
+ol.qs{list-style:none;margin:0;padding:0}
+ol.qs li{display:flex;gap:10px;padding:9px 0;border-top:1px dashed var(--line);font-size:15px}
+ol.qs li.u{font-weight:600}
+ol.qs li.u .t{background:linear-gradient(transparent 60%,var(--user-bg) 60%)}
+
+/* persona */
+.persona-wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+.pitch svg{width:100%;height:auto;display:block;border-radius:16px}
+.pm{cursor:pointer}
+.pm circle.halo{fill:var(--yellow);opacity:0;transition:opacity .2s}
+.pm.on circle.halo{opacity:.35}
+.pm:focus{outline:none}
+.pm:focus-visible circle.core{stroke:var(--yellow);stroke-width:4}
+.ptabs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.ptab{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:14px}
+.ptab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.pcard .who{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.jersey{width:54px;height:54px;border-radius:12px;display:grid;place-items:center;font-weight:900;font-size:22px;color:#fff;background:var(--green);flex:none}
+.pcard h3{font-size:22px}
+.ideas{list-style:none;margin:0;padding:0;counter-reset:i}
+.ideas li{counter-increment:i;display:grid;grid-template-columns:28px 1fr;gap:8px;padding:8px 0;border-top:1px solid var(--line);font-size:15px}
+.ideas li::before{content:counter(i,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
+
+/* morpho */
+.morph{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+.morph table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+.morph th,.morph td{padding:12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.morph th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);width:150px}
+.cell{display:inline-block;padding:4px 9px;border-radius:8px;border:1px solid var(--line);margin:2px 4px 2px 0}
+.cell.pick{background:var(--green);color:#fff;border-color:var(--green);font-weight:700}
+.cell.x{text-decoration:line-through;color:var(--muted)}
+.cell.opt{border-style:dashed}
+.decs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px;margin:18px 0}
+.dec{position:relative;padding:16px;border-radius:14px;background:var(--user-bg);border:1.5px solid var(--user);color:var(--user-ink);font-size:14.5px}
+.dec .step{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.dec.struck p{text-decoration:line-through;opacity:.65}
+.flow{background:var(--pitch);border-radius:16px;padding:16px;margin:18px 0;color:var(--chalk)}
+.flow svg{width:100%;height:auto;display:block}
+.flow text{fill:var(--chalk);font-family:var(--sans);font-size:13px}
+.flow .lbl{font-family:var(--mono);font-size:10.5px;fill:var(--chalk-dim)}
+.sub{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px}
+.gw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.gw .card{padding:16px;font-size:14.5px}
+.gw .n{font-family:var(--mono);font-weight:700;color:var(--green);font-size:12px;letter-spacing:.06em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;flex:1 1 260px;max-width:100%}
+.chip b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:3px;font-weight:600}
+
+/* constraints */
+.cons{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:12px}
+.con{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;box-shadow:var(--shadow);overflow:hidden}
+.con .no{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.con h4{margin:4px 0 8px;font-size:16px;line-height:1.2}
+.con p{font-size:14px;margin:0;color:var(--muted)}
+.con .atout{display:block;margin-top:8px;font-size:13.5px;color:var(--ink);border-left:3px solid var(--yellow);padding-left:8px}
+.stamp{position:absolute;top:12px;right:-30px;transform:rotate(35deg);background:var(--green);color:#fff;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;padding:3px 34px;font-weight:700}
+.validated{display:flex;gap:10px;align-items:center;margin:0 0 16px;padding:12px 14px;border-radius:12px;background:var(--user-bg);border:1.5px solid var(--user);color:var(--user-ink);font-size:15px}
+
+/* naming */
+.names{position:relative;display:grid;gap:14px}
+.nstage{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:start;position:relative}
+.nstage .lab{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-top:8px;text-align:right}
+.nstage .body{border-left:2px dashed var(--line);padding:4px 0 14px 18px;position:relative}
+.nstage .body::before{content:"";position:absolute;left:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--green)}
+.nstage.u .body::before{background:var(--user);border-color:var(--user)}
+.ntag{display:inline-block;margin:3px 4px 3px 0;padding:5px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:14px}
+.ntag small{color:var(--muted)}
+.ntag.fav{background:var(--user-bg);border-color:var(--user);color:var(--user-ink);font-weight:700}
+.ntag.gone{text-decoration:line-through;color:var(--muted)}
+.final{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--pitch);color:var(--chalk);border-radius:18px;padding:22px 24px;margin-top:6px}
+.final .big{font-size:clamp(40px,7vw,72px);font-weight:900;letter-spacing:-.03em;line-height:1}
+.final .big em{font-style:normal;color:var(--yellow)}
+.net{width:72px;height:56px;flex:none}
+
+/* reverse */
+.rev-tools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:999px;padding:8px 14px;cursor:pointer;font-size:14px;font-weight:600}
+.rev{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
+.flip{perspective:900px;border:0;background:none;padding:0;cursor:pointer;text-align:left;min-height:178px;display:block;width:100%}
+.flip .in{position:relative;width:100%;height:100%;min-height:178px;transition:transform .55s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;gap:8px;font-size:14.5px;overflow:auto}
+.face .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between}
+.fail{background:var(--surface);border:1.5px solid var(--red);color:var(--ink)}
+.fail .k{color:var(--red)}
+.fix{background:var(--green);color:#fff;transform:rotateY(180deg)}
+.fix .k{color:rgba(255,255,255,.8)}
+@media (prefers-reduced-motion:reduce){.flip .in{transition:none}.trace{animation:none;stroke-dashoffset:0}.dot-live{animation:none}}
+
+/* failure analysis */
+.refs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.ref{display:grid;grid-template-columns:44px 1fr;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.rc{width:44px;height:62px;border-radius:6px;transform:rotate(-8deg);box-shadow:0 4px 10px -4px rgba(0,0,0,.4)}
+.rc.red{background:var(--red)}.rc.green{background:var(--green)}.rc.yellow{background:var(--yellow)}
+.ref h4{margin:0 0 4px;font-size:16px}
+.ref .why{font-size:14px;color:var(--muted);margin:0 0 8px}
+.ref .lesson{font-size:14.5px;font-weight:600}
+.ref .lesson::before{content:"→ ";color:var(--green)}
+
+/* convergence */
+.board{background:var(--pitch);border-radius:18px;padding:20px;color:var(--chalk);position:relative;overflow:hidden}
+.board::after{content:"";position:absolute;left:50%;top:-60px;bottom:-60px;width:2px;background:rgba(255,255,255,.12)}
+.mags{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:16px}
+.mag{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:18px;background:var(--chalk);color:var(--pitch);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.lanes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:1}
+.lane{border:1.5px dashed rgba(255,255,255,.3);border-radius:12px;padding:12px;min-height:120px}
+.lane h4{margin:0 0 4px;font-size:15px}
+.lane .m{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--chalk-dim)}
+.lane.must{border-color:var(--yellow);background:rgba(253,239,66,.08)}
+.token{margin-top:12px;background:var(--yellow);color:#1a1600;border-radius:10px;padding:10px;font-weight:700;font-size:14px;display:flex;gap:8px;align-items:flex-start;box-shadow:0 4px 0 rgba(0,0,0,.25);animation:arrive 1.2s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes arrive{from{transform:translateX(160%) rotate(6deg);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.token{animation:none}}
+.note{font-size:13px;color:var(--chalk-dim);margin:14px 0 0;position:relative;z-index:1}
+
+/* synthesis climax */
+.climax{margin:80px 0 40px;background:radial-gradient(120% 80% at 50% 0%,var(--pitch) 0%,var(--pitch-2) 60%,#05150c 100%);color:var(--chalk);border-radius:26px;padding:44px 28px 32px;position:relative;overflow:hidden}
+.climax::before,.climax::after{content:"";position:absolute;top:-80px;width:240px;height:320px;background:radial-gradient(closest-side,rgba(255,255,230,.22),transparent);pointer-events:none}
+.climax::before{left:-60px;transform:rotate(-20deg)}.climax::after{right:-60px;transform:rotate(20deg)}
+.climax .kicker{text-align:center}
+.climax h2{text-align:center;font-size:clamp(34px,6vw,62px);font-weight:900;letter-spacing:-.03em;margin:8px 0 6px}
+.climax .lede{text-align:center;color:var(--chalk-dim);max-width:52ch;margin:0 auto 30px}
+.ins{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;position:relative;z-index:1}
+.insc{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:20px;backdrop-filter:blur(2px)}
+.insc .no{font-family:var(--mono);font-size:44px;font-weight:600;line-height:1;color:var(--yellow)}
+.insc h3{font-size:19px;margin:10px 0 8px;line-height:1.2}
+.insc p{font-size:15px;margin:0;color:rgba(255,255,255,.82)}
+.insc.user{grid-column:1/-1;background:var(--yellow);color:#1a1600;border-color:var(--yellow);display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center}
+.insc.user .no{color:#1a1600;grid-row:span 2}
+.insc.user h3{margin:0;font-size:22px}
+.insc.user p{color:#2b2500}
+footer{padding:30px 0 50px;color:var(--muted);font-size:13px;font-family:var(--mono);text-align:center}
+
+@media (max-width:820px){
+  .hero-grid{grid-template-columns:1fr;padding:26px 20px}
+  .score{grid-template-columns:repeat(3,1fr)}
+  .score div:nth-child(3){border-right:0}
+  .score div:nth-child(-n+3){border-bottom:1px solid rgba(255,255,255,.12)}
+  .star-wrap,.persona-wrap{grid-template-columns:1fr}
+  .lanes{grid-template-columns:1fr 1fr}
+  .nstage{grid-template-columns:1fr;gap:4px}
+  .nstage .lab{text-align:left;padding-left:20px}
+  .sh .min{font-size:32px}
+}
+@media (max-width:420px){
+  .lanes{grid-template-columns:1fr}
+  .climax{padding:34px 16px 24px}
+  .insc.user{grid-template-columns:1fr}
+  .insc.user .no{grid-row:auto}
+}
+</style>
+</head>
+<body>
+<div class="flag" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="bar">
+    <span>Feuille de séance · 11.10.2026</span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Changer de thème">◐ Thème</button>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="kicker">Séance de brainstorming · mode partenaire créatif</div>
+        <h1><span class="el">Ligue 1 · Ligue 2 · Sénégal</span>El TacTiko</h1>
+        <p class="lede">Une plateforme d'analyse de performance — gilets GPS, caméra et IA vidéo, analyse sur un VPS dans le cloud, affichage sur tablette au bord du terrain — pour les clubs de Ligue 1 et Ligue 2 sénégalaises, en match comme à l'entraînement.</p>
+        <p class="lede" style="color:var(--chalk-dim);font-size:15px">Objectif : occuper un espace encore vide au Sénégal, et tout explorer — capteurs, appli, prédictions, modèle, nom.</p>
+      </div>
+      <div aria-hidden="true">
+        <svg viewBox="0 0 420 280">
+          <g fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.5">
+            <rect x="10" y="10" width="400" height="260" rx="2"/>
+            <line x1="210" y1="10" x2="210" y2="270"/>
+            <circle cx="210" cy="140" r="38"/>
+            <rect x="10" y="80" width="56" height="120"/><rect x="354" y="80" width="56" height="120"/>
+            <rect x="10" y="112" width="20" height="56"/><rect x="390" y="112" width="20" height="56"/>
+            <path d="M66 112 A34 34 0 0 1 66 168"/><path d="M354 112 A34 34 0 0 0 354 168"/>
+          </g>
+          <path class="trace" d="M40 230 C80 200 70 150 120 140 S170 70 220 90 S270 170 300 150 S330 60 360 70 S390 120 370 160 S300 220 260 200 S190 230 150 200 S90 120 110 80 S180 40 230 50"/>
+          <path class="trace t2" d="M380 240 C340 220 330 190 290 200 S240 250 200 220 S170 160 140 180 S80 230 60 190 S70 120 100 110"/>
+          <circle cx="230" cy="50" r="5" fill="var(--yellow)" class="dot-live"/>
+          <text x="238" y="44" fill="var(--yellow)" font-family="JetBrains Mono,monospace" font-size="10">n°7 · sprint</text>
+          <text x="16" y="24" fill="rgba(255,255,255,.6)" font-family="JetBrains Mono,monospace" font-size="9">GPS · gilet</text>
+        </svg>
+      </div>
+    </div>
+    <div class="score" aria-label="Chiffres clés de la séance">
+      <div><b>60</b><span>questions</span></div>
+      <div><b>4</b><span>personas</span></div>
+      <div><b>15</b><span>contraintes</span></div>
+      <div><b>16</b><span>parades</span></div>
+      <div><b>7</b><span>leçons</span></div>
+      <div><b>7</b><span>insights</span></div>
+    </div>
+  </header>
+
+  <div class="legend">
+    <span style="display:inline-flex;gap:8px;align-items:center"><span class="arm">C</span> Brassard de capitaine : apport du porteur du projet</span>
+    <span style="display:inline-flex;gap:8px;align-items:center"><span class="wh">♪</span> Sifflet : apport du coach-facilitateur</span>
+  </div>
+
+  <!-- CAPTAIN BRIEF -->
+  <div class="captain">
+    <div class="card user">
+      <h3><span class="arm">C</span> Le brief du capitaine</h3>
+      <p>Métriques visées : <b>km parcourus, passes, tirs, sprint max</b>. Les croiser avec les infos du match et l'historique pour détecter <b>baisse de forme, changements, repositionnements</b>.</p>
+      <p style="margin:0">Aussi à l'entraînement, pour <b>tester des systèmes de jeu</b>. Au départ : un projet sans nom.</p>
+    </div>
+    <div class="card user">
+      <h3><span class="arm">C</span> Consignes de jeu</h3>
+      <ul>
+        <li>Le coach propose lui-même questions et idées, et n'interroge le capitaine que s'il est à court, <b>pour avancer vite</b>.</li>
+        <li>En Constraint Mapping : le coach propose les contraintes, <b>le capitaine valide</b>.</li>
+        <li>Après le nommage : nouveau lot centré sur les risques — Reverse Brainstorming puis Failure Analysis.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="wh">♪</span> Composition du match</h3>
+      <p class="muted" style="font-size:14.5px;margin:0">Starbursting · Persona Journey · Morphological Analysis · Constraint Mapping · Naming · Reverse Brainstorming · Failure Analysis · Convergence (Affinity Clustering + MoSCoW).</p>
+    </div>
+  </div>
+
+  <!-- STARBURSTING -->
+  <section class="tech" id="star">
+    <div class="sh"><span class="min">01'</span><h2>Starbursting</h2><p>L'étoile des questions : six branches, 60 questions consignées avant la moindre réponse.</p></div>
+    <div class="star-wrap">
+      <div class="star"><svg viewBox="0 0 400 400" id="starSvg" role="tablist" aria-label="Branches de l'étoile"></svg></div>
+      <div class="qpanel" id="qpanel" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- PERSONA -->
+  <section class="tech" id="persona">
+    <div class="sh"><span class="min">18'</span><h2>Persona Journey</h2><p>Quatre personnes autour du terrain, quatre parcours, 33 idées.</p></div>
+    <div class="persona-wrap">
+      <div class="pitch">
+        <svg viewBox="0 0 400 300" id="pitchSvg" aria-label="Positions des personas autour du terrain"></svg>
+        <div class="ptabs" role="tablist" id="ptabs"></div>
+      </div>
+      <div class="pcard" id="pcard" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- MORPHO -->
+  <section class="tech" id="morpho">
+    <div class="sh"><span class="min">34'</span><h2>Morphological Analysis</h2><p>La grille des paramètres, puis trois décisions du capitaine qui ont redessiné l'architecture.</p></div>
+
+    <div class="morph">
+      <table>
+        <tbody>
+          <tr><th>Mesure physique</th><td><span class="cell pick">B · gilet + GPS précis</span><span class="cell">conception propre</span></td></tr>
+          <tr><th>Mesure ballon</th><td><span class="cell pick">C · caméra + IA vidéo</span></td></tr>
+          <tr><th>Transmission</th><td><span class="cell">LoRa vers boîtier bord-terrain</span><span class="cell opt">1 · puce 4G/IoT par gilet</span><span class="cell opt">2 · tablette passerelle (Bluetooth)</span><span class="cell opt">3 · passerelle LoRa → 4G + tampon</span></td></tr>
+          <tr><th>Lieu de l'analyse</th><td><span class="cell x">sur le boîtier</span><span class="cell x">E · sur la tablette</span><span class="cell pick">VPS dans le cloud</span></td></tr>
+          <tr><th>Rôle de la tablette</th><td><span class="cell pick">affichage seul</span></td></tr>
+          <tr><th>Paiement</th><td><span class="cell x">commission sur transfert</span><span class="cell pick">mensuel prépayé, comme du crédit</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="decs">
+      <div class="dec"><div class="step"><span class="arm">C</span> Décision 1</div><p style="margin:0">Pas de commission sur transferts pour l'instant (à aborder plus tard) ; <b>paiement mensuel prépayé, comme du crédit</b>.</p></div>
+      <div class="dec"><div class="step"><span class="arm">C</span> Décision 2</div><p style="margin:0">Architecture retenue : <b>B</b> (gilet + GPS précis + LoRa vers boîtier bord-terrain + conception propre) couplée à <b>C</b> (caméra + IA vidéo).</p></div>
+      <div class="dec struck"><div class="step"><span class="arm">C</span> Décision 3</div><p style="margin:0">Analyse sur la tablette (option E) : le boîtier ne fait que relayer.</p></div>
+      <div class="dec"><div class="step"><span class="arm">C</span> Correction</div><p style="margin:0">L'analyse se fait <b>sur un VPS dans le cloud</b> ; la tablette ne fait qu'afficher.</p></div>
+    </div>
+
+    <div class="flow" aria-label="Schéma du flux de données retenu">
+      <svg viewBox="0 0 760 210">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--yellow)"/></marker></defs>
+        <g stroke="rgba(255,255,255,.5)" fill="rgba(255,255,255,.06)" stroke-width="1.5">
+          <rect x="10" y="20" width="150" height="70" rx="10"/>
+          <rect x="10" y="120" width="150" height="70" rx="10"/>
+          <rect x="300" y="70" width="160" height="70" rx="10" stroke-dasharray="5 4"/>
+          <rect x="600" y="20" width="150" height="70" rx="10" stroke="var(--yellow)"/>
+          <rect x="600" y="120" width="150" height="70" rx="10"/>
+        </g>
+        <g stroke="var(--yellow)" stroke-width="2" fill="none" marker-end="url(#ar)">
+          <path d="M160 55 C230 55 230 95 298 100"/>
+          <path d="M160 155 C230 155 230 115 298 112"/>
+          <path d="M460 100 C530 100 530 55 598 55"/>
+          <path d="M675 90 L675 118"/>
+        </g>
+        <text x="85" y="50" text-anchor="middle" font-weight="700">Gilets GPS</text>
+        <text x="85" y="70" text-anchor="middle" class="lbl">km · vitesse · sprints · cardio</text>
+        <text x="85" y="150" text-anchor="middle" font-weight="700">Caméra + IA</text>
+        <text x="85" y="170" text-anchor="middle" class="lbl">passes · tirs · pertes · positions</text>
+        <text x="380" y="100" text-anchor="middle" font-weight="700">Passerelle ?</text>
+        <text x="380" y="120" text-anchor="middle" class="lbl">horodatage · tampon</text>
+        <text x="675" y="50" text-anchor="middle" font-weight="700">VPS cloud</text>
+        <text x="675" y="70" text-anchor="middle" class="lbl">toute l'analyse</text>
+        <text x="675" y="150" text-anchor="middle" font-weight="700">Tablette banc</text>
+        <text x="675" y="170" text-anchor="middle" class="lbl">affiche, ne calcule pas</text>
+        <text x="530" y="130" text-anchor="middle" class="lbl">4G · APN opérateur</text>
+      </svg>
+    </div>
+
+    <div class="sub"><span class="arm" style="vertical-align:middle">C</span>&nbsp; La question du capitaine : « Le boîtier bord-terrain est-il nécessaire si les capteurs peuvent envoyer directement dans notre base de données ? »</div>
+    <div class="gw" id="gw"></div>
+
+    <div class="sub">Hybride B+C — idées du coach</div>
+    <div class="chips" id="hyb"></div>
+    <div class="sub">Crédit prépayé · tablette · vidéo cloud</div>
+    <div class="chips" id="pre"></div>
+  </section>
+
+  <!-- CONSTRAINTS -->
+  <section class="tech" id="cons">
+    <div class="sh"><span class="min">52'</span><h2>Constraint Mapping</h2><p>Chaque contrainte du terrain sénégalais retournée en parade — et souvent en atout.</p></div>
+    <div class="validated"><span class="arm">C</span> Les 15 contraintes proposées par le coach sont toutes validées par le capitaine.</div>
+    <div class="cons" id="consGrid"></div>
+  </section>
+
+  <!-- NAMING -->
+  <section class="tech" id="name">
+    <div class="sh"><span class="min">61'</span><h2>Naming</h2><p>Concept Blending et racines wolof : une action de jeu qui part du lion et finit au fond des filets.</p></div>
+    <div class="names" id="names"></div>
+    <div class="final">
+      <svg class="net" viewBox="0 0 72 56" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" opacity=".8"><path d="M4 52V6h64v46"/><path d="M4 18h64M4 30h64M4 42h64M16 6v46M28 6v46M40 6v46M52 6v46" opacity=".45"/></g><circle cx="46" cy="38" r="7" fill="var(--yellow)"/></svg>
+      <div>
+        <div class="kicker">Nom définitif · décision du capitaine</div>
+        <div class="big"><em>El</em> TacTiko</div>
+        <div style="color:var(--chalk-dim);font-size:15px;margin-top:6px">Remplace TacTik221 : « parle davantage aux Sénégalais ».</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVERSE -->
+  <section class="tech" id="rev">
+    <div class="sh"><span class="min">70'</span><h2>Reverse Brainstorming</h2><p>Comment faire échouer le projet à coup sûr ? Seize scénarios, seize parades. Retournez les cartes.</p></div>
+    <div class="rev-tools">
+      <div class="validated" style="margin:0"><span class="arm">C</span> Les 16 parades sont toutes validées.</div>
+      <button class="btn" id="flipAll" type="button">Tout retourner</button>
+    </div>
+    <div class="rev" id="revGrid"></div>
+  </section>
+
+  <!-- FAILURE -->
+  <section class="tech" id="fail">
+    <div class="sh"><span class="min">80'</span><h2>Failure Analysis</h2><p>Le carnet de l'arbitre : cartons rouges pour ceux qui ont chuté, cartons verts pour ceux qui ont gagné.</p></div>
+    <div class="refs" id="refs"></div>
+  </section>
+
+  <!-- CONVERGENCE -->
+  <section class="tech" id="conv">
+    <div class="sh"><span class="min">88'</span><h2>Convergence</h2><p>Affinity Clustering puis MoSCoW : le périmètre du pilote / MVP sur le tableau tactique.</p></div>
+    <div class="board">
+      <div class="m mono" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--chalk-dim);margin-bottom:10px;position:relative;z-index:1"><span class="wh" style="border-color:var(--chalk);color:var(--chalk);vertical-align:middle">♪</span>&nbsp; 7 familles proposées par le coach</div>
+      <div class="mags" aria-label="Familles A à G"><span class="mag">A</span><span class="mag">B</span><span class="mag">C</span><span class="mag">D</span><span class="mag">E</span><span class="mag">F</span><span class="mag">G</span></div>
+      <div class="lanes">
+        <div class="lane must"><span class="m">Must</span><h4>Indispensable</h4>
+          <div class="token"><span class="arm" style="background:#1a1600;color:var(--yellow)">C</span><span>Mode entraînement : comparer deux systèmes de jeu</span></div>
+<ul style="margin:8px 0 0;padding-left:16px;font-size:13.5px"><li>Validation LSFP avant tout achat</li><li>2-3 clubs pilotes, dont 1 de L2</li><li>Gilets GPS du marché en marque blanche</li><li>Envoi VPS + mode tampon</li><li>Analyse VPS : km, vitesse max, sprints, accélérations</li><li>Tablette banc : feu tricolore + alerte</li><li>Passes et tirs après-match (caméra sur mât + analyste)</li><li>Rapport après-match + historique joueur</li><li>Consentement + CDP</li><li>Suivi de l'adoption</li></ul>
+        </div>
+        <div class="lane"><span class="m">Should</span><h4>Important</h4><ul style="margin:8px 0 0;padding-left:16px;font-size:13.5px"><li>Résumé auto de mi-temps</li><li>Indice de fatigue / risque de blessure</li><li>Crédit prépayé Wave / Orange Money</li><li>2e tablette en miroir</li></ul></div>
+        <div class="lane"><span class="m">Could</span><h4>Souhaitable</h4><ul style="margin:8px 0 0;padding-left:16px;font-size:13.5px"><li>IA vidéo automatique</li><li>Prédictions et conseils de remplacement</li><li>Passeport data / appli joueur</li><li>Fiche adversaire</li><li>Location académies et navétanes</li></ul></div>
+        <div class="lane"><span class="m">Won't (now)</span><h4>Pas pour le pilote</h4><ul style="margin:8px 0 0;padding-left:16px;font-size:13.5px"><li>Capteurs maison</li><li>Commission sur transferts</li><li>Classement national, données médias/paris</li><li>Saisie vocale en wolof</li><li>Clips TikTok</li></ul></div>
+      </div>
+      <p class="note">MoSCoW validé par le capitaine avec une seule modification : le mode entraînement monte en Indispensable. Familles : A matériel · B données & cloud · C banc & match · D prépa & entraînement · E joueur · F modèle économique · G lancement & risques.</p>
+    </div>
+  </section>
+
+  <!-- CLIMAX -->
+  <section class="climax" id="synth">
+    <div class="kicker">Coup de sifflet final</div>
+    <h2>Ce que la séance a révélé</h2>
+    <p class="lede">Les insights consignés, du premier atout repéré par le capitaine aux six leçons de la convergence.</p>
+    <div class="ins" id="ins"></div>
+  </section>
+</div>
+<footer>El TacTiko · brainstorming du 11 octobre 2026</footer>
+
+<script>
+(function(){
+// theme
+var root=document.documentElement;
+try{var t=localStorage.getItem("ett-theme");if(t)root.setAttribute("data-theme",t);}catch(e){}
+document.getElementById("themeBtn").addEventListener("click",function(){
+  var cur=root.getAttribute("data-theme");
+  if(!cur){cur=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}
+  var nx=cur==="dark"?"light":"dark";root.setAttribute("data-theme",nx);
+  try{localStorage.setItem("ett-theme",nx);}catch(e){}
+});
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function mark(w){return w==="u"?'<span class="arm" title="Capitaine">C</span>':'<span class="wh" title="Coach">♪</span>';}
+
+// ---------- STARBURST ----------
+var W=[
+ {k:"Qui",q:[
+  ["c","Qui paie : le club, la fédération (FSF), la Ligue Pro, un sponsor télécom ?"],
+  ["c","Qui manipule les capteurs le jour du match : le kitman, un analyste dédié, nous ?"],
+  ["c","Qui est propriétaire des données d'un joueur quand il est transféré ?"],
+  ["u","Qui analyse les données en direct pendant le match ?"],
+  ["u","Quel modèle économique utiliser ?"],
+  ["u","Comment les capteurs sont-ils rechargés ?"],
+  ["u","Existe-t-il des constructeurs capables de fabriquer les capteurs sur mesure ?"],
+  ["u","Les clubs prennent-ils un abonnement mensuel ou annuel ?"],
+  ["u","Quelles fonctionnalités seront disponibles ?"],
+  ["c","Si un analyste suit le match en direct, comment son info arrive-t-elle au coach : tablette sur le banc, oreillette, papier tendu par l'adjoint ?"],
+  ["c","Le règlement Ligue Pro / FIFA autorise-t-il la transmission de données au banc pendant le match ?"],
+  ["c","Abonnement : que se passe-t-il quand un club ne paie plus en milieu de saison, on coupe les capteurs ou on garde ses données ?"],
+  ["c","Sur-mesure : quel est le volume minimum de commande d'un fabricant (Chine, Inde, Maroc), et peut-on assembler localement à Dakar ?"],
+  ["c","Recharge : un vestiaire de stade régional a-t-il des prises fiables le jour du match ?"]]},
+ {k:"Où",q:[
+  ["u","Hors capteurs, où trouver les données temps réel du match (événements, score, cartons, remplacements) ?"],
+  ["u","Où voir l'analyse : appli web PWA, appli mobile ?"],
+  ["u","Les tablettes : les nôtres (fournies) ou n'importe quelle tablette du marché ?"],
+  ["c","Où se place la caméra (tribune, poteau, drone) si on veut compléter les capteurs par de la vidéo, sachant que beaucoup de stades n'ont pas de tribune haute ?"],
+  ["c","Où vont les données quand il n'y a pas de 4G au stade : stockage sur le capteur, sur un boîtier local au bord du terrain, synchro après le match ?"],
+  ["c","Où trouver l'historique des matchs passés de Ligue 1/Ligue 2 sénégalaise : feuilles de match papier, LSFP, chaînes TV (RTS, 2STV), pages Facebook des clubs ?"],
+  ["c","Où le joueur voit-il ses propres stats : appli joueur sur son téléphone, WhatsApp ?"]]},
+ {k:"Quand",q:[
+  ["u","Quand lancer les premiers tests en club ?"],
+  ["u","Quand les capteurs envoient-ils les données ?"],
+  ["u","Que se passe-t-il avec les capteurs en période de pluie (hivernage) ?"],
+  ["u","Quand remonter les infos dans l'appli : temps réel ?"],
+  ["u","Quand commencer à démarcher les clubs ?"],
+  ["u","Quand en parler à notre partenaire, membre de la présidence de la Ligue de football professionnel ?"],
+  ["c","Tests : pendant la pré-saison (été) ou en pleine saison quand l'enjeu est réel ? Et la saison sénégalaise démarre quand exactement ?"],
+  ["c","Hivernage (juillet-octobre) : quand les terrains sont boueux, les données de vitesse/distance restent-elles fiables ?"],
+  ["c","Partenaire LSFP : quand lui parler, avant d'avoir un prototype (pour co-construire) ou après (pour montrer du concret) ?"],
+  ["c","Quand le coach a-t-il vraiment le temps de regarder un écran : à la mi-temps (15 min), sur un arrêt de jeu, avant un remplacement ?"]]},
+ {k:"Pourquoi",q:[
+  ["u","Pourquoi un club paierait-il alors qu'il paie mal ses joueurs ?"],
+  ["u","Pourquoi une équipe ne choisirait-elle pas des solutions qui ont déjà fait leurs preuves (Catapult, STATSports...) ?"],
+  ["c","Pourquoi ce serait au club de payer, et pas un sponsor, la Ligue, ou un agent qui veut valoriser ses joueurs à l'export ?"],
+  ["c","Pourquoi les solutions étrangères ne sont-elles pas déjà là : prix en euros, pas de support local, pas de français/wolof, pas adaptées aux terrains ?"],
+  ["c","Pourquoi un joueur refuserait-il : peur que les données servent à le mettre sur le banc ou à baisser son salaire ?"],
+  ["c","Pourquoi un joueur l'accepterait-il : pour avoir un CV chiffré à montrer aux recruteurs européens ?"],
+  ["c","Pourquoi un coach dirait-il non : peur que le président utilise les données contre ses choix tactiques ?"],
+  ["c","Pourquoi un coach dirait-il oui : pour justifier ses changements face aux supporters et au président ?"],
+  ["c","Pourquoi un président dirait-il non : pas de ligne budgétaire, résultats non garantis, priorité aux primes de match ?"],
+  ["c","Pourquoi un président dirait-il oui : vendre plus cher ses joueurs à l'étranger grâce à des données vérifiées ?"],
+  ["c","Pourquoi la Ligue voudrait-elle l'imposer à tous les clubs : image de championnat moderne, droits TV, data à revendre ?"],
+  ["c","Pourquoi un club de Ligue 2 serait-il plus motivé qu'un club de Ligue 1 : la montée se joue à rien ?"]]},
+ {k:"Comment",q:[
+  ["c","Comment rendre le capteur assez bon marché pour 30 joueurs x 30 clubs ?"],
+  ["c","Comment éviter le vol ou la perte des capteurs entre deux matchs ?"],
+  ["c","Comment fiabiliser le GPS dans un stade entouré de bâtiments, ou le remplacer (balises locales UWB) ?"],
+  ["c","Comment compter les passes et les tirs : capteur au pied, dans le ballon, ou par la vidéo ?"],
+  ["c","Comment entraîner un modèle de prédiction sans historique numérique du championnat ?"],
+  ["c","Comment présenter l'info au coach en 3 secondes : code couleur rouge/orange/vert par joueur ?"],
+  ["c","Comment former les staffs qui ne sont pas à l'aise avec la tech ?"],
+  ["c","Comment faire fonctionner l'appli sans internet sur le banc (mode hors-ligne, réseau local) ?"],
+  ["c","Comment prouver la valeur en un mois de test : moins de blessures, un match gagné grâce à un changement ?"],
+  ["c","Comment protéger les données (loi sénégalaise sur les données personnelles, CDP) ?"]]},
+ {k:"Quoi",q:[
+  ["c","Quoi mesurer en plus : fréquence cardiaque, charge d'entraînement, temps de récupération, risque de blessure ?"],
+  ["c","Quoi vendre exactement : le matériel, le logiciel, le service d'analyste, ou un pack complet ?"],
+  ["c","Quoi proposer gratuitement pour accrocher les clubs : une version vidéo seule, un test d'un mois ?"],
+  ["c","Quoi faire des données agrégées : classement de la Ligue, stats pour les médias et les paris sportifs ?"],
+  ["c","Quoi construire en premier (MVP) : juste km + sprints après le match, sans temps réel ?"],
+  ["c","Quoi comme fonction pour l'entraînement : comparer deux systèmes (4-3-3 vs 3-5-2) sur des matchs d'entraînement ?"],
+  ["c","Quoi comme nom : wolof, référence aux Lions, au sabar, à la lutte ?"]]}
+];
+var svg=document.getElementById("starSvg"),NS="http://www.w3.org/2000/svg",cx=200,cy=200,R=140,html="";
+// star polygon backdrop
+var pts=[];for(var i=0;i<12;i++){var a=-Math.PI/2+i*Math.PI/6,r=i%2?62:R-6;pts.push((cx+r*Math.cos(a)).toFixed(1)+","+(cy+r*Math.sin(a)).toFixed(1));}
+html+='<polygon points="'+pts.join(" ")+'" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.5"/>';
+W.forEach(function(w,i){var a=-Math.PI/2+i*Math.PI/3;w.x=cx+R*Math.cos(a);w.y=cy+R*Math.sin(a);
+  html+='<line class="ray" data-i="'+i+'" x1="'+cx+'" y1="'+cy+'" x2="'+w.x.toFixed(1)+'" y2="'+w.y.toFixed(1)+'"/>';});
+html+='<circle cx="200" cy="200" r="50" fill="var(--pitch)"/><text x="200" y="196" text-anchor="middle" fill="var(--yellow)" font-family="Archivo,sans-serif" font-weight="900" font-size="14">El</text><text x="200" y="214" text-anchor="middle" fill="#fff" font-family="Archivo,sans-serif" font-weight="900" font-size="16">TacTiko</text>';
+W.forEach(function(w,i){var u=w.q.filter(function(x){return x[0]==="u"}).length;
+  html+='<g class="spoke" data-i="'+i+'" tabindex="0" role="tab" aria-label="'+w.k+', '+w.q.length+' questions"><circle cx="'+w.x.toFixed(1)+'" cy="'+w.y.toFixed(1)+'" r="40"/><text x="'+w.x.toFixed(1)+'" y="'+(w.y-2).toFixed(1)+'">'+w.k+'</text><text class="cnt" x="'+w.x.toFixed(1)+'" y="'+(w.y+15).toFixed(1)+'">'+w.q.length+' · '+u+'C</text></g>';});
+svg.innerHTML=html;
+function showW(i){var w=W[i],u=w.q.filter(function(x){return x[0]==="u"}).length;
+  svg.querySelectorAll(".spoke").forEach(function(g){var on=+g.dataset.i===i;g.classList.toggle("on",on);g.setAttribute("aria-selected",on);});
+  svg.querySelectorAll(".ray").forEach(function(g){g.classList.toggle("on",+g.dataset.i===i);});
+  var p='<div class="mono muted" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">Branche '+(i+1)+' / 6</div><h3>'+w.k+' ?</h3>';
+  p+='<div class="mono muted" style="font-size:12px">'+w.q.length+' questions · <b style="color:var(--yellow-ink)">'+u+' du capitaine</b> · '+(w.q.length-u)+' du coach</div>';
+  p+='<div class="qbar"><i style="width:'+(u/w.q.length*100)+'%"></i><i style="width:'+((w.q.length-u)/w.q.length*100)+'%"></i></div><ol class="qs">';
+  w.q.forEach(function(q){p+='<li class="'+q[0]+'">'+mark(q[0])+'<span class="t">'+esc(q[1])+'</span></li>';});
+  document.getElementById("qpanel").innerHTML=p+'</ol>';}
+svg.querySelectorAll(".spoke").forEach(function(g){var i=+g.dataset.i;g.addEventListener("click",function(){showW(i)});g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();showW(i);}if(e.key==="ArrowRight"||e.key==="ArrowDown"){e.preventDefault();var n=(i+1)%6;showW(n);svg.querySelector('.spoke[data-i="'+n+'"]').focus();}if(e.key==="ArrowLeft"||e.key==="ArrowUp"){e.preventDefault();var n2=(i+5)%6;showW(n2);svg.querySelector('.spoke[data-i="'+n2+'"]').focus();}});});
+showW(0);
+
+// ---------- PERSONAS ----------
+var P=[
+ {n:"Coach Ligue 2 · Ziguinchor",s:"Coach",j:"C",col:"var(--green)",x:200,y:262,ideas:[
+  "Écran banc 'feu tricolore' : chaque joueur vert/orange/rouge selon sa baisse d'intensité vs sa propre moyenne, lisible en 3 secondes",
+  "Alerte 'joueur en chute' : vibration de la tablette quand un joueur perd >20% d'intensité sur 10 min",
+  "Suggestion de remplacement : 'Sortir le n°7 (rouge depuis 12 min), le n°14 a les meilleures stats sur ce poste en 2e mi-temps'",
+  "Mode mi-temps : résumé automatique en 5 points prêt à la 45e pour la causerie",
+  "Carte des zones vides : heatmap montrant le couloir que l'adversaire exploite et qu'aucun de nos joueurs ne couvre",
+  "Boîtier 'banc autonome' : petit routeur + batterie solaire qui reçoit les capteurs sans 4G ni électricité du stade",
+  "Écran banc en lecture seule pour l'adjoint, saisie vocale en wolof/français pour noter un événement ('but', 'carton', 'blessure')",
+  "Rapport WhatsApp automatique au coach le soir du match (PDF 1 page + vocal de synthèse)",
+  "Fiche adversaire : récap des stats physiques de l'équipe d'en face lors de nos précédentes confrontations",
+  "Mode entraînement 'match à thème' : on joue 20 min en 4-3-3 puis 20 min en 3-5-2 et l'app compare distance, pressing, récupérations"]},
+ {n:"Préparateur physique",s:"Prépa",j:"P",col:"#d9822b",x:70,y:262,ideas:[
+  "Indice de fatigue quotidien par joueur (charge aiguë vs chronique) avec risque de blessure orange/rouge",
+  "Alerte retour de blessure : courbe de reprise comparée à son niveau d'avant blessure, feu vert quand il atteint 90%",
+  "Planificateur de charge de la semaine : l'app propose l'intensité de chaque séance selon le match du week-end",
+  "Adaptation chaleur/Ramadan : ajuste les seuils d'alerte selon la température et les périodes de jeûne",
+  "Questionnaire bien-être 30 secondes sur le téléphone du joueur chaque matin (sommeil, douleurs, humeur) en emojis",
+  "Tests physiques standardisés (sprint 30 m, Yo-Yo test) chronométrés par les capteurs, classement de l'effectif",
+  "Comparaison 'terrain sable/synthétique/pelouse' : quelle surface fatigue le plus, pour choisir où s'entraîner",
+  "Bibliothèque d'exercices liée aux données : si un joueur manque de sprints, l'app propose les exercices adaptés"]},
+ {n:"Ailier · 19 ans",s:"Ailier",j:"7",col:"var(--red)",x:300,y:62,ideas:[
+  "Passeport data du joueur : profil vérifié (vitesse max, km/match, sprints) partageable en lien avec recruteurs et agents",
+  "Classement national des joueurs les plus rapides de L1/L2, publié chaque mois : visibilité et fierté",
+  "Défis entre coéquipiers : qui bat son record de sprint cette semaine, badges dans l'appli joueur",
+  "Comparaison avec un pro : 'ta vitesse max = celle d'Ismaïla Sarr à 19 ans' (sur base de données publiques)",
+  "Clip vidéo auto de ses meilleures actions couplé aux stats, prêt à poster sur TikTok/Instagram",
+  "Droit de regard : le joueur voit tout ce que le staff voit sur lui, pour bâtir la confiance",
+  "Programme perso hors club : l'appli lui donne des séances individuelles pour progresser sur ses points faibles"]},
+ {n:"Président du club",s:"Président",j:"€",col:"#7a5cc2",x:200,y:18,ideas:[
+  "Tableau de bord 'valeur de l'effectif' : estimation de la valeur marchande de chaque joueur basée sur ses données",
+  "Dossier de transfert automatique : PDF pro en anglais/français envoyé aux clubs étrangers acheteurs",
+  "Commission sur transfert au lieu d'abonnement : le club ne paie rien, on prend un % quand un joueur est vendu grâce aux données",
+  "Pack sponsor : le capteur et l'appli portent le logo d'un sponsor (Orange, Wave, Free) qui finance l'équipement du club",
+  "Rapport mensuel au conseil d'administration : blessures évitées, minutes jouées, joueurs valorisés",
+  "Location des capteurs à la journée pour les détections et tournois de jeunes (navétanes, académies)",
+  "Mutualisation : 3-4 clubs d'une même ville partagent un kit de capteurs et un analyste",
+  "Prix en FCFA payable via Wave/Orange Money, échelonné sur la saison"]}
+];
+P[3].j="Pr";
+var ps=document.getElementById("pitchSvg"),ph='<rect width="400" height="300" fill="var(--pitch)"/>';
+ph+='<rect x="0" y="0" width="400" height="34" fill="var(--pitch-2)"/><text x="10" y="22" fill="rgba(255,255,255,.55)" font-family="JetBrains Mono,monospace" font-size="9">TRIBUNE</text>';
+ph+='<g fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.3"><rect x="20" y="44" width="360" height="200"/><line x1="200" y1="44" x2="200" y2="244"/><circle cx="200" cy="144" r="28"/><rect x="20" y="94" width="44" height="100"/><rect x="336" y="94" width="44" height="100"/></g>';
+ph+='<rect x="140" y="252" width="120" height="22" rx="4" fill="rgba(0,0,0,.25)"/><text x="148" y="290" fill="rgba(255,255,255,.55)" font-family="JetBrains Mono,monospace" font-size="9">BANC</text>';
+ph+='<path d="M120 200 C170 190 240 120 300 62" fill="none" stroke="rgba(253,239,66,.5)" stroke-width="1.5" stroke-dasharray="3 4"/>';
+P.forEach(function(p,i){ph+='<g class="pm" data-i="'+i+'" tabindex="0" role="button" aria-label="'+p.n+'"><circle class="halo" cx="'+p.x+'" cy="'+p.y+'" r="24"/><circle class="core" cx="'+p.x+'" cy="'+p.y+'" r="14" fill="'+p.col+'" stroke="#fff" stroke-width="2"/><text x="'+p.x+'" y="'+(p.y+4.5)+'" text-anchor="middle" fill="#fff" font-family="Archivo,sans-serif" font-weight="900" font-size="12">'+p.j+'</text></g>';});
+ps.innerHTML=ph;
+var pt=document.getElementById("ptabs");
+P.forEach(function(p,i){var b=document.createElement("button");b.className="ptab";b.type="button";b.setAttribute("role","tab");b.textContent=p.s+" · "+p.ideas.length;b.addEventListener("click",function(){showP(i)});pt.appendChild(b);});
+function showP(i){var p=P[i];
+  ps.querySelectorAll(".pm").forEach(function(g){g.classList.toggle("on",+g.dataset.i===i)});
+  pt.querySelectorAll(".ptab").forEach(function(b,k){b.setAttribute("aria-selected",k===i)});
+  var h='<div class="who"><div class="jersey" style="background:'+p.col+'">'+p.j+'</div><div><div class="mono muted" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">Persona '+(i+1)+' / 4 · '+p.ideas.length+' idées '+mark("c")+'</div><h3>'+p.n+'</h3></div></div><ol class="ideas">';
+  p.ideas.forEach(function(t){h+='<li><span>'+esc(t)+'</span></li>';});
+  document.getElementById("pcard").innerHTML=h+'</ol>';}
+ps.querySelectorAll(".pm").forEach(function(g){var i=+g.dataset.i;g.addEventListener("click",function(){showP(i)});g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();showP(i)}});});
+showP(0);
+
+// ---------- MORPHO lists ----------
+var GW=[
+ ["Option 1","Chaque gilet a sa propre puce 4G/IoT (LTE-M/NB-IoT) et envoie direct au VPS ; zéro boîtier mais 25 abonnements SIM, batterie plus grosse, dépend de la couverture au stade."],
+ ["Option 2","La tablette sert de passerelle (gilets en Bluetooth vers tablette, tablette en 4G vers VPS) ; portée Bluetooth limite sur un terrain de 105 m."],
+ ["Option 3","Boîtier réduit à une simple passerelle LoRa vers 4G (type routeur) + mémoire tampon qui renvoie quand le réseau revient ; le boîtier ne calcule rien."],
+ ["Dans tous les cas","Mode tampon indispensable : chaque gilet stocke tout et se synchronise après le match si le réseau a coupé."]];
+document.getElementById("gw").innerHTML=GW.map(function(g){return '<div class="card"><div class="n">'+g[0]+' '+mark("c")+'</div><p style="margin:6px 0 0">'+esc(g[1])+'</p></div>'}).join("");
+var HY=["Partage des rôles : capteurs = physique (km, vitesse, sprints, accélérations, cardio) ; caméra/IA = ballon (passes, tirs, pertes, positions collectives)",
+"Synchronisation par horloge commune : le boîtier bord-terrain horodate capteurs et vidéo, l'IA associe chaque action au joueur porteur du gilet",
+"Numéro géant ou couleur sur le gilet pour aider l'IA vidéo à identifier les joueurs",
+"Deux niveaux de temps : physique en direct sur le banc (capteurs), stats ballon disponibles à la mi-temps puis complètes après le match (vidéo)",
+"Boîtier 'cerveau' bord-terrain : mini-PC + antenne LoRa + batterie solaire + entrée caméra, fait tourner l'IA localement sans internet",
+"Caméra sur mât télescopique de 6-8 m posé en bord de terrain, pour les stades sans tribune haute",
+"Mode dégradé : si la caméra tombe, on garde le physique ; si un gilet tombe, la vidéo garde le positionnement",
+"Correction manuelle rapide : l'analyste valide/corrige les actions détectées par l'IA sur la tablette après le match",
+"Les données vidéo corrigées servent à ré-entraîner l'IA sur le football sénégalais (terrains, maillots, lumière)",
+"Kit mobile en valise : 25 gilets + boîtier + caméra + mât, déplacé par le club pour les matchs à l'extérieur"];
+document.getElementById("hyb").innerHTML=HY.map(function(t){return '<div class="chip"><b>Hybride B+C</b>'+esc(t)+'</div>'}).join("");
+var PR=[["Prépayé","Recharge mensuelle via Wave / Orange Money comme un crédit téléphonique ; sans recharge, l'appli passe en lecture seule mais les données sont conservées"],
+["Prépayé","Formules de crédit : 'Match seul' (jours de match), 'Saison' (matchs + entraînements), 'Pro' (+ IA vidéo + prédictions)"],
+["Prépayé","Bonus de fidélité : 1 mois offert après 6 mois rechargés d'avance"],
+["Prépayé","Recharge possible par un sponsor ou un mécène au nom du club"],
+["Prépayé","Caution sur le kit matériel (ou kit inclus dans la recharge) pour couvrir perte et casse"],
+["Tablette","Boîtier réduit à une passerelle LoRa→Wi-Fi local (moins cher, moins de pannes), la tablette fait tout le calcul"],
+["Tablette","IA vidéo allégée sur la tablette pendant le match (modèle embarqué), analyse lourde la nuit dans le cloud quand il y a du réseau"],
+["Tablette","Tablette 'durcie' fournie dans le kit (écran lisible en plein soleil, coque anti-chute, batterie externe) ; option : appli installable sur n'importe quelle tablette Android"],
+["Tablette","Deuxième tablette en miroir pour l'adjoint / l'analyste en tribune"],
+["Vidéo cloud","Vidéo enregistrée localement en HD, flux basse résolution envoyé en direct au VPS, HD uploadée à la mi-temps/après le match"],
+["Vidéo cloud","Utiliser le réseau d'un opérateur partenaire (Orange/Free) avec une APN dédiée ou une priorité de débit les jours de match"]];
+document.getElementById("pre").innerHTML=PR.map(function(t){return '<div class="chip"><b>'+t[0]+'</b>'+esc(t[1])+'</div>'}).join("");
+
+// ---------- CONSTRAINTS ----------
+var C=[
+ ["Réseau 4G saturé les jours de match (supporters)","stockage tampon + partenariat opérateur","argument 'marche même sans réseau'"],
+ ["Électricité instable au stade","kit 100% batterie + panneau solaire","pour toute l'Afrique de l'Ouest"],
+ ["Budget limité des clubs","crédit prépayé petit prix, formule Match, recharge sponsor",""],
+ ["Chaleur et hivernage","matériel étanche IP67 testé localement","produit 'conçu pour l'Afrique'"],
+ ["Règlement IFAB/FIFA sur les appareils électroniques portés (EPTS)","vérifier la conformité et l'autorisation de la Ligue","contact à la présidence de la LSFP"],
+ ["Communication banc pendant le match","vérifier si la tablette est autorisée sur le banc en L1/L2 ; contournement = analyste en tribune qui transmet à l'adjoint",""],
+ ["Douanes et taxes à l'import du matériel","faire assembler localement ou passer par un régime d'entreprise innovante (startup act sénégalais)",""],
+ ["Coachs méfiants envers la technologie","interface en wolof/français ultra-simple, ambassadeur coach respecté, formation sur place",""],
+ ["Joueurs méfiants (données contre eux)","charte de données signée, le joueur voit ses propres données",""],
+ ["Protection des données personnelles (loi 2008-12, CDP)","consentement écrit, hébergement VPS conforme, déclaration CDP",""],
+ ["Peu de compétences data dans les clubs","on fournit l'analyste mutualisé ou des rapports automatiques",""],
+ ["Vol/perte du matériel","kit en valise numérotée, caution, traçage GPS des gilets",""],
+ ["Pas d'historique numérique du championnat","on le construit nous-mêmes, chaque match enregistré devient un actif unique",""],
+ ["Tous les matchs ne sont pas filmés","notre caméra crée la vidéothèque qui manque à la Ligue",""],
+ ["Coûts en devises (VPS, composants) vs revenus en FCFA","VPS chez un hébergeur local ou en Afrique, achat groupé de composants",""]];
+document.getElementById("consGrid").innerHTML=C.map(function(c,i){return '<div class="con"><span class="stamp">VALIDÉ</span><span class="no">'+(i<9?"0":"")+(i+1)+' '+mark("c")+'</span><h4>'+esc(c[0])+'</h4><p>'+esc(c[1])+'</p>'+(c[2]?'<span class="atout"><b>Atout :</b> '+esc(c[2])+'</span>':'')+'</div>'}).join("");
+
+// ---------- NAMING ----------
+var N=[
+ {l:"Racines wolof",w:"c",h:["Gaïndé <small>lion</small> / Gaïndé Data / GaïndéLab","Xam-Xam Foot <small>savoir</small>","Xel <small>intelligence</small> / Xel Coach","Doole <small>force</small> / Doole Sport","Fit <small>courage · en forme</small> / FitLab","Daw <small>courir</small> / DawMetrics","Jàmbaar <small>le brave</small> / Jambaar Analytics","Sunu Foot / Sunu Data <small>notre</small>","Xeex <small>le combat</small> / Xeex Pro","Làmb <small>la lutte</small>","Bàkk <small>chant de défi du lutteur</small>","221 Performance / Tactik221","Baobab Analytics","Banc Vert","Ndaw Pro <small>jeune</small>"]},
+ {l:"Favoris",w:"u",h:["*Tactik221","*FitLab","*Gaïndé Data"]},
+ {l:"Mélanges",w:"c",h:["Gaïndé221","FitGaïndé / Gaïndé Fit","Tactik Gaïndé","Fit221","GaïndéTrack / GaïndéSense","Tactik Lab + FitLab + Gaïndé Data","Gaïndé marque mère","Gaïndé Data société + Tactik221 appli","Slogans : « Le banc qui voit tout » · « La data des Lions » · « Fit ci kanam »","Logo : tête de lion en points de données / tracés GPS"]},
+ {l:"Option B",w:"u",h:["*Tactik221 <small>appli coach</small>","*FitLab <small>capteurs</small>","*Gaïndé Data <small>société + base</small>"]},
+ {l:"Nom unique",w:"u",h:["~FitLab","~Gaïndé Data","*TacTik221"]},
+ {l:"Dernière touche",w:"u",h:["~TacTik221","*El TacTiko"]}];
+document.getElementById("names").innerHTML=N.map(function(s){return '<div class="nstage '+s.w+'"><div class="lab">'+s.l+'</div><div class="body"><div style="margin-bottom:6px">'+mark(s.w)+'</div>'+s.h.map(function(x){var c="ntag";if(x[0]==="*"){c+=" fav";x=x.slice(1)}else if(x[0]==="~"){c+=" gone";x=x.slice(1)}return '<span class="'+c+'">'+x+'</span>'}).join("")+'</div></div>'}).join("");
+
+// ---------- REVERSE ----------
+var R=[
+ ["Lancer avec 30 clubs d'un coup et ne pas pouvoir suivre","Commencer avec 2-3 clubs pilotes, dont un de Ligue 2"],
+ ["Promettre du temps réel et que la 4G lâche au premier match devant le président","Tester la couverture de chaque stade avant, toujours avoir le mode tampon, promettre 'après-match' et livrer du direct en bonus"],
+ ["Gilets inconfortables ou qui chauffent, les joueurs les enlèvent","Prototype testé par les joueurs eux-mêmes, tissu respirant, capteur dans le dos"],
+ ["Données fausses (km aberrants, passes attribuées au mauvais joueur) : le coach perd confiance en 1 match","Calibrer avec mesures manuelles, afficher un indice de fiabilité"],
+ ["Interface trop compliquée, le coach ne la regarde jamais","1 écran, 3 couleurs, 1 alerte ; tester avec un vrai coach dès la maquette"],
+ ["Un club arrête de recharger, le bouche-à-oreille devient 'ça ne sert à rien'","Suivi client mensuel, rapport de valeur envoyé au président"],
+ ["Fabriquer nos propres capteurs trop tôt et s'enliser dans le hardware","V1 avec capteurs du marché en marque blanche, conception propre en V2"],
+ ["La Ligue ou la FIFA interdit le dispositif en match officiel","Valider avec le contact LSFP avant d'acheter quoi que ce soit ; plan B = usage entraînement seul"],
+ ["Un concurrent étranger arrive avec un prix cassé","Notre fossé : support local, wolof, historique du championnat, partenariat Ligue"],
+ ["Fuite des données de santé des joueurs","Chiffrement, accès par rôle, conformité CDP dès le jour 1"],
+ ["Dépendre d'un seul fournisseur de composants bloqué en douane","Deux fournisseurs, stock tampon"],
+ ["Le coach est viré en milieu de saison et le nouveau ne veut pas de l'outil","Vendre au club/président, pas au coach ; former tout le staff"],
+ ["Les prédictions se trompent sur un match important","Présenter des tendances et probabilités, jamais des certitudes ; le coach décide"],
+ ["Matériel volé lors d'un déplacement","Valise numérotée, responsable désigné, assurance"],
+ ["Coûts VPS + vidéo HD qui explosent","Compresser, archiver à froid, facturer la vidéo dans la formule Pro"],
+ ["L'équipe projet s'épuise sans revenus pendant 1 an","Chercher une subvention (DER/FJ, Startup Act, incubateurs CTIC Dakar) et un sponsor dès le pilote"]];
+var rg=document.getElementById("revGrid");
+rg.innerHTML=R.map(function(r,i){var n=(i<9?"0":"")+(i+1);return '<button class="flip" type="button" aria-pressed="false" aria-label="Scénario '+n+' : '+esc(r[0])+'. Parade : '+esc(r[1])+'"><div class="in"><div class="face fail"><div class="k"><span>Échec '+n+'</span><span>↻</span></div><div>'+esc(r[0])+'</div></div><div class="face fix"><div class="k"><span>Parade '+n+'</span><span>✓ validée</span></div><div>'+esc(r[1])+'</div></div></div></button>'}).join("");
+rg.querySelectorAll(".flip").forEach(function(b){b.addEventListener("click",function(){var on=b.classList.toggle("on");b.setAttribute("aria-pressed",on)})});
+var allOn=false;document.getElementById("flipAll").addEventListener("click",function(){allOn=!allOn;this.textContent=allOn?"Revoir les échecs":"Tout retourner";rg.querySelectorAll(".flip").forEach(function(b){b.classList.toggle("on",allOn);b.setAttribute("aria-pressed",allOn)})});
+
+// ---------- FAILURE ----------
+var F=[
+ ["red","Jawbone","Bracelets connectés, liquidé en 2017 : matériel trop tôt, problèmes de qualité, cash brûlé.","Ne pas fabriquer avant d'avoir des clients payants."],
+ ["red","adidas miCoach","Système de suivi pour équipes, arrêté vers 2016-2017 : un grand nom ne suffit pas si l'usage quotidien n'est pas ancré.","Mesurer l'usage réel chaque semaine."],
+ ["red","Technologies importées sans adaptation","Ex. projets type One Laptop per Child : pas de maintenance locale, pas de formation.","Prévoir un technicien local et une formation sur place."],
+ ["red","Logiciels offerts par un sponsor","Offerts aux clubs puis abandonnés à la fin du contrat.","Construire l'habitude et la valeur avant que le sponsor parte."],
+ ["green","Wave au Sénégal","A gagné avec des frais très bas, une appli simple et des agents partout.","Prix bas, simplicité, présence terrain."],
+ ["green","Hudl","A commencé par un seul besoin simple (partager la vidéo de match) avant d'ajouter l'analyse.","Commencer par un seul besoin."],
+ ["yellow","Leçon transversale","La plupart des échecs viennent de l'adoption, pas de la technologie.","Le pilote doit mesurer l'adoption (connexions du coach, gilets portés) autant que la précision."]];
+document.getElementById("refs").innerHTML=F.map(function(f){return '<div class="ref"><div class="rc '+f[0]+'" aria-hidden="true"></div><div><h4>'+esc(f[1])+'</h4><p class="why">'+esc(f[2])+'</p><p class="lesson" style="margin:0">'+esc(f[3])+'</p></div></div>'}).join("");
+
+// ---------- INSIGHTS ----------
+var I=[
+ ["u","Un atout dans la tribune d'honneur","Un contact connu siège à la présidence de la Ligue de football professionnel (LSFP)."],
+ ["c","Le hors-ligne est l'avantage concurrentiel","Ce n'est pas une contrainte : un kit qui marche sans 4G ni électricité, ce que les solutions européennes ne font pas."],
+ ["c","L'entraînement, porte d'entrée du pilote","Le mode entraînement (devenu indispensable) : pas de règlement de match, pas de souci de banc, calibrage des données avant le premier match officiel."],
+ ["c","L'infrastructure de données du foot sénégalais","L'historique construit match après match + la vidéothèque + le contact LSFP. Les clubs sont la porte d'entrée, la Ligue le client à long terme."],
+ ["c","Le reçu qui justifie la recharge suivante","Chaque recharge de crédit s'accompagne d'un rapport de valeur envoyé au président : vendre au président, pas au coach."],
+ ["c","L'humain d'aujourd'hui fabrique l'automatisation de demain","La correction manuelle des passes/tirs par l'analyste est le moteur d'entraînement de la future IA vidéo."],
+ ["c","Des méfiants aux ambassadeurs","La transparence joueur + le passeport data transforment les joueurs méfiants en ambassadeurs."]];
+document.getElementById("ins").innerHTML=I.map(function(x,i){var n="0"+(i+1);if(x[0]==="u")return '<div class="insc user"><div class="no">'+n+'</div><h3><span class="arm" style="background:#1a1600;color:var(--yellow);margin-right:8px;vertical-align:middle">C</span>'+esc(x[1])+'</h3><p>'+esc(x[2])+'</p></div>';return '<div class="insc"><div class="no">'+n+'</div><h3>'+esc(x[1])+'</h3><p>'+esc(x[2])+'</p></div>'}).join("");
+})();
+</script>
+</body>
+</html>
