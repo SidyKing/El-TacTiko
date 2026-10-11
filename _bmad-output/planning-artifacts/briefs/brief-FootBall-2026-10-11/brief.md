@@ -1,6 +1,6 @@
 ---
 title: "Product Brief : El TacTiko"
-status: draft
+status: final
 created: 2026-10-11
 updated: 2026-10-11
 ---
@@ -9,13 +9,13 @@ updated: 2026-10-11
 
 ## Résumé
 
-El TacTiko est une plateforme d'analyse de performance pour les clubs de football sénégalais. Les joueurs portent des gilets GPS ; une caméra filme le terrain. Un serveur dans le cloud croise ces données avec l'historique des matchs, et le coach lit le résultat sur une tablette : qui décroche, qui doit sortir, quel système de jeu fonctionne le mieux.
+El TacTiko est une plateforme d'analyse de performance pour les clubs de football sénégalais. Les joueurs portent des gilets GPS ; une caméra filme le terrain. Un serveur cloud croise ces données avec l'historique des matchs, et le coach lit le résultat sur une tablette : qui décroche, qui doit sortir, quel système de jeu fonctionne le mieux.
 
 Les solutions existantes (Catapult, STATSports, Veo…) sont pensées pour l'Europe : elles coûtent cher, sont payées en devises et supposent une bonne connexion internet. Au Sénégal, la 4G sature les jours de match et l'électricité manque souvent au stade. El TacTiko part de ces contraintes : il fonctionne sans réseau, se paie comme du crédit téléphonique via Wave ou Orange Money, et parle français et wolof.
 
-Le projet vise d'abord les 32 clubs professionnels (16 en Ligue 1, 16 en Ligue 2). Il commencera plus petit : des équipes de five et de foot en salle, puis quelques clubs pilotes, en commençant par l'entraînement.
+Le projet vise d'abord les 32 clubs professionnels (16 en Ligue 1, 16 en Ligue 2). Le lancement se fera à plus petite échelle : five et foot en salle, puis quelques clubs pilotes, d'abord à l'entraînement.
 
-## Le problème
+## Problème
 
 - Les coachs de Ligue 1 et de Ligue 2 décident des changements à l'œil. Ils n'ont aucune mesure de la fatigue, des distances ou de l'intensité de leurs joueurs.
 - Le championnat n'a pas d'historique numérique, et tous les matchs ne sont pas filmés.
@@ -24,9 +24,9 @@ Le projet vise d'abord les 32 clubs professionnels (16 en Ligue 1, 16 en Ligue 2
   - les offres d'équipe sont sur devis ;
   - les caméras intelligentes demandent un abonnement et un envoi vers le cloud.
 - Les clubs ont peu de budget, paient mal leurs joueurs et n'ont pas d'analyste data.
-- Aujourd'hui, le travail se fait au chronomètre, sur papier ou à l'intuition. Conséquences : des blessures qu'on aurait pu éviter, des changements tardifs, des systèmes de jeu jamais vraiment évalués, et des joueurs mal valorisés quand ils sont transférés.
+- Aujourd'hui, le travail se fait au chronomètre, sur papier ou à l'intuition. Conséquences : des blessures évitables, des changements tardifs, des systèmes de jeu jamais vraiment évalués, et des joueurs mal valorisés quand ils sont transférés.
 
-## La solution
+## Solution
 
 1. **Capter.**
    - Des gilets GPS mesurent la partie physique : km parcourus, vitesse maximale, sprints, accélérations.
@@ -41,28 +41,28 @@ Le projet vise d'abord les 32 clubs professionnels (16 en Ligue 1, 16 en Ligue 2
 
 Le temps réel est un bonus. La promesse ferme, c'est l'analyse après le match.
 
-## Ce qui nous distingue
+## Différenciation
 
 - **Le hors-ligne d'abord.** Le kit fonctionne sur batterie et garde les données en mémoire, là où les concurrents supposent du réseau.
 - **Le prix et le paiement.** Un crédit mensuel prépayé en FCFA, via Wave ou Orange Money, au lieu d'un abonnement en devises. `[HYPOTHÈSE : nettement moins cher que 180 $ par joueur et par an]`
 - **La proximité.** Support sur place, interface en français et en wolof, présence dans les stades.
 - **Un historique que personne d'autre n'a.** Chaque match enregistré enrichit la seule base de données de performance du foot sénégalais, et la Ligue a intérêt à ce qu'elle existe.
-- **Ce qui ne nous protège pas encore :** notre matériel. Au départ, on utilise des capteurs du marché à notre marque. Notre avance tient à l'exécution sur le terrain et à la relation avec la Ligue, pas à une technologie exclusive.
+- **Ce qui ne nous protège pas encore :** notre matériel. Au départ, nous utilisons des capteurs du marché à notre marque. Notre avance tient à l'exécution sur le terrain et à la relation avec la Ligue, pas à une technologie exclusive.
 
-## Pour qui
+## Cibles
 
-- **Le club, à travers son président, est l'acheteur.** On vend au club plutôt qu'au coach, pour que l'outil survive à un changement d'entraîneur. Le président reçoit chaque mois un rapport de valeur qui justifie la recharge suivante.
+- **Le club, à travers son président, est l'acheteur.** Nous vendons au club plutôt qu'au coach, pour que l'outil survive à un changement d'entraîneur. Le président reçoit chaque mois un rapport de valeur qui justifie la recharge suivante.
 - **Le coach et son adjoint** veulent savoir en 3 secondes qui doit sortir, et pouvoir justifier leurs choix.
 - **Le préparateur physique** suit la fatigue et les retours de blessure.
 - **Les joueurs** voient leurs propres données. Pour un jeune, c'est un CV chiffré à montrer aux recruteurs.
-- **La Ligue (LSFP)** est le client à long terme : historique du championnat, vidéothèque, image moderne. Un contact siège à sa présidence.
+- **La Ligue (LSFP)** est le client à long terme : historique du championnat, vidéothèque, image moderne. Notre contact à la Ligue siège à sa présidence.
 
-## Comment on avance
+## Démarche
 
-1. **Valider le cadre.** On rencontre le contact à la Ligue avant tout achat de matériel. On vérifie aussi les règles CDP.
-2. **Tester sur du five et du foot en salle.** C'est rapide, sans règlement fédéral et peu coûteux.
+1. **Valider le cadre.** Nous rencontrons notre contact à la Ligue avant tout achat de matériel et vérifions les règles CDP.
+2. **Tester sur du five et du foot en salle.** Ces formats sont rapides à tester, peu coûteux et hors règlement fédéral.
    - ⚠️ Le GPS ne fonctionne pas en salle, et il est peu précis sur un petit terrain. Pour ces tests, il faudra des capteurs de mouvement (accéléromètres), des balises radio autour du terrain ou la vidéo seule. `[À TRANCHER]`
-3. **Lancer un pilote avec 2 ou 3 clubs de Ligue 1 ou de Ligue 2,** dont au moins un de Ligue 2, en commençant par le mode entraînement.
+3. **Lancer un pilote avec 2 ou 3 clubs professionnels,** dont au moins un de Ligue 2, en commençant par le mode entraînement.
 4. **Passer aux matchs officiels.** Le règlement FIFA (Loi 4) exige des capteurs certifiés « FIFA Quality » et l'accord de la Ligue pour transmettre les données au banc.
 
 ## Périmètre de la première version
@@ -80,7 +80,7 @@ Le temps réel est un bonus. La promesse ferme, c'est l'analyse après le match.
 - **Plus tard :**
   - résumé de mi-temps ;
   - indice de fatigue ;
-  - paiement Wave / Orange Money (pendant les tests, l'accès peut être gratuit ou payé par un sponsor) ;
+  - paiement via Wave ou Orange Money (pendant les tests, l'accès peut être gratuit ou payé par un sponsor) ;
   - deuxième tablette en miroir ;
   - IA vidéo automatique, prédictions, appli joueur, fiche adversaire.
 - **Exclu pour l'instant :** fabriquer nos propres capteurs, prendre une commission sur les transferts, vendre des données aux médias ou aux sites de paris, la saisie vocale en wolof.
