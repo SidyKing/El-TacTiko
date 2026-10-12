@@ -1,9 +1,9 @@
 ---
 name: El TacTiko
 description: Habillage broadcast sur pelouse à la craie. Une seule PWA, lisible en plein soleil au bord du terrain ; le Statut se lit en trois secondes, par la couleur, la forme et la lettre.
-status: draft
+status: final
 created: 2026-10-11
-updated: 2026-10-11
+updated: 2026-10-12
 sources:
   - ../../prds/prd-FootBall-2026-10-11/prd.md
   - ../../prds/prd-FootBall-2026-10-11/addendum.md
@@ -339,31 +339,31 @@ components:
 
 ## Brand & Style
 
-El TacTiko met une pelouse dans la main du coach, et l'habille comme une retransmission télé. Trois couches se superposent sur chaque écran du staff :
+El TacTiko met une pelouse dans la main du coach et l'habille comme une retransmission télé. Trois couches se superposent sur chaque écran du staff :
 
 - **La toile — le terrain.** Pelouse rayée, lignes à la craie, maillots à leur place. Le coach retrouve ses Joueurs là où ils jouent, pas dans un tableur. Zones chaudes et tracé GPS se posent directement sur le terrain.
 - **Le cadre — l'habillage broadcast.** Bug « EN DIRECT » en haut avec le chrono jaune, ligne drapeau dessous, bandeau bas pour l'Alerte de décrochage ou le mode hors ligne. Les chiffres sont condensés, en Archivo très gras, comme un score à l'écran.
 - **Le rail — les cartes.** Cartes claires, à la FotMob, pour les chiffres d'appoint : Intensité de l'Équipe, Focus du plus critique, liste des Statuts.
 
-La posture : haut de gamme, réaliste, dynamique, mais jamais décoratif au détriment de la lecture. Le coach doit comprendre en trois secondes, en plein soleil, d'une main. Les couleurs du drapeau sénégalais (vert, jaune, rouge) donnent l'identité ; elles viennent de la [page souvenir du brainstorming](imports/brainstorm-keepsake.html), reprise et améliorée.
+La posture : haut de gamme, réaliste, dynamique, mais jamais décoratif au détriment de la lecture. Le coach doit comprendre en trois secondes, en plein soleil, d'une main. Les couleurs du drapeau sénégalais (vert, jaune, rouge) donnent l'identité ; elles viennent de la [page souvenir du brainstorming](imports/brainstorm-keepsake.html), dont la palette est reprise et améliorée.
 
-Le thème **clair est le thème par défaut** (lisibilité en plein soleil). Le thème **sombre** est proposé : match de nuit, pelouse sous projecteurs, causerie du soir. Les deux thèmes portent les mêmes informations et la même hiérarchie.
+Le thème **clair est le thème par défaut** (lisibilité en plein soleil). Le thème **sombre** est proposé pour le match de nuit, la pelouse sous projecteurs et la causerie du soir. Les deux thèmes portent les mêmes informations et la même hiérarchie.
 
 ## Colors
 
-Chaque couleur a un rôle unique. Les paires clair / sombre sont dans le frontmatter (`-dark`).
+Chaque couleur a un rôle unique. Dans le frontmatter, la variante sombre de chaque couleur porte le suffixe `-dark`.
 
-**Surfaces et encre.** `{colors.surface-base}` (`#F3EFE3`, ivoire chaud) est le fond ; `{colors.surface-card}` (`#FFFCF3`) porte les cartes ; `{colors.surface-chip}` les puces de numéro et les segments. `{colors.ink-primary}` (`#14201A`, vert presque noir) pour le texte ; `{colors.ink-secondary}` (`#434F48`) pour les références et unités. En sombre, le fond devient `#0A120E`, un vert nuit, jamais un noir pur.
+**Surfaces et encre.** `{colors.surface-base}` (`#F3EFE3`, ivoire chaud) est le fond ; `{colors.surface-card}` (`#FFFCF3`) porte les cartes ; `{colors.surface-chip}` les puces de numéro et les segments. `{colors.ink-primary}` (`#14201A`, vert presque noir) sert au texte ; `{colors.ink-secondary}` (`#434F48`), aux références et aux unités. En sombre, le fond devient `#0A120E`, un vert nuit, jamais un noir pur.
 
 **Drapeau.** `{colors.senegal-green}`, `{colors.flag-yellow}`, `{colors.flag-red}` ne servent qu'à la `flag-line` (6px sous le bug) et à l'écusson. Ce sont des marqueurs d'identité, pas des couleurs d'état.
 
 **Habillage broadcast.** `{colors.slab}` (`#0D0F0E`) est la dalle sombre du bug, du Focus, du bandeau bas et de la palette d'outils ; **elle reste sombre en thème clair**. `{colors.broadcast-yellow}` (`#FFD60A` / `#FDEF42`) est le jaune d'habillage : chrono, valeur gagnante, outil actif, bouton principal, anneau de focus clavier. `{colors.live}` est le rouge du bandeau « EN DIRECT » (dégradé `{colors.live-gradient-top}` → `{colors.live-gradient-bottom}`) ; il passe au gris `{colors.offline}` hors ligne.
 
-**Statuts.** `{colors.status-vert}`, `{colors.status-orange}`, `{colors.status-rouge}`, `{colors.status-apprentissage}`. Les versions sombres sont plus lumineuses pour tenir sur la pelouse de nuit. Le texte coloré utilise `{colors.text-vert}` et `{colors.text-orange}`, plus foncés que le fond de pastille, pour tenir le contraste. Les fonds de ligne `{colors.bg-rouge}`, `{colors.bg-orange}` et `{colors.bg-vert}` signalent une ligne sans recolorer le texte.
+**Statuts.** Quatre couleurs : `{colors.status-vert}`, `{colors.status-orange}`, `{colors.status-rouge}` et `{colors.status-apprentissage}`. Les versions sombres sont plus lumineuses pour tenir sur la pelouse de nuit. Le texte coloré utilise `{colors.text-vert}` et `{colors.text-orange}`, plus foncés que le fond de pastille, pour tenir le contraste. Les fonds de ligne `{colors.bg-rouge}`, `{colors.bg-orange}` et `{colors.bg-vert}` signalent une ligne sans recolorer le texte.
 
-**Le rouge est réservé.** `{colors.status-rouge}` et `{colors.alert-glow}` ne désignent que le Statut Rouge et l'Alerte de décrochage (plus l'Indice de fiabilité faible, qui est aussi une alerte). Jamais pour une Équipe, un adversaire, une décoration ou une erreur de formulaire banale.
+**Le rouge est réservé.** `{colors.status-rouge}` et `{colors.alert-glow}` ne désignent que le Statut Rouge et l'Alerte de décrochage (plus l'Indice de fiabilité faible, qui est aussi une alerte). Ils ne servent jamais pour une Équipe, un adversaire, une décoration ou une erreur de formulaire banale.
 
-**Terrain.** Deux bandes `{colors.pitch-stripe-a}` / `{colors.pitch-stripe-b}` de 79px, `{colors.chalk}` pour les lignes (légèrement lumineuse en sombre). `{colors.gps-trace}` jaune pour le tracé GPS. Les zones chaudes suivent la rampe `{colors.heat-low}` → `{colors.heat-mid}` → `{colors.heat-high}` → `{colors.heat-max}` : 62 % d'opacité sous la craie en clair, fusion « écran » à 85 % en sombre.
+**Terrain.** Deux bandes `{colors.pitch-stripe-a}` / `{colors.pitch-stripe-b}` de 79px, `{colors.chalk}` trace les lignes (légèrement lumineuse en sombre) et `{colors.gps-trace}`, jaune, le tracé GPS. Les zones chaudes suivent la rampe `{colors.heat-low}` → `{colors.heat-mid}` → `{colors.heat-high}` → `{colors.heat-max}` : 62 % d'opacité sous la craie en clair, fusion « écran » à 85 % en sombre.
 
 **Tableau tactique.** Aucune couleur de Statut. L'Équipe porte un anneau `{colors.tactic-team-ring}` (vert), les adversaires sont des pions sombres `{colors.tactic-opponent}` marqués `{colors.tactic-opponent-mark}`, pour ne jamais confondre un adversaire avec un Joueur au Rouge.
 
@@ -384,7 +384,7 @@ Chaque couleur a un rôle unique. Les paires clair / sombre sont dans le frontma
 | `on-status-dark` sur `status-*-dark` | 5,8 à 9,5:1 | lettre de Statut, sombre |
 | `on-status` sur `status-vert` / `status-orange` / `status-rouge` | 4,7 / 4,7 / 5,9:1 | lettre de Statut, clair (glyphe 900 doublé par la forme) |
 
-Cible ferme : **texte du banc ≥ 7:1** (FR-15). Deux paires sont sous la cible et doivent être corrigées avant le développement : `ink-secondary` sur `surface-base` (6,3:1, lignes du rail) et `text-vert` sur `surface-card` (6,0:1). `[ASSUMPTION]` La lettre dans la pastille de Statut est un glyphe de redondance, jugé à ≥ 4,5:1.
+Cible ferme : **texte du banc ≥ 7:1** (FR-15). `ink-secondary` et `text-vert` ont été foncés (`#434F48`, `#00582C`) pour tenir cette cible ; les maquettes utilisent encore les anciennes teintes, et ces tokens priment. `[ASSUMPTION]` La lettre dans la pastille de Statut est un glyphe de redondance, jugé à ≥ 4,5:1.
 
 ## Typography
 
@@ -427,7 +427,7 @@ Règles :
 
 **Ordinateur** (analyste, admin) : pas de maquette ; mêmes tokens, contenu en cartes sur `surface-base`. `[ASSUMPTION]` Largeur de contenu bornée à 1280px.
 
-Zones tactiles : **au moins `{spacing.touch-min}` (48px)** partout sur tablette et téléphone.
+Les zones tactiles mesurent **au moins `{spacing.touch-min}` (48px)** partout sur tablette et téléphone.
 
 ## Elevation & Depth
 
@@ -458,7 +458,16 @@ Formes des Statuts : rond (Vert), triangle (Orange), octogone (Rouge), cercle po
 
 ## Components
 
-**broadcast-bug** — Dalle `{colors.slab}` pleine largeur, 60px. De gauche à droite : étiquette « EN DIRECT » (dégradé `live`, point clignotant, coupée en biais ; grise et « HORS LIGNE » hors ligne ; verte « FIN DU MATCH » dans le Rapport), écusson jaune `{colors.flag-yellow}` 38px, nom d'Équipe en `display-broadcast` avec sous-titre mono jaune (type · format · terrain), chrono sur parallélogramme jaune (`numeral-hero` 48px), compteur « 10/10 Gilets actifs », fraîcheur (« À jour il y a 4 s » avec point vert pulsant ; « Données à jour à HH:MM » en blanc, point jaune fixe, quand figé). Sur les autres écrans, le bug porte le titre d'écran et les actions (Partager, PDF, Présenter).
+**broadcast-bug** — Dalle `{colors.slab}` pleine largeur, 60px. De gauche à droite :
+
+- étiquette « EN DIRECT » (dégradé `live`, point clignotant, coupée en biais) ; grise et « HORS LIGNE » hors ligne ; verte « FIN DU MATCH » dans le Rapport ;
+- écusson jaune `{colors.flag-yellow}` 38px ;
+- nom d'Équipe en `display-broadcast`, avec sous-titre mono jaune (type · format · terrain) ;
+- chrono sur parallélogramme jaune (`numeral-hero` 48px) ;
+- compteur « 10/10 Gilets actifs » ;
+- fraîcheur : « À jour il y a 4 s » avec point vert pulsant ; quand l'écran est figé, « Données à jour à HH:MM » en blanc, point jaune fixe.
+
+Sur les autres écrans, le bug porte le titre d'écran et les actions (Partager, PDF, Présenter).
 
 **flag-line** — 6px sous le bug, trois tiers vert / jaune / rouge du drapeau. Toujours présente sous un bug.
 
@@ -466,7 +475,7 @@ Formes des Statuts : rond (Vert), triangle (Orange), octogone (Rouge), cercle po
 
 **jersey-marker** — Maillot 60px couleur `{colors.jersey}`, numéro `{colors.jersey-number}` en Archivo 900 20px, anneau de 4px à la couleur du Statut (pointillé pour A), pastille de Statut en haut à droite, étiquette verre sous le maillot (nom + Intensité en m/min, delta en mono). Joueur au Rouge : étiquette sur fond rouge, anneau en onde et halo pulsants. Sur le Tableau tactique, l'anneau est `{colors.tactic-team-ring}` et l'étiquette sélectionnée passe en jaune avec poignées.
 
-**pitch** — Bandes, craie 3px, buts, grain et vignettage (voir Elevation). Format adapté : football à 11, five, foot en salle. Orientation : attaque vers la droite sur la Tablette banc, vers le haut sur la Comparaison.
+**pitch** — Bandes, craie 3px, buts, grain et vignettage (voir Elevation & Depth). Le format s'adapte : football à 11, five, foot en salle. Orientation : attaque vers la droite sur la Tablette banc, vers le haut sur la Comparaison.
 
 **heat-layer** — Rampe de chaleur sur la surface du terrain, du coup d'envoi à la minute en cours (« match entier ») ou sur les 10 dernières minutes. Désaturée hors ligne.
 
@@ -478,7 +487,7 @@ Formes des Statuts : rond (Vert), triangle (Orange), octogone (Rouge), cercle po
 
 **alert-lower-third** — Bandeau bas 62px qui glisse depuis la gauche : étiquette rouge « ALERTE DE DÉCROCHAGE » coupée en biais, numéro sur jaune (`numeral-hero` 44px), nom en `heading` et détail mono (« Intensité −27 % sur 10 min · 112 m/min, réf. 154 »), delta géant rouge à droite. Barre de minuterie rouge 3px qui se vide, reflet qui balaie.
 
-**offline-ticker** — Remplace le bandeau d'alerte hors ligne. Fond `{colors.offline-ticker}`, étiquette « HORS LIGNE » jaune sur dalle coupée en biais, texte mono 15px qui défile en boucle : « Données à jour à HH:MM · Positions et Statuts figés · Les Gilets continuent d'enregistrer · Synchronisation automatique après la Séance ».
+**offline-ticker** — Remplace le bandeau d'alerte quand l'écran est hors ligne. Fond `{colors.offline-ticker}`, étiquette « HORS LIGNE » jaune sur dalle coupée en biais, texte mono 15px qui défile en boucle : « Données à jour à HH:MM · Positions et Statuts figés · Les Gilets continuent d'enregistrer · Synchronisation automatique après la Séance ».
 
 **legend-hud** — Verre `{colors.hud}` en haut à gauche du terrain : segment « Match entier / 10 dernières min » (actif en jaune), rampe des zones chaudes avec plage de minutes, clé du tracé GPS.
 

@@ -1,8 +1,8 @@
 ---
 name: El TacTiko
-status: draft
+status: final
 created: 2026-10-11
-updated: 2026-10-11
+updated: 2026-10-12
 sources:
   - ../../prds/prd-FootBall-2026-10-11/prd.md
   - ../../prds/prd-FootBall-2026-10-11/addendum.md
@@ -22,13 +22,16 @@ sources:
 ## Foundation
 
 - **Une seule PWA installable** pour tous les Rôles (NFR-1). Aucun framework d'interface imposé : composants maison sur les tokens de `DESIGN.md`, qui est la référence visuelle.
-- **Trois form factors :**
+
+Trois form factors :
 
 | Form factor | Taille de référence | Surfaces |
 |---|---|---|
 | Tablette paysage | 1180×820 | Tablette banc, Tableau tactique, Comparaison de systèmes, Rapport d'après-match, préparation et lancement de Séance |
 | Téléphone portrait | 390×844 | Vue joueur, Rapport d'après-match mobile (lien WhatsApp) |
 | Ordinateur | ≥ 1280 de large `[ASSUMPTION]` | saisie des Actions ballon (analyste), administration El TacTiko, tableau de bord d'adoption |
+
+Règles transverses :
 
 - **Thème clair par défaut**, thème sombre proposé (réglage par appareil, « auto » suit le système).
 - **Langue :** français en v1 (NFR-4). Libellés de la Tablette banc et de la Vue joueur prévus pour une traduction en wolof en v1.1 : pas de texte dans les images, pas de libellé tronqué à la longueur française.
@@ -82,7 +85,7 @@ sources:
 
 ## Voice and Tone
 
-Microcopy. La voix de marque et la posture visuelle vivent dans `DESIGN.md`.
+Cette section couvre les textes d'interface. La voix de marque et la posture visuelle vivent dans `DESIGN.md`.
 
 | Do | Don't |
 |---|---|
@@ -101,7 +104,7 @@ El TacTiko montre des tendances, jamais des décisions (PRD §5). Aucun libellé
 
 ## Component Patterns
 
-Comportement. Les spécifications visuelles vivent dans `DESIGN.md.Components`.
+Cette section couvre le comportement des composants. Leurs spécifications visuelles vivent dans la section Components de `DESIGN.md`.
 
 | Composant | Où | Règles de comportement |
 |---|---|---|
@@ -118,7 +121,7 @@ Comportement. Les spécifications visuelles vivent dans `DESIGN.md.Components`.
 | `status-row` | rail de la Tablette banc | Triée du plus critique au moins critique (FR-15). Un réordonnancement n'est jamais animé pendant un toucher en cours. Toucher → même effet que le `jersey-marker`. |
 | `bench-strip` | Tablette banc | Remplaçants avec leur dernier Statut connu. Toucher → Métriques physiques. |
 | `alert-lower-third` | Tablette banc | Apparaît quand un Joueur passe au Rouge (FR-16), avec vibration si l'appareil le permet. Reste visible 12 s puis se replie ; l'anneau rouge du Joueur continue. Une même Alerte n'est pas répétée pendant 5 minutes pour le même Joueur. Plusieurs Alertes : file d'attente, la plus récente d'abord. Toucher → Métriques du Joueur. |
-| `offline-ticker` | Tablette banc | Remplace le `alert-lower-third` tant que l'écran est figé. Une Alerte reçue au retour du réseau passe avant le ticker. |
+| `offline-ticker` | Tablette banc | Remplace l'`alert-lower-third` tant que l'écran est figé. Une Alerte reçue au retour du réseau passe avant le ticker. |
 | `kpi-tile` | rail, Rapport, Vue joueur | Valeur + Référence ou delta. Valeur absente → libellé d'attente, jamais zéro. |
 | `mirror-bars` | Comparaison | Phase gagnante surlignée selon le sens de la métrique (pertes de balle : moins = mieux). Lignes Actions ballon absentes tant qu'elles ne sont pas validées. |
 | `delta-pill` | rail, Comparaison, Vue joueur | Toujours relatif à la Référence individuelle ou à l'autre Phase, avec l'unité. |
@@ -166,14 +169,14 @@ Comportement. Les spécifications visuelles vivent dans `DESIGN.md.Components`.
 - **Étapes et animation** (Tableau tactique) : « Animer » fait glisser les Joueurs le long de leurs flèches, le ballon suit la passe, en boucle ; pause possible. Avec « réduire les animations », les Étapes changent sans glissement.
 - **Mode Présenter** : plein écran, palette, rail et frise masqués, textes agrandis d'un tiers. Grandes flèches Précédente / Suivante au pouce, Étapes cliquables, « Quitter » (Échap au clavier).
 - **Formations en un geste** (FR-35) : 4-4-2, 4-3-3, 3-5-2… posées puis ajustées par glisser.
-- **Partage** : Comparaison (lien interne ou PDF, FR-25), Schéma tactique (lien interne, image ou PDF, FR-38), Rapport (lien privé et PDF, partage WhatsApp, FR-27). `[ASSUMPTION]` Le lien du Rapport s'ouvre sans compte, privé, valable 30 jours, comme dans la maquette.
+- **Partage** : Comparaison (lien interne ou PDF, FR-25), Schéma tactique (lien interne, image ou PDF, FR-38), Rapport (lien privé et PDF, partage WhatsApp, FR-27). `[ASSUMPTION]` Le lien du Rapport s'ouvre sans compte, privé, valable 30 jours, comme dans la maquette (voir Questions ouvertes).
 - **Saisie des Actions ballon au clavier** (FR-21) : une Action en moins de 10 s — raccourci du type, numéro du Joueur, instant pris sur la vidéo ; validation en un geste. Correspondance des touches à fixer `[ASSUMPTION]`.
 - **Synchronisation silencieuse** : les saisies hors ligne (Phases, corrections) partent seules au retour du réseau (NFR-2).
-- **Banni :** classements entre Joueurs, notifications de relance, temps passé valorisé (SM-C2), carrousels.
+- **Bannis :** classements entre Joueurs, notifications de relance, temps passé valorisé (SM-C2), carrousels.
 
 ## Accessibility Floor
 
-Comportement. Les contrastes visuels vivent dans `DESIGN.md`.
+Cette section couvre le comportement accessible. Les contrastes visuels vivent dans `DESIGN.md`.
 
 - Texte de la Tablette banc ≥ 7:1 dans les deux thèmes ; 13px minimum à taille native.
 - Aucune information portée par la couleur seule : Statut = couleur + forme + lettre ; Indice de fiabilité = barres + mot.
@@ -203,14 +206,14 @@ Moussa, coach à Dakar, mardi soir, terrain synthétique extérieur, tablette à
 
 Le coach de l'AS Ziguinchor, Club pilote de Ligue 2, football à 11. Références : [mockups/comparaison.html](mockups/comparaison.html), [mockups/tableau-tactique.html](mockups/tableau-tactique.html).
 
-1. Il crée une Séance d'entraînement avec deux Phases, « 4-3-3 » puis « 3-5-2 », de 20 minutes.
+1. Il crée une Séance d'entraînement avec deux Phases de 20 minutes, « 4-3-3 » puis « 3-5-2 ».
 2. Pendant la Séance, il bascule de l'une à l'autre en un geste sur la tablette.
 3. Après la Séance, il ouvre la Comparaison de systèmes : face-à-face en `mirror-bars`, deux terrains en zones chaudes, détail par Joueur, verdict.
 4. **Climax :** la colonne 3-5-2 s'allume en jaune — +8 % d'Intensité, +3 récupérations. Il garde le 3-5-2 et partage la comparaison avec son adjoint (lien ou PDF).
 5. Avant la Séance suivante, il ouvre le Tableau tactique, pose le 3-5-2 en un geste, dessine les lignes et le circuit de relance en trois Étapes, rattache le Schéma à la Phase « 3-5-2 ».
 6. Au vestiaire, il passe en Présenter : les Joueurs glissent le long de leurs flèches, le ballon suit la passe.
 
-Échec : Actions ballon pas encore validées → la Comparaison montre les Métriques physiques seules et signale l'attente. Pas de réseau au vestiaire → le Schéma déjà ouvert reste consultable hors ligne (FR-38).
+Échec : si les Actions ballon ne sont pas encore validées, la Comparaison montre les Métriques physiques seules et signale l'attente. Sans réseau au vestiaire, le Schéma déjà ouvert reste consultable hors ligne (FR-38).
 
 ### UJ-3 — Awa, analyste, valide les passes et les tirs le lendemain du match
 
@@ -233,7 +236,7 @@ Ibou Diallo, n°7, ailier droit, compte joueur. Référence : [mockups/vue-joueu
 4. **Climax :** « Vitesse max +2 km/h depuis le début du test » — record de sprint battu, 31,4 km/h.
 5. Dans Mes données, il voit son Consentement, ce qui est collecté, et peut exporter ses données ou retirer son Consentement.
 
-Garde-fou : il ne voit jamais les données de ses coéquipiers ; aucune surface ne charge de données d'un autre Joueur. `[ASSUMPTION]` La carte « Qui a consulté » de la maquette est un résumé du journal d'accès (FR-32, réservé à l'admin dans le PRD) ; à confirmer.
+Garde-fou : il ne voit jamais les données de ses coéquipiers ; aucune surface ne charge de données d'un autre Joueur. `[ASSUMPTION]` La carte « Qui a consulté » de la maquette est un résumé du journal d'accès (FR-32, réservé à l'admin dans le PRD) ; à confirmer (voir Questions ouvertes).
 
 ### UJ-5 — Le président du Club pilote décide de continuer
 
@@ -268,3 +271,10 @@ Limite : il ne peut ni modifier une Séance ni voir un autre Club. La surface de
 - **Rejeté — lorem ipsum et zéros de remplissage** : données plausibles, états d'attente explicites.
 - **Rejeté — classements entre Joueurs** dans la Vue joueur.
 - **Rejeté — prédictions présentées comme des certitudes** (prédictions et conseils de remplacement hors v1).
+
+## Questions ouvertes
+
+Deux points restent à trancher par Sidy avant le développement :
+
+1. **Accès au Rapport partagé sur WhatsApp (FR-3).** Lien sans compte valable 30 jours, comme dans la maquette, ou lien exigeant une connexion par code ? À trancher par Sidy.
+2. **Carte « Qui a consulté » dans la Vue joueur (FR-32).** La maquette l'affiche au Joueur, alors que le PRD réserve le journal d'accès à l'admin. À trancher par Sidy.
